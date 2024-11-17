@@ -5,7 +5,7 @@
 #include "src/ADT/boolean.h"
 
 int main(){
-    
+
     boolean endProgram = false;
     printf(" .+\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+. \n");
     printf("(                                                                                 )\n");
@@ -25,11 +25,17 @@ int main(){
     printf("(                                                                                 )\n");
     printf(" \"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+. \"  \n");
 
-    printf("--------Kelompok 8 K1---------                                                 \n");                      
-    printf("       Welcome to BNMO                                                        \n");                           
+    printf("--------Kelompok 3 K1---------                                                 \n");                      
+    printf("       Welcome to Purrmart                                                      \n");                           
     printf("        START/LOAD(?)                                                         \n");
-    while (endProgram == false) {
-        // Your loop logic here
+    
+    while (endProgram = false)
+    {
+        printf("\nENTER COOMAND: ");
+        StartCommand();
+        if (isEmpty){
+            
+        }
     }
 
     
