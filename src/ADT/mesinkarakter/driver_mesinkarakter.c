@@ -5,16 +5,17 @@
 int main()
 {
     // test start
-    START();
-    while (currentChar != MARK)
-    {
-        printf("%c", currentChar);
-        ADV();
-    }
+    // START();
+    // while (currentChar != MARK)
+    // {
+    //     printf("%c", currentChar);
+    //     ADV();
+    // }
 
     // testing startfile
     boolean read;
     STARTFILE("save1.txt", &read);
+    printf("%d\n", read);
     while (currentChar != MARK)
     {
         printf("%c", currentChar);
