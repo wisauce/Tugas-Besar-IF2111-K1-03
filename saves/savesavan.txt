@@ -1,0 +1,7 @@
+3
+10 cccc
+20 cccccc
+20 ccccccccccccccccccc
+2
+100 ccccc ccccccccccccccc
+25 ccccccccc cccccccccccccc
