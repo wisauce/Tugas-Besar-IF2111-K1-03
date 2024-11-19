@@ -13,3 +13,6 @@ $(BIN_DIR):
 # Mesinkarakter target
 mesinkarakter: $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $(BIN_DIR)/mesinkarakter_test $(ADT_DIR)/mesinkarakter/mesinkarakter.c $(ADT_DIR)/mesinkarakter/driver_mesinkarakter.c
+
+mesinkata: $(BIN_DIR)
+	$(CC) $(CFLAGS) -o $(BIN_DIR)/mesinkata_test $(ADT_DIR)/mesinkata/mesinkata.c $(ADT_DIR)/mesinkarakter/mesinkarakter.c $(ADT_DIR)/mesinkata/driver_mesinkata.c
