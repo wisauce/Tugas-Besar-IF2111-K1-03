@@ -3,7 +3,7 @@
 # include "arrayuser.c"
 
 int main() {
-  ListofUser UserList;
+  ListofUsers UserList;
   MakeEmpty(&UserList);
   User user;
   user.money = 5000;
