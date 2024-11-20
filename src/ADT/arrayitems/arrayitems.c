@@ -1,23 +1,20 @@
 #include <stdlib.h>
-#include "arrayitems.h"
-#include "../mesinkata/mesinkata.h"
+# include "arrayitems.h"
 
 /**
  * Konstruktor
  * I.S. sembarang
  * F.S. Terbentuk ListofItems kosong dengan ukuran InitialSize
  */
-ListofItems MakeArrayDin()
-{
+ListofItems MakeListOfItems() {
     ListofItems array;
-    array.A = (Item *)malloc(InitialSize * sizeof(Item));
+    array.A = (Item *) malloc(InitialSize * sizeof(Item));
     array.Capacity = InitialSize;
     array.Neff = 0;
     return array;
 }
 
-void DeallocateArrayDin(ListofItems *array)
-{
+void DeallocateListOfItems(ListofItems *array) {
     free(array->A);
 }
 
@@ -25,8 +22,7 @@ void DeallocateArrayDin(ListofItems *array)
  * Fungsi untuk mengetahui apakah suatu array kosong.
  * Prekondisi: array terdefinisi
  */
-boolean IsItemsEmpty(ListofItems array)
-{
+boolean IsItemsEmpty(ListofItems array) {
     return array.Neff == 0;
 }
 
@@ -34,8 +30,7 @@ boolean IsItemsEmpty(ListofItems array)
  * Fungsi untuk mendapatkan banyaknya elemen efektif array, 0 jika tabel kosong.
  * Prekondisi: array terdefinisi
  */
-int Length(ListofItems array)
-{
+int LengthListOfItems(ListofItems array) {
     return array.Neff;
 }
 
@@ -43,8 +38,7 @@ int Length(ListofItems array)
  * Mengembalikan elemen array L yang ke-I (indeks lojik).
  * Prekondisi: array tidak kosong, i di antara 0..Length(array).
  */
-Item Get(ListofItems array, int i)
-{
+Item GetItem(ListofItems array, int i) {
     return array.A[i];
 }
 
@@ -52,8 +46,7 @@ Item Get(ListofItems array, int i)
  * Fungsi untuk mendapatkan kapasitas yang tersedia.
  * Prekondisi: array terdefinisi
  */
-int GetCapacity(ListofItems array)
-{
+int GetItemCapacity(ListofItems array) {
     return array.Capacity;
 }
 
@@ -62,27 +55,23 @@ int GetCapacity(ListofItems array)
  * Prekondisi: array terdefinisi, i di antara 0..Length(array).
  * Jika array penuh, maka array akan diperbesar sebanyak InitialSize.
  */
-void InsertAt(ListofItems *array, Item el, int i)
-{
-    int length = Length(*array);
-    int capacity = GetCapacity(*array);
+void InsertItemAt(ListofItems *array, Item el, int i) {
+    int length = LengthListOfItems(*array);
+    int capacity = GetItemCapacity(*array);
 
-    if (length == capacity)
-    {
+    if (length == capacity) {
         int desiredCapacity = capacity + InitialSize;
-        Item *arr = (Item *)malloc(desiredCapacity * sizeof(Item));
-        for (int a = 0; a < length; a++)
-        {
-            arr[a] = Get(*array, a);
+        Item *arr = (Item *) malloc(desiredCapacity * sizeof(Item));
+        for (int a = 0; a < length; a++) {
+            arr[a] = GetItem(*array, a);
         }
         free(array->A);
-
+        
         array->A = arr;
         array->Capacity = desiredCapacity;
     }
 
-    for (int a = length - 1; a >= i; a--)
-    {
+    for (int a = length - 1; a >= i; a--) {
         array->A[a + 1] = array->A[a];
     }
 
@@ -94,30 +83,26 @@ void InsertAt(ListofItems *array, Item el, int i)
  * Fungsi untuk menambahkan elemen baru di akhir array.
  * Prekondisi: array terdefinisi
  */
-void InsertLast(ListofItems *array, Item el)
-{
-    int insertAt = Length(*array);
-    InsertAt(array, el, insertAt);
+void InsertLastItem(ListofItems *array, Item el) {
+    int insertAt = LengthListOfItems(*array);
+    InsertItemAt(array, el, insertAt);
 }
 
 /**
  * Fungsi untuk menambahkan elemen baru di awal array.
  * Prekondisi: array terdefinisi
  */
-void InsertFirst(ListofItems *array, Item el)
-{
-    InsertAt(array, el, 0);
+void InsertFirstItem(ListofItems *array, Item el) {
+    InsertItemAt(array, el, 0);
 }
 
 /**
  * Fungsi untuk menghapus elemen di index ke-i
  * Prekondisi: array terdefinisi, i di antara 0..Length(array).
  */
-void DeleteAt(ListofItems *array, int i)
-{
-    int length = Length(*array);
-    for (int a = i; a < length - 1; a++)
-    {
+void DeleteItemAt(ListofItems *array, int i) {
+    int length = LengthListOfItems(*array);
+    for (int a = i; a < length - 1; a++) {
         array->A[a] = array->A[a + 1];
     }
     array->Neff--;
@@ -127,19 +112,17 @@ void DeleteAt(ListofItems *array, int i)
  * Fungsi untuk menghapus elemen terakhir ListofItems
  * Prekondisi: array tidak kosong
  */
-void DeleteLast(ListofItems *array)
-{
-    int deleteAt = Length(*array) - 1;
-    DeleteAt(array, deleteAt);
+void DeleteLastItem(ListofItems *array) {
+    int deleteAt = LengthListOfItems(*array) - 1;
+    DeleteItemAt(array, deleteAt);
 }
 
 /**
  * Fungsi untuk menghapus elemen pertama ListofItems
  * Prekondisi: array tidak kosong
  */
-void DeleteFirst(ListofItems *array)
-{
-    DeleteAt(array, 0);
+void DeleteFirstItem(ListofItems *array) {
+    DeleteItemAt(array, 0);
 }
 
 /**
@@ -167,11 +150,9 @@ void DeleteFirst(ListofItems *array)
  * Fungsi untuk melakukan reverse suatu ListofItems.
  * Prekondisi: array terdefinisi
  */
-void ReverseArrayDin(ListofItems *array)
-{
-    int length = Length(*array);
-    for (int i = 0; i < length / 2; i++)
-    {
+void ReverseListOfItems(ListofItems *array) {
+    int length = LengthListOfItems(*array);
+    for (int i = 0; i < length / 2; i++) {
         Item temp = array->A[i];
         array->A[i] = array->A[length - i - 1];
         array->A[length - i - 1] = temp;
@@ -182,15 +163,14 @@ void ReverseArrayDin(ListofItems *array)
  * Fungsi untuk melakukan copy suatu ListofItems.
  * Prekondisi: array terdefinisi
  */
-ListofItems CopyArrayDin(ListofItems array)
-{
-    ListofItems copy = MakeArrayDin();
-    for (int i = 0; i < array.Neff; i++)
-    {
-        InsertLast(&copy, array.A[i]);
+ListofItems CopyListOfItems(ListofItems array) {
+    ListofItems copy = MakeListOfItems();
+    for (int i = 0; i < array.Neff; i++) {
+        InsertLastItem(&copy, array.A[i]);
     }
     return copy;
 }
+
 
 /**
  * Fungsi untuk melakukan search suatu ListofItems.
@@ -206,34 +186,3 @@ ListofItems CopyArrayDin(ListofItems array)
 //     }
 //     return -1;
 // }
-
-boolean isItemIn(ListofItems items, char *name)
-{
-    boolean found = false;
-    int i = 0;
-    while (!found && i != items.Neff)
-    {
-        if (isStringSame(name, items.A[i].name))
-        {
-            found = true;
-        }
-        i++;
-    }
-    return found;
-}
-
-int idxOfItem(ListofItems items, char *name)
-{
-    boolean found = false;
-    int i = 0;
-    while (!found && i != items.Neff)
-    {
-        if (isStringSame(name, items.A[i].name))
-        {
-            found = true;
-        }
-        else
-            i++;
-    }
-    return i;
-}
