@@ -5,6 +5,17 @@
 boolean EndWord;
 Word currentWord;
 
+/* Mengembalikan nilai integer dari Word W */
+int wordtoint(Word word)
+{
+    int res = 0;
+    for (int i = 0; i < word.Length; i++)
+    {
+        res = res * 10 + (word.TabWord[i] - '0');
+    }
+    return res;
+}
+
 void printw(Word word, boolean newline)
 {
     for (int i = 0; i < word.Length; i++)
@@ -147,3 +158,102 @@ void CopyWord()
           currentChar = BLANK atau currentChar = MARK;
           currentChar adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
+
+void scan(char *str, Word *w1, Word *w2, int *x, int *y)
+{
+    boolean first = false;
+
+    (*w1).Length = 0;
+    (*w2).Length = 0;
+
+    while (*str != '\0')
+    {
+        if (*str == '%')
+        {
+            str++;
+            if (*str == 'c')
+            {
+                if (!first)
+                {
+                    STARTWORD();
+                    (*w1) = currentWord;
+                    first = true;
+                }
+                else
+                {
+                    ADVWORD();
+                    (*w2) = currentWord;
+                }
+            }
+
+            else if (*str == 's')
+            {
+                STARTLINE();
+                (*w1) = currentWord;
+            }
+
+            if (*str == 'd')
+            {
+                if (!first)
+                {
+                    STARTWORD();
+                    (*x) = wordtoint(currentWord);
+                    first = true;
+                }
+                else
+                {
+                    ADVWORD();
+                    (*y) = wordtoint(currentWord);
+                }
+            }
+        }
+        else
+            str++;
+    }
+    RESETPITA();
+}
+
+char *wordToString(Word kata)
+{
+    char str[MESINKAT_NMAX];
+    for (int i = 0; i < kata.Length; i++)
+    {
+        str[i] = kata.TabWord[i];
+    }
+    str[kata.Length] = '\0';
+    return str;
+}
+
+boolean isStringSame(char *kata1, char *kata2)
+{
+    boolean same = true;
+    int lengthkata1 = stringLength(kata1);
+    int lengthkata2 = stringLength(kata2);
+    int i = 0;
+
+    if (lengthkata1 != lengthkata2)
+    {
+        same = false;
+    }
+    else
+    {
+        while (same && i != lengthkata1)
+        {
+            if (kata1[i] != kata2[i])
+                same = false;
+            i++;
+        }
+    }
+    return same;
+}
+
+int stringLength(char *kata)
+{
+    int length = 0;
+
+    while (kata[length] = '\0')
+    {
+        length++;
+    }
+    return length;
+}

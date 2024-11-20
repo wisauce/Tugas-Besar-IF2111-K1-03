@@ -16,3 +16,6 @@ mesinkarakter: $(BIN_DIR)
 
 mesinkata: $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $(BIN_DIR)/mesinkata_test $(ADT_DIR)/mesinkata/mesinkata.c $(ADT_DIR)/mesinkarakter/mesinkarakter.c $(ADT_DIR)/mesinkata/driver_mesinkata.c
+
+arrayitems: $(BIN_DIR)
+	$(CC) $(CFLAGS) -o $(BIN_DIR)/arrayitems_test $(ADT_DIR)/arrayitems/arrayitems.c $(ADT_DIR)/arrayitems/driver_arrayitems.c
