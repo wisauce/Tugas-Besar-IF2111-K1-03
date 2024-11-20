@@ -1,0 +1,7 @@
+3
+10 AK47
+20 Lalabu
+20 Ayam Goreng Crisbar
+2
+1000 AgentF test12345
+500 User2 pass123
