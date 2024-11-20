@@ -4,16 +4,17 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "src/ADT/boolean.h"
+#include "../boolean.h"
 
 #define IDX_UNDEF -1
-#define CAPACITY 100
+#define QUEUE_MAX_CAPACITY 100
+#define QUEUE_ITEM_MAX_LEN 150
 
 /* Definisi elemen dan address */
 typedef char *ElType;
 typedef struct
 {
-        ElType buffer[CAPACITY];
+        ElType buffer[QUEUE_MAX_CAPACITY];
         int idxHead;
         int idxTail;
 } Queue;

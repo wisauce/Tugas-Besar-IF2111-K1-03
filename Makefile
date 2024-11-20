@@ -19,3 +19,6 @@ mesinkata: $(BIN_DIR)
 
 arrayitems: $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $(BIN_DIR)/arrayitems_test $(ADT_DIR)/arrayitems/arrayitems.c $(ADT_DIR)/arrayitems/driver_arrayitems.c
+
+queue: $(BIN_DIR)
+	$(CC) $(CFLAGS) -o $(BIN_DIR)/queue_test $(ADT_DIR)/queue/queue.c $(ADT_DIR)/mesinkata/mesinkata.c $(ADT_DIR)/mesinkarakter/mesinkarakter.c $(ADT_DIR)/queue/driver_queue.c

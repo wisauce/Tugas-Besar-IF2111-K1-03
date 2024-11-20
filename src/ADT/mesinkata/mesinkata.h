@@ -20,24 +20,79 @@ typedef struct
 extern boolean EndWord;
 extern Word currentWord;
 
+void scan(char *str, Word *w1, Word *w2, int *x, int *y);
+/* Implementasi dari scanf pada library stdio.h, hanya dapat menerima 3 buah tipe input, 2 Kata dan 1 int, dan setiap
+   pemanggilan harus menyertakan pointer ke semua elemen walaupun elemen tersebut tidak ingin di-inputkan.
+ * %c untuk Command 1 kata; %s untuk 1 buah string dengan spasi (banyak kata); %d untuk integer
+ * I.S. : W1, W2, dan x sembarang, str berupa elemen tipe aja yang akan diinputkan
+ * F.S. : Setidaknya salah satu dari W1, W2, atau x berisikan dengan input user
+
+CONTOH PEMANGGILAN
+ * 1. scan("%c", &W1, &W2, &x, &y)
+        Akan menerima 1 buah command dan hanya ditaruh di W1, W2 dan x sembarang
+        contoh: WORKS, terima,
+ * 2. scan("%c %d", &W1, &W2, &x, &y)
+        Akan menerima 1 buah command dan 1 buah int, command akan ditaruh di
+        W1 dan integer akan ditaruh di x, W2 sembarang
+        contoh: ga ada sih jaga2 aja
+ * 3. scan("%s",  &W1, &W2, &x, &y)
+        Akan menerima 1 buah line input yang akan ditaruh di W1, W2 dan x sembarang
+        contoh: kalo mau masukin nama barang yg mau dihapus -> ayam geprek
+ * 4. scan("%d",  &W1, &W2, &x, &y)
+        Akan menerima 1 buah integer yang akan ditaruh di x, W1 dan W2 sembarang
+        contoh: buat store supply masukin integer
+ * 5. scan("", &W1, &W2, &x, &y)
+        W1, W2, dan x sembarang, ngapain panggil gituan gak guna :)
+*/
+
 int wordtoint(Word word);
+/** Mengubah Word menjadi integer */
 
 void printw(Word word, boolean newline);
+/** Mencetak word ke layar, diberikan newline jika newline = true */
 
 void RESETCURRENTWORD();
-// buat ngosongin current word
+/** Mengembalikan panjang currentWord menjadi 0 */
 
 void STARTWORDFILE(char *filename);
-// buat baca 1 baris langsung dari file
+/**
+ * Mulai membaca dari file di dalam "saves/<filename>"
+ * currentWord adalah baris pertama dari file. Pembacaan selanjutnya dilakukan dengan ADVWORDFILE()
+ * I.S. : currentWord sembarang
+ * F.S. : currentWord adalah baris pertama dalam file dan EndWord = false jika belum sampai akhir file
+ *
+ */
 
 void ADVWORDFILE();
-// buat majuin baris di dalam file
+/**
+ * Membaca baris selanjutnya dalam file
+ * currentWord adalah baris selanjutnya dari file. Pembacaan selanjutnya dilakukan dengan ADVWORDFILE()
+ * I.S. : currentWord sembarang
+ * F.S. : currentWord adalah baris selanjutnya dalam file dan EndWord = false jika belum sampai akhir file
+ *
+ *
+ * Cara penggunaan:
+ *
+ * STARTWORDFILE("save1.txt"); # Membaca baris pertama dari "save1.txt"
+ * ADVWORDFILE();              # Membaca baris kedua dari "save1.txt"
+ *
+ */
 
 void CopyWordBlanks();
-// berhentinya kalo udh kena \n, masukin baris ke currword
+/* Mengakuisisi kata, menyimpan dalam currentWord
+ * I.S. : currentChar adalah karakter pertama dari kata
+ * F.S. : currentWord berisi kata yang sudah diakuisisi;
+ *        currentChar = MARK;
+ *        currentChar adalah karakter sesudah karakter terakhir yang diakuisisi.
+ *        Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
 void STARTLINE();
-// buat baca sebaris input misal kalo ada 2 kata
+/**
+ * Membaca 1 baris dari masukan pengguna (termasuk spasi / BLANK)
+ * I.S. : currentChar sembarang
+ * F.S. : EndWord = true, dan currentChar = MARK;
+ *        atau EndWord = false, currentWord adalah kata yang sudah diakuisisi,
+ *        currentChar karakter pertama sesudah karakter terakhir kata */
 
 void IgnoreBlanks();
 /* Mengabaikan satu atau beberapa BLANK
@@ -65,35 +120,12 @@ void CopyWord();
           currentChar adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
-void scan(char *str, Word *w1, Word *w2, int *x, int *y);
-/* Implementasi dari scanf pada library stdio.h, hanya dapat menerima 3 buah tipe input, 2 Kata dan 1 int, dan setiap
-   pemanggilan harus menyertakan pointer ke semua elemen walaupun elemen tersebut tidak ingin di-inputkan.
- * %c untuk Command 1 kata; %s untuk 1 buah string dengan spasi (banyak kata); %d untuk integer
- * I.S. : W1, W2, dan x sembarang, str berupa elemen tipe aja yang akan diinputkan
- * F.S. : Setidaknya salah satu dari W1, W2, atau x berisikan dengan input user
-
-CONTOH PEMANGGILAN
- * 1. scan("%c", &W1, &W2, &x, &y)
-        Akan menerima 1 buah command dan hanya ditaruh di W1, W2 dan x sembarang
-        contoh: WORKS, terima,
- * 2. scan("%c %d", &W1, &W2, &x, &y)
-        Akan menerima 1 buah command dan 1 buah int, command akan ditaruh di
-        W1 dan integer akan ditaruh di x, W2 sembarang
-        contoh: ga ada sih jaga2 aja
- * 3. scan("%s",  &W1, &W2, &x, &y)
-        Akan menerima 1 buah line input yang akan ditaruh di W1, W2 dan x sembarang
-        contoh: kalo mau masukin nama barang yg mau dihapus -> ayam geprek
- * 4. scan("%d",  &W1, &W2, &x, &y)
-        Akan menerima 1 buah integer yang akan ditaruh di x, W1 dan W2 sembarang
-        contoh: buat store supply masukin integer
- * 5. scan("", &W1, &W2, &x, &y)
-        W1, W2, dan x sembarang, ngapain panggil gituan gak guna :)
-*/
-
 char *wordToString(Word kata);
 
 boolean isStringSame(char *kata1, char *kata2);
 
 int stringLength(char *kata);
+
+void stringCopy(char *kataOut, char *kataIn);
 
 #endif
