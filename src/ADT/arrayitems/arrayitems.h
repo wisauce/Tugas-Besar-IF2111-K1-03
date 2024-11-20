@@ -9,14 +9,13 @@
 
 #define InitialSize 10
 
-typedef struct
-{
-    char name[MAX_ITEM_LEN];
-    int price;
+typedef struct {
+  char name[MAX_ITEM_LEN];
+  int price;
 } Item;
 
-typedef struct
-{
+
+typedef struct {
     Item *A;
     int Capacity;
     int Neff;
@@ -27,14 +26,14 @@ typedef struct
  * I.S. sembarang
  * F.S. Terbentuk ListofItems kosong dengan ukuran InitialSize
  */
-ListofItems MakeArrayDin();
+ListofItems MakeListOfItems();
 
-/**
+/** 
  * Destruktor
  * I.S. ListofItems terdefinisi
  * F.S. array->A terdealokasi
  */
-void DeallocateArrayDin(ListofItems *array);
+void DeallocateListOfItems(ListofItems *array);
 
 /**
  * Fungsi untuk mengetahui apakah suatu array kosong.
@@ -46,55 +45,55 @@ boolean IsItemsEmpty(ListofItems array);
  * Fungsi untuk mendapatkan banyaknya elemen efektif array, 0 jika tabel kosong.
  * Prekondisi: array terdefinisi
  */
-int Length(ListofItems array);
+int LengthListOfItems(ListofItems array);
 
 /**
  * Mengembalikan elemen array L yang ke-I (indeks lojik).
  * Prekondisi: array tidak kosong, i di antara 0..Length(array).
  */
-Item Get(ListofItems array, int i);
+Item GetItem(ListofItems array, int i);
 
 /**
  * Fungsi untuk mendapatkan kapasitas yang tersedia.
  * Prekondisi: array terdefinisi
  */
-int GetCapacity(ListofItems array);
+int GetItemCapacity(ListofItems array);
 
 /**
  * Fungsi untuk menambahkan elemen baru di index ke-i
  * Prekondisi: array terdefinisi, i di antara 0..Length(array).
  */
-void InsertAt(ListofItems *array, Item el, int i);
+void InsertItemAt(ListofItems *array, Item el, int i);
 
 /**
  * Fungsi untuk menambahkan elemen baru di akhir array.
  * Prekondisi: array terdefinisi
  */
-void InsertLast(ListofItems *array, Item el);
+void InsertLastItem(ListofItems *array, Item el);
 
 /**
  * Fungsi untuk menambahkan elemen baru di awal array.
  * Prekondisi: array terdefinisi
  */
-void InsertFirst(ListofItems *array, Item el);
+void InsertFirstItem(ListofItems *array, Item el);
 
 /**
  * Fungsi untuk menghapus elemen di index ke-i ListofItems
  * Prekondisi: array terdefinisi, i di antara 0..Length(array).
  */
-void DeleteAt(ListofItems *array, int i);
+void DeleteItemAt(ListofItems *array, int i);
 
 /**
  * Fungsi untuk menghapus elemen terakhir ListofItems
  * Prekondisi: array tidak kosong
  */
-void DeleteLast(ListofItems *array);
+void DeleteLastItem(ListofItems *array);
 
 /**
  * Fungsi untuk menghapus elemen pertama ListofItems
  * Prekondisi: array tidak kosong
  */
-void DeleteFirst(ListofItems *array);
+void DeleteFirstItem(ListofItems *array);
 
 /**
  * Fungsi untuk melakukan print suatu ListofItems.
@@ -102,19 +101,18 @@ void DeleteFirst(ListofItems *array);
  * dan diakhiri newline.
  * Prekondisi: array terdefinisi
  */
-// void PrintArrayDin(ListofItems array);
 
 /**
  * Fungsi untuk melakukan reverse suatu ListofItems.
  * Prekondisi: array terdefinisi
  */
-void ReverseArrayDin(ListofItems *array);
+void ReverseListOfItems(ListofItems *array);
 
 /**
  * Fungsi untuk melakukan copy suatu ListofItems.
  * Prekondisi: array terdefinisi
  */
-ListofItems CopyArrayDin(ListofItems array);
+ListofItems CopyListOfItems(ListofItems array);
 
 /**
  * Fungsi untuk melakukan search suatu ListofItems.
@@ -124,8 +122,4 @@ ListofItems CopyArrayDin(ListofItems array);
  */
 // int SearchArrayDin(ListofItems array, Item el);
 
-boolean isItemIn(ListofItems items, char *name);
-// buat cari apakah nama barang ada di toko
-
-int idxOfItem(ListofItems items, char *name);
 #endif
