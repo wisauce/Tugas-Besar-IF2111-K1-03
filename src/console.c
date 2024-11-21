@@ -1,13 +1,190 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-#include <math.h>
 #include "console.h"
 #include "ADT/boolean.h"
 #include "ADT/mesinkarakter/mesinkarakter.h"
 #include "ADT/mesinkata/mesinkata.h"
 #include "ADT/arrayuser/arrayuser.h"
 #include "ADT/arrayitems/arrayitems.h"
+
+void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist) 
+{
+    mainstartmenu(itemlist, userlist);
+
+    boolean loginActive = true;
+    char loginMenuCommand[50];
+
+    while (loginActive) 
+    {
+        loginHelpMenu();
+        printf("\nMASUKKAN LOGIN COMMAND: ");
+        STARTWORD();
+        WordToString(currentWord, loginMenuCommand);
+        Upperstring(loginMenuCommand);
+
+        if (StringCompare(loginMenuCommand, "REGISTER") == 0) 
+        {
+            RegisterUser(userlist);
+        } 
+        
+        else if (StringCompare(loginMenuCommand, "LOGIN") == 0) 
+        {
+            int currentUserIndex = -1;
+            if (LoginUser(*userlist, &currentUserIndex)) 
+            {
+                printf("Selamat datang di PURRMART!\n");
+                loginActive = false; // Pindah ke Main Menu
+                mainMenu(itemlist, userlist);
+            }
+        } 
+        
+        else if (StringCompare(loginMenuCommand, "QUIT") == 0) 
+        {
+            printf("Keluar dari Login Menu.\n");
+            loginActive = false;
+        } 
+        
+        else 
+        {
+            printf("Command tidak dikenali.\n");
+        }
+    }
+}
+
+void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist) 
+{
+    char filename[50];
+    printf("Masukkan nama file yang ingin anda unduh : ");
+    STARTWORD();
+    WordToString(currentWord, filename);
+
+    mainloadmenu(filename, itemlist, userlist);
+
+    boolean loginActive = true;
+    char loginMenuCommand[50];
+
+    while (loginActive) 
+    {
+        loginHelpMenu();
+        printf("\nMASUKKAN LOGIN COMMAND: ");
+        STARTWORD();
+        WordToString(currentWord, loginMenuCommand);
+        Upperstring(loginMenuCommand);
+
+        if (StringCompare(loginMenuCommand, "REGISTER") == 0) 
+        {
+            RegisterUser(userlist);
+        } 
+        
+        else if (StringCompare(loginMenuCommand, "LOGIN") == 0) 
+        {
+            int currentUserIndex = -1;
+            if (LoginUser(*userlist, &currentUserIndex)) 
+            {
+                printf("Selamat datang di PURRMART!\n");
+                loginActive = false; // Pindah ke Main Menu
+                mainMenu(itemlist, userlist);
+            }
+        } 
+        
+        else if (StringCompare(loginMenuCommand, "QUIT") == 0)
+        {
+            printf("Keluar dari Login Menu.\n");
+            loginActive = false;
+        } 
+        
+        else 
+        {
+            printf("Command tidak dikenali.\n");
+        }
+    }
+}
+
+void mainMenu(ListofItems *itemlist, ListofUsers *userlist) {
+    boolean mainMenuActive = true;
+    char mainMenuCommand[50];
+
+    while (mainMenuActive) {
+        mainHelpMenu();
+        printf("\nMASUKKAN MAIN MENU COMMAND: ");
+        STARTWORD();
+        WordToString(currentWord, mainMenuCommand);
+        Upperstring(mainMenuCommand);
+
+        if (StringCompare(mainMenuCommand, "WORK") == 0) {
+            printf("Anda telah memilih WORK. Lakukan pekerjaan...\n");
+            // Tambahkan logika WORK
+        } else if (StringCompare(mainMenuCommand, "STORE LIST") == 0) {
+            printf("Menampilkan daftar barang di toko...\n");
+            // Tambahkan logika STORE LIST
+        } else if (StringCompare(mainMenuCommand, "HELP") == 0) {
+            mainHelpMenu();
+        } else if (StringCompare(mainMenuCommand, "LOGOUT") == 0) {
+            printf("Anda telah logout.\n");
+            mainMenuActive = false; // Kembali ke Login Menu
+        } else if (StringCompare(mainMenuCommand, "QUIT") == 0) {
+            printf("Terima kasih telah menggunakan PURRMART.\n");
+            exit(0);
+        } else {
+            printf("Command tidak dikenali. Silakan coba lagi.\n");
+        }
+    }
+}
+
+// Menampilkan welcome help menu
+void welcomeHelpMenu() 
+{
+    printf("\n\n");
+    printf("=====[ Welcome Menu Help PURRMART ]=====\n");
+    printf("START -> Untuk masuk sesi baru\n");
+    printf("LOAD -> Untuk memulai sesi berdasarkan file konfigurasi\n");
+    printf("QUIT -> Untuk keluar dari program\n\n");
+}
+
+// Menampilkan login help menu
+void loginHelpMenu() {
+    printf("=====[ Login Menu Help PURRMART ]=====\n");
+    printf("REGISTER -> Untuk melakukan pendaftaran akun baru\n");
+    printf("LOGIN -> Untuk masuk ke dalam akun dan memulai sesi\n");
+    printf("QUIT -> Untuk keluar dari program\n\n");
+}
+
+// Menampilkan main help menu
+void mainHelpMenu() {
+    printf("\n\n");
+    printf("=====[ Menu Help PURRMART ]=====\n");
+    printf("WORK -> Untuk bekerja\n");
+    printf("WORK CHALLENGE -> Untuk mengerjakan challenge\n");
+    printf("STORE LIST -> Untuk melihat barang-barang di toko\n");
+    printf("STORE REQUEST -> Untuk meminta penambahan barang\n");
+    printf("STORE SUPPLY -> Untuk menambahkan barang dari permintaan\n");
+    printf("STORE REMOVE -> Untuk menghapus barang\n");
+    printf("LOGOUT -> Untuk keluar dari sesi\n");
+    printf("SAVE -> Untuk menyimpan state ke dalam file\n");
+    printf("QUIT -> Untuk keluar dari program\n\n");
+}
+
+// Fungsi untuk menangani menu START
+void mainstartmenu(ListofItems *itemlist, ListofUsers *userlist) {
+    printf("\n\n");
+    printf("=== START MENU ===\n");
+    Load("default_config.txt", itemlist, userlist); // Membaca file konfigurasi default
+    printf("File konfigurasi default berhasil dimuat.\n");
+}
+
+// Fungsi untuk menangani menu LOAD
+void mainloadmenu(char *filename, ListofItems *itemlist, ListofUsers *userlist) {
+    printf("\n\n");
+    printf("=== LOAD MENU ===\n");
+    boolean success;
+    STARTFILE(filename, &success);
+    if (success) {
+        Load(filename, itemlist, userlist);
+        printf("File %s berhasil dimuat.\n", filename);
+    } else {
+        printf("File %s tidak ditemukan.\n", filename);
+    }
+}
 
 // Konversi Word menjadi integer
 int WordtoInteger(Word word) {
