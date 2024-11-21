@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <time.h>
 #include <math.h>
 #include "console.h"
 #include "ADT/boolean.h"
@@ -9,20 +9,19 @@
 #include "ADT/mesinkata/mesinkata.h"
 #include "ADT/arrayuser/arrayuser.h"
 #include "ADT/arrayitems/arrayitems.h"
-#include "start.h" // Header untuk fungsi start
-#include "help.h"  // Header untuk fungsi help
 
 int main()
 {
+
     ListofUsers userlist;
     ListofItems itemlist;
+    MakeEmpty(&userlist);  // Inisialisasi list pengguna
+    MakeListOfItems(&itemlist); // Inisialisasi list item
+    int currentUserIndex = -1;
+    Load("default_config.txt", &itemlist, &userlist);
 
-    MakeEmpty(&userlist);        // Inisialisasi list pengguna
-    MakeListOfItems(&itemlist);  // Inisialisasi list barang
 
-    int currentUserIndex = -1;   // Index pengguna saat ini (-1 berarti belum login)
-    boolean endProgram = false;  // Status program (false = masih berjalan)
-
+    boolean endProgram = false;
     printf(" .+\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+. \n");
     printf("(                                                                                 )\n");
     printf(" )      __    __       _                                    _                    ( \n");
@@ -41,67 +40,53 @@ int main()
     printf("(                                                                                 )\n");
     printf(" \"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+. \"  \n");
 
-    printf("--------Kelompok 3 K1---------\n");
-    printf("       Welcome to Purrmart    \n");
-
-    while (!endProgram)
+    printf("--------Kelompok 3 K1---------                                                 \n");                      
+    printf("       Welcome to Purrmart                                                      \n");                           
+    printf("        START/LOAD(?)                                                         \n");
+    
+    while (!endProgram) 
     {
         char command[50];
         printf("\nMASUKKAN COMMAND: ");
-        STARTWORD();                     // Membaca input dari pengguna
+        STARTWORD();
         WordToString(currentWord, command);
-        Upperstring(command);            // Ubah input ke huruf besar
+        Upperstring(command); // Ubah string ke huruf besar
 
-        if (StringCompare(command, "START") == 0)
+        if (StringCompare(command, "REGISTER") == 0) 
         {
-            start(&userlist, &itemlist); // Memuat konfigurasi default
-        }
-        else if (StringCompare(command, "HELP") == 0)
+            RegisterUser(&userlist);
+            Save("default_config.txt", itemlist, userlist);
+        } 
+
+        else if (StringCompare(command, "LOGIN") == 0) 
         {
-            // Tampilkan bantuan berdasarkan status
-            if (currentUserIndex == -1) {
-                // Jika tidak ada pengguna yang login
-                help(2); // Login Menu Help
-            } else {
-                // Jika ada pengguna yang login
-                help(3); // Main Menu Help
-            }
-        }
-        else if (StringCompare(command, "REGISTER") == 0)
-        {
-            RegisterUser(&userlist);                       // Registrasi pengguna baru
-            Save("default_config.txt", itemlist, userlist); // Simpan perubahan
-        }
-        else if (StringCompare(command, "LOGIN") == 0)
-        {
-            if (currentUserIndex != -1)
+            if (currentUserIndex != -1) 
             {
                 printf("Logout terlebih dahulu sebelum login dengan akun lain.\n");
-            }
+            } 
+            
             else if (LoginUser(userlist, &currentUserIndex))
             {
-                printf("Selamat datang, %s!\n", GetElmt(userlist, currentUserIndex).name);
+                printf("Selamat datang!\n");
             }
-        }
-        else if (StringCompare(command, "LOGOUT") == 0)
+        } 
+        
+        else if (StringCompare(command, "LOGOUT") == 0) 
         {
-            LogoutUser(&currentUserIndex); // Logout pengguna
+            LogoutUser(&currentUserIndex);
         }
+
+        else if (StringCompare(command, "EXIT") == 0) 
+        {
+            endProgram = true;
+            printf("Program selesai.\n");
+        }
+
         else if (StringCompare(command, "SAVE") == 0)
         {
-            Save("default_config.txt", itemlist, userlist); // Simpan data ke file
-            printf("Data berhasil disimpan.\n");
+            Save("default_config.txt", itemlist, userlist);
         }
-        else if (StringCompare(command, "EXIT") == 0)
-        {
-            endProgram = true; // Keluar dari program
-            printf("Program selesai. Sampai jumpa!\n");
-        }
-        else
-        {
-            printf("Command tidak dikenali! Coba masukkan HELP untuk daftar command.\n");
-        }
-    }
 
-    return 0;
+        else printf("Command tidak dikenali!\n");
+    }
 }
