@@ -6,18 +6,26 @@
 #include "ADT/mesinkata/mesinkata.h"
 #include "ADT/arrayuser/arrayuser.h"
 #include "ADT/arrayitems/arrayitems.h"
+#include "games/work.h"
 
-void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist);
+void performWork(ListofUsers *userlist, int *currentUserIndex);
 
-void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist);
+void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex);
 
-void mainMenu(ListofItems *itemlist, ListofUsers *userlist);
+void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex);
+
+void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex);
+
+void handleSaveOnExit(ListofItems itemlist, ListofUsers userlist);
 
 void welcomeHelpMenu();
+
 void loginHelpMenu();
+
 void mainHelpMenu();
 
 void mainstartmenu(ListofItems *itemlist, ListofUsers *userlist);
+
 void mainloadmenu(char *filename, ListofItems *itemlist, ListofUsers *userlist);
 
 /* Konversi Word ke Integer
