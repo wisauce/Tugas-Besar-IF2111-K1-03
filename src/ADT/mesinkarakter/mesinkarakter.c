@@ -34,25 +34,57 @@ void START()
 
 void STARTFILE(char *filename, boolean *success)
 {
-    static char path[200] = "saves/"; // buat ngebaca file dari folder saves
+    static char path[200] = "saves/"; // Mengacu folder `saves` di dalam direktori kerja
     int idx = 0;
-    int new = 6;
+    int newIdx = 6; // Panjang string "saves/"
 
+    // Gabungkan `filename` ke dalam `path`
     while (filename[idx] != '\0')
-    { // ini buat naro file baru (penamaan yg baru/konkat save)
-        path[new] = filename[idx];
-        new ++;
+    {
+        path[newIdx] = filename[idx];
+        newIdx++;
         idx++;
     }
+    path[newIdx] = '\0'; // Tambahkan null terminator di akhir string
 
-    path[new] = '\0';
-    pita = fopen(path, "r"); // buat ngebaca file
+    // printf("DEBUG: Full file path = %s\n", path);  Debugging path file
+
+    // Buka file
+    pita = fopen(path, "r");
     if (pita == NULL)
+    {
+        // printf("ERROR: File not found at path: %s\n", path);
         *success = false;
+    }
     else
     {
+        // printf("SUCCESS: File opened at path: %s\n", path);
         *success = true;
-        ADV(); // baca karakter pertama
+        ADV(); // Baca karakter pertama
+    }
+}
+
+void WRITEFILE(char *filename, boolean *success) {
+    static char path[200] = "saves/";
+    int idx = 0;
+    int newIdx = 6;
+
+    while (filename[idx] != '\0') {
+        path[newIdx] = filename[idx];
+        newIdx++;
+        idx++;
+    }
+    path[newIdx] = '\0';
+
+    // Debugging path
+    // printf("DEBUG: Path file untuk menulis = %s\n", path);
+
+    pita = fopen(path, "w");
+    if (pita == NULL) {
+        *success = false;
+        printf("ERROR: Gagal membuka file untuk menulis: %s\n", path);
+    } else {
+        *success = true;
     }
 }
 
@@ -80,4 +112,20 @@ boolean IsEOP()
 /* Mengirimkan true jika currentChar = MARK */
 {
     return currentChar == MARK;
+}
+
+void printChar(char c) {
+    fprintf(pita,"%c",c);
+}
+
+void printInt(int n) {
+    fprintf(pita,"%d",n);
+}
+
+void printNewLine() {
+    fprintf(pita,"\n");
+}
+
+void printBlank() {
+    fprintf(pita," ");
 }
