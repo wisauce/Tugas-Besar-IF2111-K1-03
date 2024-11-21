@@ -22,7 +22,9 @@ void START();
           Jika currentChar != MARK maka EOP akan padam (false)
           Jika currentChar = MARK maka EOP akan menyala (true) */
 
-void STARTFILE(char *filename, boolean *success);
+void STARTFILE(char * filename, boolean *success);
+
+void WRITEFILE(char * filename, boolean *success);
 
 void ADV();
 /* Pita dimajukan satu karakter.
@@ -36,5 +38,13 @@ char GetCC();
 
 boolean IsEOP();
 /* Mengirimkan true jika currentChar = MARK */
+
+void printChar(char c);
+
+void printInt(int n);
+
+void printNewLine();
+
+void printBlank();
 
 #endif
