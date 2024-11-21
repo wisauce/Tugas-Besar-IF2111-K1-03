@@ -267,39 +267,56 @@ void Load(char *filename, ListofItems *itemlist, ListofUsers *userlist) {
 // Fungsi untuk save data
 void Save(char *filename, ListofItems itemlist, ListofUsers userlist) {
     boolean success;
+
+    // Buka file untuk ditulis menggunakan WRITEFILE
     WRITEFILE(filename, &success);
+    if (!success) {
+        printf("ERROR: Tidak dapat membuka file %s untuk menyimpan.\n", filename);
+        return;
+    }
+
+    // Tulis jumlah item ke file
     printInt(LengthListOfItems(itemlist));
-
-    for (int i = 0; i < LengthListOfItems(itemlist); i++) {
-        printNewLine();
-        printInt(GetItem(itemlist, i).price);
-        printBlank();
-
-        int idx = 0;
-        while (GetItem(itemlist, i).name[idx] != '\0') {
-            printChar(GetItem(itemlist, i).name[idx]);
-            idx++;
-        }
-    }
-
     printNewLine();
+
+    // Tulis setiap item
+    for (int i = 0; i < LengthListOfItems(itemlist); i++) {
+        Item item = GetItem(itemlist, i);
+        printInt(item.price); // Tulis harga item
+        printBlank();         // Tulis spasi
+        int idx = 0;
+        while (item.name[idx] != '\0') { // Tulis nama item karakter per karakter
+            printChar(item.name[idx]);
+            idx++;
+        }
+        printNewLine(); // Akhiri dengan baris baru
+    }
+
+    // Tulis jumlah pengguna ke file
     printInt(NbElmt(userlist));
+    printNewLine();
+
+    // Tulis setiap pengguna
     for (int i = 0; i < NbElmt(userlist); i++) {
-        printNewLine();
-        printInt(GetElmt(userlist, i).money);
-        printBlank();
+        User user = GetElmt(userlist, i);
+        printInt(user.money); // Tulis uang pengguna
+        printBlank();         // Tulis spasi
 
         int idx = 0;
-        while (GetElmt(userlist, i).name[idx] != '\0') {
-            printChar(GetElmt(userlist, i).name[idx]);
+        while (user.name[idx] != '\0') { // Tulis nama pengguna karakter per karakter
+            printChar(user.name[idx]);
             idx++;
         }
+        printBlank(); // Tulis spasi antara nama dan password
 
-        printBlank();
         idx = 0;
-        while (GetElmt(userlist, i).password[idx] != '\0') {
-            printChar(GetElmt(userlist, i).password[idx]);
+        while (user.password[idx] != '\0') { // Tulis password pengguna karakter per karakter
+            printChar(user.password[idx]);
             idx++;
         }
+        printNewLine(); // Akhiri dengan baris baru
     }
+    
+    printf("Data berhasil disimpan ke file saves/%s\n", filename);
 }
+
