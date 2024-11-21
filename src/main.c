@@ -41,7 +41,7 @@ int main() {
 
     printf("--------Kelompok 3 K1---------                                                 \n");                      
     printf("       Welcome to Purrmart                                                      \n");                           
-    printf("     PILIH MENU: START/LOAD/HELP                                            \n");
+    printf("     PILIH MENU: START/LOAD/HELP/EXIT                                          \n");
 
     while (!endProgram) 
     {
@@ -62,29 +62,33 @@ int main() {
         
         else if (StringCompare(mainMenuCommand, "HELP") == 0)
         {
-            char welcomeHelpMenuCommand[50];
-            printf("\nMASUKKAN COMMAND : ");
+            welcomeHelpMenu(); 
+        }
+
+        else if (StringCompare(mainMenuCommand, "EXIT") == 0)
+        {
+            char saveCurrentChange[1];
+            printf("\nApakah Anda ingin menyimpan perubahan pada file ini ( Y / N ) : ");
             STARTWORD();
-            WordToString(currentWord, welcomeHelpMenuCommand);
-            Upperstring(welcomeHelpMenuCommand);
-
-            if (StringCompare(welcomeHelpMenuCommand, "START") == 0)
-            {
-                handleStartMenu(&itemlist, &userlist, &currentUserIndex);
-            }
-
-            else if (StringCompare(welcomeHelpMenuCommand, "LOAD") == 0)
-            {
-                handleLoadMenu(&itemlist, &userlist, &currentUserIndex);
-            }
-
-            else if (StringCompare(welcomeHelpMenuCommand, "EXIT") == 0)
+            WordToString(currentWord, saveCurrentChange);
+            Upperstring(saveCurrentChange);
+            if (StringCompare(saveCurrentChange, "Y") == 0)
             {
                 handleSaveOnExit(itemlist, userlist);
                 printf("Terima kasih telah menggunakan PURRMART.\n");
-                endProgram = true;
                 exit(0);
-            } 
+            }
+
+            else if (StringCompare(saveCurrentChange, "N") == 0)
+            {
+                printf("Terima kasih telah menggunakan PURRMART.\n");
+                exit(0);
+            }
+
+            else
+            {
+                printf("Masukkan input yang benar!");
+            }
         }
         
         else 
