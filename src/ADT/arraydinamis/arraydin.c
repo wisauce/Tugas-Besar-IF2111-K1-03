@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "arraydin.h"
-
+#include "../../console.h"
 
 /**
  * Konstruktor
@@ -200,7 +200,7 @@ IdxType SearchArrayDin(ArrayDin array, ElType el)
 	for (i = 0 ; i < array.Neff ; i++)
 	{
 		Upperstring(array.A[i]);
-		if (compareString(array.A[i], el) == true)
+		if (StringCompare(array.A[i], el) == true)
 		{
 			return i;
 		}
