@@ -41,7 +41,14 @@ int main() {
 
     printf("--------Kelompok 3 K1---------                                                 \n");                      
     printf("       Welcome to Purrmart                                                      \n");                           
-    printf("     PILIH MENU: START/LOAD/HELP/EXIT                                          \n");
+    printf("\n=========================================\n");
+    printf("               WELCOME MENU                \n");
+    printf("=========================================\n");
+    printf(" 1. START\n");
+    printf(" 2. LOAD\n");
+    printf(" 3. EXIT\n");
+    printf(" 4. HELP\n");
+    printf("=========================================\n");
 
     while (!endProgram) 
     {
@@ -68,7 +75,7 @@ int main() {
         else if (StringCompare(mainMenuCommand, "EXIT") == 0)
         {
             char saveCurrentChange[1];
-            printf("\nApakah Anda ingin menyimpan perubahan pada file ini ( Y / N ) : ");
+            printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
             STARTWORD();
             WordToString(currentWord, saveCurrentChange);
             Upperstring(saveCurrentChange);
