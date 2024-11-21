@@ -7,6 +7,7 @@
 #include "ADT/arrayitems/arrayitems.h"
 #include "ADT/arrayuser/arrayuser.h"
 
+
 /* Konversi Word ke Integer
  * Mengubah isi Word (kata) menjadi bilangan integer.
  * I.S. : Word terdefinisi
