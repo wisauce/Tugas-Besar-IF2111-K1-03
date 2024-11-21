@@ -2,11 +2,23 @@
 #define CONSOLE_H
 
 #include "ADT/boolean.h"
-#include "ADT/arraydinamis/arraydin.h"
+#include "ADT/mesinkarakter/mesinkarakter.h"
 #include "ADT/mesinkata/mesinkata.h"
-#include "ADT/arrayitems/arrayitems.h"
 #include "ADT/arrayuser/arrayuser.h"
+#include "ADT/arrayitems/arrayitems.h"
 
+void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist);
+
+void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist);
+
+void mainMenu(ListofItems *itemlist, ListofUsers *userlist);
+
+void welcomeHelpMenu();
+void loginHelpMenu();
+void mainHelpMenu();
+
+void mainstartmenu(ListofItems *itemlist, ListofUsers *userlist);
+void mainloadmenu(char *filename, ListofItems *itemlist, ListofUsers *userlist);
 
 /* Konversi Word ke Integer
  * Mengubah isi Word (kata) menjadi bilangan integer.
