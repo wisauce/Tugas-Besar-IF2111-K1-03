@@ -8,8 +8,6 @@
 #include "ADT/arrayitems/arrayitems.h"
 #include "games/work.h"
 
-void performWork(ListofUsers *userlist, int *currentUserIndex);
-
 void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex);
 
 void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex);
@@ -104,5 +102,11 @@ void RegisterUser(ListofUsers *userlist);
  * F.S. : currentUserIndex diatur ke -1, menandakan tidak ada pengguna yang login
  */
 void LogoutUser(int *currentUserIndex);
+
+void performWork(ListofUsers *userlist, int *currentUserIndex);
+
+void StoreList(ListofItems itemlist);
+
+void StoreRemove(ListofItems *itemlist);
 
 #endif // CONSOLE_H
