@@ -8,9 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "mesinkata.h"
-#include "mesinkarakter.h"
-#include "boolean.h"
+#include "../../ADT/mesinkata/mesinkata.h"
+#include "../../ADT/mesinkarakter/mesinkarakter.h"
 
 extern const char wordBank[MAX_WORDS][WORD_LENGTH + 1];
 
