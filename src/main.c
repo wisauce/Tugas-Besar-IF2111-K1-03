@@ -40,9 +40,10 @@ int main() {
 
     printf("--------Kelompok 3 K1---------                                                 \n");                      
     printf("       Welcome to Purrmart                                                      \n");                           
-    printf("     PILIH MENU: START/LOAD/EXIT                                            \n");
+    printf("     PILIH MENU: START/LOAD/HELP                                            \n");
 
-        while (!endProgram) {
+    while (!endProgram) 
+    {
         printf("\nMASUKKAN COMMAND: ");
         STARTWORD();
         WordToString(currentWord, mainMenuCommand);
