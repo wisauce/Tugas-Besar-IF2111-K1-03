@@ -9,13 +9,14 @@
 #include "ADT/mesinkata/mesinkata.h"
 #include "ADT/arrayuser/arrayuser.h"
 #include "ADT/arrayitems/arrayitems.h"
+#include "games/work.h"
 
 int main() {
     ListofUsers userlist;
     ListofItems itemlist;
     MakeEmpty(&userlist);  // Inisialisasi list pengguna
     MakeListOfItems(&itemlist); // Inisialisasi list item
-
+    int currentUserIndex = -1; // Inisialisasi user index -1 menandakan belum login
     boolean endProgram = false;
     char mainMenuCommand[50];
 
@@ -51,27 +52,45 @@ int main() {
 
         if (StringCompare(mainMenuCommand, "START") == 0) 
         {
-            handleStartMenu(&itemlist, &userlist); // Akan menangani START
+            handleStartMenu(&itemlist, &userlist, &currentUserIndex); // Akan menangani START
         } 
         
         else if (StringCompare(mainMenuCommand, "LOAD") == 0) 
         {
-            handleLoadMenu(&itemlist, &userlist); // Akan menangani LOAD
+            handleLoadMenu(&itemlist, &userlist, &currentUserIndex); // Akan menangani LOAD
         } 
         
-        else if (StringCompare(mainMenuCommand, "EXIT") == 0) 
+        else if (StringCompare(mainMenuCommand, "HELP") == 0)
         {
-            char savefilename [50];
-            printf("Masukkan nama file save yang akan Anda simpan : ");
-            Save(savefilename, itemlist, userlist);
-            endProgram = true;
-            printf("Terima kasih telah menggunakan PURRMART.\n");
-        } 
+            char welcomeHelpMenuCommand[50];
+            printf("\nMASUKKAN COMMAND : ");
+            STARTWORD();
+            WordToString(currentWord, welcomeHelpMenuCommand);
+            Upperstring(welcomeHelpMenuCommand);
+
+            if (StringCompare(welcomeHelpMenuCommand, "START") == 0)
+            {
+                handleStartMenu(&itemlist, &userlist, &currentUserIndex);
+            }
+
+            else if (StringCompare(welcomeHelpMenuCommand, "LOAD") == 0)
+            {
+                handleLoadMenu(&itemlist, &userlist, &currentUserIndex);
+            }
+
+            else if (StringCompare(welcomeHelpMenuCommand, "EXIT") == 0)
+            {
+                handleSaveOnExit(itemlist, userlist);
+                printf("Terima kasih telah menggunakan PURRMART.\n");
+                endProgram = true;
+                exit(0);
+            } 
+        }
         
         else 
         {
             printf("Command tidak dikenali. Silakan coba lagi.\n");
         }
-    }
+    }   
     return 0;
 }
