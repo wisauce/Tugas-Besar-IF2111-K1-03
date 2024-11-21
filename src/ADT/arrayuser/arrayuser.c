@@ -127,11 +127,8 @@ boolean IsUsersFull (ListofUsers T)
 	}
 }
 
-void InsertLastUser(ListofUsers *T, User user)
-/* I.S. T terdefinisi, mungkin kosong. */
-/* F.S. Elemen user ditambahkan di akhir list jika list belum penuh. */
-{
-    if (T->Neff < IdxMax - IdxMin + 1) {
+void InsertLastUser(ListofUsers *T, User user) {
+    if (T->Neff < IdxMax - IdxMin + 1) { // Validasi kapasitas
         T->TI[T->Neff] = user; // Tambahkan user ke elemen terakhir
         T->Neff++;             // Tambah jumlah elemen efektif
     } else {
