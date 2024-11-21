@@ -13,10 +13,14 @@
 int WordtoInteger(Word word) {
     int sum = 0;
     for (int i = 0; i < word.Length; i++) {
-        sum += (word.TabWord[i] - '0');
-        sum *= 10;
+        // Validasi jika karakter bukan angka
+        if (word.TabWord[i] < '0' || word.TabWord[i] > '9') {
+            printf("ERROR: Invalid number format in Word at character '%c'\n", word.TabWord[i]);
+            return -1; // Kembalikan -1 jika ada karakter bukan angka
+        }
+        sum = sum * 10 + (word.TabWord[i] - '0');
     }
-    return sum / 10; // Mengembalikan nilai akhir
+    return sum;
 }
 
 int StringCompare(const char *str1, const char *str2) {
@@ -31,9 +35,8 @@ int StringCompare(const char *str1, const char *str2) {
     }
 
     // Jika salah satu string berakhir, kembalikan perbedaan panjang
-    return (unsigned char)*str1 - (unsigned char)*str2;
-}
-
+    return *str1 - *str2;
+} 
 
 // Ubah string menjadi uppercase
 void Upperstring(char *str) {
@@ -80,15 +83,16 @@ boolean LoginUser(ListofUsers userlist, int *currentUserIndex) {
     char username[100], password[100];
     InputLogin(username, password);
 
-    // Ubah username dan password input menjadi huruf besar utk perbandingan
-    Upperstring(username);
-    Upperstring(password);
+    printf("DEBUG: Username yang diinputkan: '%s', Password yang diinputkan: '%s'\n", username, password);
 
     for (int i = 0; i < NbElmt(userlist); i++) {
         User user = GetElmt(userlist, i);
+
+        printf("DEBUG: Username dari file: '%s', Password dari file: '%s'\n", user.name, user.password);
+
         if (StringCompare(username, user.name) == 0 && StringCompare(password, user.password) == 0) {
             *currentUserIndex = i;
-            printf("Login berhasil sebagai %s dengan uang %d.\n", user.name, user.money);
+            printf("Login berhasil sebagai %s dengan uang %d.\n\n", user.name, user.money);
             return true;
         }
     }
@@ -148,43 +152,115 @@ void LogoutUser(int *currentUserIndex) {
 void Load(char *filename, ListofItems *itemlist, ListofUsers *userlist) {
     boolean success;
     STARTFILE(filename, &success);
-    CopyWord();
-
-    int iteration = WordtoInteger(currentWord);
-    printf("DEBUG: Total items: %d\n", iteration);
-
-    // Load items
-    Item item;
-    for (int i = 0; i < iteration; i++) {
-        ADV();
-        ADVWORD();
-        item.price = WordtoInteger(currentWord);
-        ADVWORD();
-        WordToString(currentWord, item.name);
-        printf("DEBUG: Loaded item %d: %s, price: %d\n", i + 1, item.name, item.price);
-        InsertItemAt(itemlist, item, i);
+    if (!success) {
+        printf("ERROR: Failed to open file %s\n", filename);
+        return;
     }
 
+    // Baca jumlah items
+    CopyWord();
+    printf("DEBUG: Word read for items = ");
+    printw(currentWord, true);
+
+    int itemCount = WordtoInteger(currentWord);
+    if (itemCount < 0) {
+        printf("ERROR: Invalid item count\n");
+        return;
+    }
+    printf("DEBUG: Total items = %d\n", itemCount);
+
+    // Parsing items
+    for (int i = 0; i < itemCount; i++) {
+        ADV(); // Pindah ke baris berikutnya
+
+        // Baca harga item
+        ADVWORD();
+        int price = WordtoInteger(currentWord);
+        if (price < 0) {
+            printf("ERROR: Invalid price format at item %d\n", i + 1);
+            continue;
+        }
+
+        // Baca nama item (bisa memiliki spasi)
+        ADVWORD();
+        char itemName[100];
+        int nameLength = 0; // Panjang nama item yang akan ditulis
+        for (int j = 0; j < currentWord.Length; j++) {
+            itemName[nameLength++] = currentWord.TabWord[j];
+        }
+
+        while (!EOP && currentChar != '\n') { // Proses nama hingga akhir baris
+            itemName[nameLength++] = ' '; // Tambahkan spasi
+            ADVWORD();
+            for (int j = 0; j < currentWord.Length; j++) {
+                itemName[nameLength++] = currentWord.TabWord[j];
+            }
+        }
+        itemName[nameLength] = '\0'; // Tambahkan null terminator
+
+        printf("DEBUG: Loaded item %d: name = %s, price = %d\n", i + 1, itemName, price);
+
+        // Tambahkan item ke list
+        Item newItem;
+        newItem.price = price;
+        StringCopy(newItem.name, itemName);
+        InsertItemAt(itemlist, newItem, i);
+    }
+
+    // Baca jumlah users
     ADV();
     CopyWord();
-    iteration = WordtoInteger(currentWord);
-    printf("DEBUG: Total users: %d\n", iteration);
+    printf("DEBUG: Word read for users = ");
+    printw(currentWord, true);
 
-    // Load users
-    User user;
-    for (int i = 0; i < iteration; i++) {
-        ADV();
+    int userCount = WordtoInteger(currentWord);
+    if (userCount < 0) {
+        printf("ERROR: Invalid user count\n");
+        return;
+    }
+    printf("DEBUG: Total users = %d\n", userCount);
+
+    // Parsing users
+    for (int i = 0; i < userCount; i++) {
+        ADV(); // Pindah ke baris berikutnya
+
+        if (EOP) {
+            printf("DEBUG: EOF reached while parsing user %d\n", i + 1);
+            break;
+        }
+        // Baca uang user
         ADVWORD();
-        user.money = WordtoInteger(currentWord);
+        int money = WordtoInteger(currentWord);
+        if (money < 0) {
+            printf("ERROR: Invalid money format for user %d\n", i + 1);
+            continue;
+        }
 
+        // Baca nama user
         ADVWORD();
-        WordToString(currentWord, user.name);
+        char userName[100];
+        WordToString(currentWord, userName);
 
+        // Baca password user
         ADVWORD();
-        WordToString(currentWord, user.password);
+        char password[100];
+        WordToString(currentWord, password);
 
-        printf("DEBUG: Loaded user %d: %s, password: %s, money: %d\n", i + 1, user.name, user.password, user.money);
-        SetEl(userlist, i, user);
+        printf("DEBUG: Loaded user %d: name = %s, password = %s, money = %d\n",
+            i + 1, userName, password, money);
+
+        // Tambahkan user ke list
+        User newUser;
+        newUser.money = money;
+        StringCopy(newUser.name, userName);
+        StringCopy(newUser.password, password);
+
+
+        printf("DEBUG: Adding user to list: name = %s, password = %s, money = %d\n",
+        newUser.name, newUser.password, newUser.money);
+
+        // Tambahkan ke list
+        InsertLastUser(userlist, newUser);
     }
 }
 
