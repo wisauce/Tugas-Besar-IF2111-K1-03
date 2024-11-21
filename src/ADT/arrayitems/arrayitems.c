@@ -186,3 +186,34 @@ ListofItems CopyListOfItems(ListofItems array) {
 //     }
 //     return -1;
 // }
+
+boolean isItemIn(ListofItems items, char *name)
+{
+    boolean found = false;
+    int i = 0;
+    while (!found && i != items.Neff)
+    {
+        if (isStringSame(name, items.A[i].name))
+        {
+            found = true;
+        }
+        i++;
+    }
+    return found;
+}
+
+int idxOfItem(ListofItems items, char *name)
+{
+    boolean found = false;
+    int i = 0;
+    while (!found && i != items.Neff)
+    {
+        if (isStringSame(name, items.A[i].name))
+        {
+            found = true;
+        }
+        else
+            i++;
+    }
+    return i;
+}
