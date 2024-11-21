@@ -8,48 +8,8 @@
 #include "ADT/arrayuser/arrayuser.h"
 #include "ADT/arrayitems/arrayitems.h"
 #include "games/work.h"
+#include "store.h"
 
-void performWork(ListofUsers *userlist, int *currentUserIndex) {
-    if (*currentUserIndex == -1) {
-        printf("Tidak ada pengguna yang sedang login. Silakan login terlebih dahulu.\n");
-        return;
-    }
-
-    // Tampilkan daftar pekerjaan
-    printf("\n=== DAFTAR PEKERJAAN ===\n");
-    for (int i = 0; i < totalJobs; i++) {
-        printf("%d. %s (pendapatan=%d, durasi=%ds)\n", 
-            i + 1, jobList[i].name, jobList[i].income, jobList[i].duration);
-    }
-    printf("========================\n");
-
-    // Input pilihan pekerjaan
-    int choice;
-    printf("Masukkan nomor pekerjaan yang dipilih: ");
-    scanf("%d", &choice);
-
-    if (choice < 1 || choice > totalJobs) {
-        printf("Pilihan tidak valid. Silakan coba lagi.\n");
-        return;
-    }
-
-    Job selectedJob = jobList[choice - 1];
-    printf("Anda sedang bekerja sebagai %s... harap tunggu.\n", selectedJob.name);
-
-    // Tunggu sesuai durasi pekerjaan
-    time_t startTime = time(NULL); // Catat waktu mulai
-    time_t endTime = startTime + selectedJob.duration;
-
-    while (time(NULL) < endTime) {
-        // Bisa menambahkan animasi atau progress bar di sini jika diperlukan
-    }
-
-    // Update uang pengguna
-    User *currentUser = &userlist->TI[*currentUserIndex];
-    currentUser->money += selectedJob.income;
-
-    printf("Pekerjaan selesai, +%d rupiah telah ditambahkan ke akun Anda.\n", selectedJob.income);
-}
 
 void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex) 
 {
@@ -610,3 +570,44 @@ void Save(char *filename, ListofItems itemlist, ListofUsers userlist) {
     printf("Data berhasil disimpan ke file saves/%s\n", filename);
 }
 
+void performWork(ListofUsers *userlist, int *currentUserIndex) {
+    if (*currentUserIndex == -1) {
+        printf("Tidak ada pengguna yang sedang login. Silakan login terlebih dahulu.\n");
+        return;
+    }
+
+    // Tampilkan daftar pekerjaan
+    printf("\n=== DAFTAR PEKERJAAN ===\n");
+    for (int i = 0; i < totalJobs; i++) {
+        printf("%d. %s (pendapatan=%d, durasi=%ds)\n", 
+            i + 1, jobList[i].name, jobList[i].income, jobList[i].duration);
+    }
+    printf("========================\n");
+
+    // Input pilihan pekerjaan
+    int choice;
+    printf("Masukkan nomor pekerjaan yang dipilih: ");
+    scanf("%d", &choice);
+
+    if (choice < 1 || choice > totalJobs) {
+        printf("Pilihan tidak valid. Silakan coba lagi.\n");
+        return;
+    }
+
+    Job selectedJob = jobList[choice - 1];
+    printf("Anda sedang bekerja sebagai %s... harap tunggu.\n", selectedJob.name);
+
+    // Tunggu sesuai durasi pekerjaan
+    time_t startTime = time(NULL); // Catat waktu mulai
+    time_t endTime = startTime + selectedJob.duration;
+
+    while (time(NULL) < endTime) {
+        // Bisa menambahkan animasi atau progress bar di sini jika diperlukan
+    }
+
+    // Update uang pengguna
+    User *currentUser = &userlist->TI[*currentUserIndex];
+    currentUser->money += selectedJob.income;
+
+    printf("Pekerjaan selesai, +%d rupiah telah ditambahkan ke akun Anda.\n", selectedJob.income);
+}
