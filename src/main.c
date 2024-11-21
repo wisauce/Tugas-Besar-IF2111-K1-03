@@ -10,18 +10,16 @@
 #include "ADT/arrayuser/arrayuser.h"
 #include "ADT/arrayitems/arrayitems.h"
 
-int main()
-{
-
+int main() {
     ListofUsers userlist;
     ListofItems itemlist;
     MakeEmpty(&userlist);  // Inisialisasi list pengguna
     MakeListOfItems(&itemlist); // Inisialisasi list item
-    int currentUserIndex = -1;
-    Load("default_config.txt", &itemlist, &userlist);
-
 
     boolean endProgram = false;
+    char mainMenuCommand[50];
+
+    // Welcome message
     printf(" .+\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+. \n");
     printf("(                                                                                 )\n");
     printf(" )      __    __       _                                    _                    ( \n");
@@ -42,51 +40,37 @@ int main()
 
     printf("--------Kelompok 3 K1---------                                                 \n");                      
     printf("       Welcome to Purrmart                                                      \n");                           
-    printf("        START/LOAD(?)                                                         \n");
-    
-    while (!endProgram) 
-    {
-        char command[50];
+    printf("     PILIH MENU: START/LOAD/EXIT                                            \n");
+
+        while (!endProgram) {
         printf("\nMASUKKAN COMMAND: ");
         STARTWORD();
-        WordToString(currentWord, command);
-        Upperstring(command); // Ubah string ke huruf besar
+        WordToString(currentWord, mainMenuCommand);
+        Upperstring(mainMenuCommand);
 
-        if (StringCompare(command, "REGISTER") == 0) 
+        if (StringCompare(mainMenuCommand, "START") == 0) 
         {
-            RegisterUser(&userlist);
-            Save("default_config.txt", itemlist, userlist);
-        } 
-
-        else if (StringCompare(command, "LOGIN") == 0) 
-        {
-            if (currentUserIndex != -1) 
-            {
-                printf("Logout terlebih dahulu sebelum login dengan akun lain.\n");
-            } 
-            
-            else if (LoginUser(userlist, &currentUserIndex))
-            {
-                printf("Selamat datang!\n");
-            }
+            handleStartMenu(&itemlist, &userlist); // Akan menangani START
         } 
         
-        else if (StringCompare(command, "LOGOUT") == 0) 
+        else if (StringCompare(mainMenuCommand, "LOAD") == 0) 
         {
-            LogoutUser(&currentUserIndex);
-        }
-
-        else if (StringCompare(command, "EXIT") == 0) 
+            handleLoadMenu(&itemlist, &userlist); // Akan menangani LOAD
+        } 
+        
+        else if (StringCompare(mainMenuCommand, "EXIT") == 0) 
         {
+            char savefilename [50];
+            printf("Masukkan nama file save yang akan Anda simpan : ");
+            Save(savefilename, itemlist, userlist);
             endProgram = true;
-            printf("Program selesai.\n");
-        }
-
-        else if (StringCompare(command, "SAVE") == 0)
+            printf("Terima kasih telah menggunakan PURRMART.\n");
+        } 
+        
+        else 
         {
-            Save("default_config.txt", itemlist, userlist);
+            printf("Command tidak dikenali. Silakan coba lagi.\n");
         }
-
-        else printf("Command tidak dikenali!\n");
     }
+    return 0;
 }
