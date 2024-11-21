@@ -56,7 +56,7 @@ void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentU
         else if (StringCompare(loginMenuCommand, "EXIT") == 0)
         {
             char saveCurrentChange[1];
-            printf("\nApakah Anda ingin menyimpan perubahan pada file ini ( Y / N ) : ");
+            printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
             STARTWORD();
             WordToString(currentWord, saveCurrentChange);
             Upperstring(saveCurrentChange);
@@ -230,7 +230,7 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
         else if (StringCompare(mainMenuCommand, "EXIT") == 0)
         {
             char saveCurrentChange[1];
-            printf("\nApakah Anda ingin menyimpan perubahan pada file ini ( Y / N ) : ");
+            printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
             STARTWORD();
             WordToString(currentWord, saveCurrentChange);
             Upperstring(saveCurrentChange);
@@ -292,12 +292,15 @@ void loginHelpMenu() {
     printf("EXIT -> Untuk keluar dari program\n\n");
 }
 
-void loginMenuList(){
-    printf("\nPILIH MENU: \n");
-    printf("1. REGISTER\n");
-    printf("2. LOGIN\n");
-    printf("3. EXIT\n");
-    printf("4. HELP\n");
+void loginMenuList() {
+    printf("\n=========================================\n");
+    printf("               LOGIN MENU                \n");
+    printf("=========================================\n");
+    printf(" 1. REGISTER\n");
+    printf(" 2. LOGIN\n");
+    printf(" 3. EXIT\n");
+    printf(" 4. HELP\n");
+    printf("=========================================\n");
 }
 
 // Menampilkan main menu
@@ -317,17 +320,20 @@ void mainHelpMenu() {
 
 // Menampilkan main menu
 void mainMenuList() {
-    printf("\nPILIH MENU: \n");
-    printf("1. WORK\n");
-    printf("2. WORK CHALLENGE\n");
-    printf("3. STORE LIST\n");
-    printf("4. STORE REQUEST\n");
-    printf("5. STORE SUPPLY\n");
-    printf("6. STORE REMOVE\n");
-    printf("7. LOGOUT\n");
-    printf("8. SAVE\n");
-    printf("9. EXIT\n");
+    printf("\n=========================================\n");
+    printf("               MAIN MENU                 \n");
+    printf("=========================================\n");
+    printf(" 1. WORK\n");
+    printf(" 2. WORK CHALLENGE\n");
+    printf(" 3. STORE LIST\n");
+    printf(" 4. STORE REQUEST\n");
+    printf(" 5. STORE SUPPLY\n");
+    printf(" 6. STORE REMOVE\n");
+    printf(" 7. LOGOUT\n");
+    printf(" 8. SAVE\n");
+    printf(" 9. EXIT\n");
     printf("10. HELP\n");
+    printf("=========================================\n");
 }
 
 // Fungsi untuk menangani menu START
@@ -701,18 +707,20 @@ void performWork(ListofUsers *userlist, int *currentUserIndex) {
     printf("Pekerjaan selesai, +%d rupiah telah ditambahkan ke akun Anda.\n", selectedJob.income);
 }
 
-void StoreList(ListofItems itemlist)
-{
-    if (itemlist.Neff != 0)
-    {
-        printf("List barang yang ada di toko :\n");
-        for (int i = 0; i < itemlist.Neff; i++)
-        {
-            printf("- %s\n", itemlist.A[i].name);
+void StoreList(ListofItems itemlist) {
+    if (itemlist.Neff != 0) {
+        printf("\n=========================================\n");
+        printf("           DAFTAR BARANG DI TOKO         \n");
+        printf("=========================================\n");
+        for (int i = 0; i < itemlist.Neff; i++) {
+            printf(" %2d. %-30s\n", i + 1, itemlist.A[i].name);
         }
+        printf("=========================================\n");
+    } else {
+        printf("\n=========================================\n");
+        printf("          TOKO SAAT INI KOSONG           \n");
+        printf("=========================================\n");
     }
-    else
-        printf("TOKO KOSONG\n");
 }
 
 // void StoreRequest()
