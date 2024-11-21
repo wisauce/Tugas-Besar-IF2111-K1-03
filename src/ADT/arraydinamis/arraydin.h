@@ -1,7 +1,7 @@
 #ifndef __ARRAY_DINAMIK__
 #define __ARRAY_DINAMIK__
 #define InitialSize 10
-#include"src/ADT/boolean.h"
+#include"../boolean.h"
 
 typedef int IdxType;
 typedef char* ElType;
