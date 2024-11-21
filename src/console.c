@@ -50,10 +50,29 @@ void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentU
         
         else if (StringCompare(loginMenuCommand, "EXIT") == 0)
         {
-            handleSaveOnExit(*itemlist, *userlist);
-            printf("Terima kasih telah menggunakan PURRMART.\n");
-            exit(0);
-        }
+            char saveCurrentChange[1];
+            printf("\nApakah Anda ingin menyimpan perubahan pada file ini ( Y / N ) : ");
+            STARTWORD();
+            WordToString(currentWord, saveCurrentChange);
+            Upperstring(saveCurrentChange);
+            if (StringCompare(saveCurrentChange, "Y") == 0)
+            {
+                handleSaveOnExit(*itemlist, *userlist);
+                printf("Terima kasih telah menggunakan PURRMART.\n");
+                exit(0);
+            }
+
+            else if (StringCompare(saveCurrentChange, "N") == 0)
+            {
+                printf("Terima kasih telah menggunakan PURRMART.\n");
+                exit(0);
+            }
+
+            else
+            {
+                printf("Masukkan input yang benar!");
+            }
+        } 
         
         else 
         {
@@ -106,10 +125,29 @@ void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUs
         
         else if (StringCompare(loginMenuCommand, "EXIT") == 0)
         {
-            handleSaveOnExit(*itemlist, *userlist);
-            printf("Terima kasih telah menggunakan PURRMART.\n");
-            exit(0);
-        } 
+            char saveCurrentChange[1];
+            printf("\nApakah Anda ingin menyimpan perubahan pada file ini ( Y / N ) : ");
+            STARTWORD();
+            WordToString(currentWord, saveCurrentChange);
+            Upperstring(saveCurrentChange);
+            if (StringCompare(saveCurrentChange, "Y") == 0)
+            {
+                handleSaveOnExit(*itemlist, *userlist);
+                printf("Terima kasih telah menggunakan PURRMART.\n");
+                exit(0);
+            }
+
+            else if (StringCompare(saveCurrentChange, "N") == 0)
+            {
+                printf("Terima kasih telah menggunakan PURRMART.\n");
+                exit(0);
+            }
+
+            else
+            {
+                printf("Masukkan input yang benar!");
+            }
+        }  
         
         else 
         {
@@ -125,7 +163,7 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
     while (mainMenuActive) {
         mainHelpMenu();
         printf("\nMASUKKAN COMMAND: ");
-        STARTWORD();
+        STARTLINE();
         WordToString(currentWord, mainMenuCommand);
         Upperstring(mainMenuCommand);
 
@@ -142,8 +180,7 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
         
         else if (StringCompare(mainMenuCommand, "STORE LIST") == 0) 
         {
-            printf("Menampilkan daftar barang di toko...\n");
-            // STORE LIST
+            StoreList(*itemlist);
         } 
         
         else if (StringCompare(mainMenuCommand, "STORE REQUEST") == 0) 
@@ -160,8 +197,7 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
 
         else if (StringCompare(mainMenuCommand, "STORE REMOVE") == 0) 
         {
-            printf("Menampilkan daftar barang di toko...\n");
-            // STORE LIST
+            StoreRemove(itemlist);
         }
         
         else if (StringCompare(mainMenuCommand, "LOGOUT") == 0) 
@@ -178,10 +214,29 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
         
         else if (StringCompare(mainMenuCommand, "EXIT") == 0)
         {
-            handleSaveOnExit(*itemlist, *userlist);
-            printf("Terima kasih telah menggunakan PURRMART.\n");
-            exit(0);
-        } 
+            char saveCurrentChange[1];
+            printf("\nApakah Anda ingin menyimpan perubahan pada file ini ( Y / N ) : ");
+            STARTWORD();
+            WordToString(currentWord, saveCurrentChange);
+            Upperstring(saveCurrentChange);
+            if (StringCompare(saveCurrentChange, "Y") == 0)
+            {
+                handleSaveOnExit(*itemlist, *userlist);
+                printf("Terima kasih telah menggunakan PURRMART.\n");
+                exit(0);
+            }
+
+            else if (StringCompare(saveCurrentChange, "N") == 0)
+            {
+                printf("Terima kasih telah menggunakan PURRMART.\n");
+                exit(0);
+            }
+
+            else
+            {
+                printf("Masukkan input yang benar!");
+            }
+        }  
         
         else 
         {
@@ -200,7 +255,7 @@ void handleSaveOnExit(ListofItems itemlist, ListofUsers userlist) {
 
     // Menyimpan data ke file
     Save(saveFileName, itemlist, userlist);
-    printf("State program telah berhasil disimpan ke dalam file '%s'.\n", saveFileName);
+    printf("Program telah berhasil disimpan ke dalam file '%s'.\n", saveFileName);
 }
 
 // Menampilkan welcome help menu
@@ -610,4 +665,39 @@ void performWork(ListofUsers *userlist, int *currentUserIndex) {
     currentUser->money += selectedJob.income;
 
     printf("Pekerjaan selesai, +%d rupiah telah ditambahkan ke akun Anda.\n", selectedJob.income);
+}
+
+void StoreList(ListofItems itemlist)
+{
+    if (itemlist.Neff != 0)
+    {
+        printf("List barang yang ada di toko :\n");
+        for (int i = 0; i < itemlist.Neff; i++)
+        {
+            printf("- %s\n", itemlist.A[i].name);
+        }
+    }
+    else
+        printf("TOKO KOSONG\n");
+}
+
+// void StoreRequest()
+
+void StoreRemove(ListofItems *itemlist)
+{
+    Word W1, W2;
+    int x, y;
+    printf("Nama barang yang akan dihapus: ");
+    scan("%s", &W1, &W2, &x, &y);
+
+    if (isItemIn(*itemlist, wordToString(W1)))
+    {
+        int idx = idxOfItem(*itemlist, wordToString(W1));
+        DeleteItemAt(itemlist, idx);
+        printf("%s telah berhasil dihapus.\n", wordToString(W1));
+    }
+    else
+    {
+        printf("Toko tidak menjual %s\n", wordToString(W1));
+    }
 }
