@@ -20,7 +20,11 @@ void welcomeHelpMenu();
 
 void loginHelpMenu();
 
+void loginMenuList();
+
 void mainHelpMenu();
+
+void mainMenuList();
 
 void mainstartmenu(ListofItems *itemlist, ListofUsers *userlist);
 
