@@ -20,13 +20,18 @@ void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentU
 
     while (loginActive) 
     {
-        loginHelpMenu();
+        loginMenuList();
         printf("\nMASUKKAN COMMAND: ");
         STARTWORD();
         WordToString(currentWord, loginMenuCommand);
         Upperstring(loginMenuCommand);
 
-        if (StringCompare(loginMenuCommand, "REGISTER") == 0) 
+        if (StringCompare(loginMenuCommand, "HELP") == 0) 
+        {
+            loginHelpMenu();
+        }
+
+        else if (StringCompare(loginMenuCommand, "REGISTER") == 0) 
         {
             RegisterUser(userlist);
         } 
@@ -95,13 +100,18 @@ void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUs
 
     while (loginActive) 
     {
-        loginHelpMenu();
+        loginMenuList();
         printf("\nMASUKKAN COMMAND: ");
         STARTWORD();
         WordToString(currentWord, loginMenuCommand);
         Upperstring(loginMenuCommand);
 
-        if (StringCompare(loginMenuCommand, "REGISTER") == 0) 
+        if (StringCompare(loginMenuCommand, "HELP") == 0) 
+        {
+            loginHelpMenu();
+        }
+
+        else if (StringCompare(loginMenuCommand, "REGISTER") == 0) 
         {
             RegisterUser(userlist);
         } 
@@ -161,13 +171,18 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
     char mainMenuCommand[50];
 
     while (mainMenuActive) {
-        mainHelpMenu();
-        printf("\nMASUKKAN COMMAND: ");
+        mainMenuList();
+        printf("\nMASUKKAN COMMAND:  ");
         STARTLINE();
         WordToString(currentWord, mainMenuCommand);
         Upperstring(mainMenuCommand);
 
-        if (StringCompare(mainMenuCommand, "WORK") == 0) 
+        if (StringCompare(mainMenuCommand, "HELP") == 0) 
+        {
+            mainHelpMenu();
+        } 
+
+        else if (StringCompare(mainMenuCommand, "WORK") == 0) 
         {
             performWork(userlist, currentUserIndex);
         } 
@@ -262,7 +277,7 @@ void handleSaveOnExit(ListofItems itemlist, ListofUsers userlist) {
 void welcomeHelpMenu() 
 {
     printf("\n\n");
-    printf("=====[ Welcome Menu Help PURRMART ]=====\n");
+    printf("=====[ Welcome Help Menu PURRMART ]=====\n");
     printf("START -> Untuk masuk sesi baru\n");
     printf("LOAD -> Untuk memulai sesi berdasarkan file konfigurasi\n");
     printf("EXIT -> Untuk keluar dari program\n\n");
@@ -271,16 +286,24 @@ void welcomeHelpMenu()
 // Menampilkan login help menu
 void loginHelpMenu() {
     printf("\n\n");
-    printf("=====[ Login Menu Help PURRMART ]=====\n");
+    printf("=====[ Login Help Menu PURRMART ]=====\n");
     printf("REGISTER -> Untuk melakukan pendaftaran akun baru\n");
     printf("LOGIN -> Untuk masuk ke dalam akun dan memulai sesi\n");
     printf("EXIT -> Untuk keluar dari program\n\n");
 }
 
+void loginMenuList(){
+    printf("\nPILIH MENU: \n");
+    printf("1. REGISTER\n");
+    printf("2. LOGIN\n");
+    printf("3. EXIT\n");
+    printf("4. HELP\n");
+}
+
 // Menampilkan main menu
 void mainHelpMenu() {
     printf("\n\n");
-    printf("=====[ Main Menu PURRMART ]=====\n");
+    printf("=====[ Main Help Menu PURRMART ]=====\n");
     printf("WORK -> Untuk bekerja\n");
     printf("WORK CHALLENGE -> Untuk mengerjakan challenge\n");
     printf("STORE LIST -> Untuk melihat barang-barang di toko\n");
@@ -290,6 +313,21 @@ void mainHelpMenu() {
     printf("LOGOUT -> Untuk keluar dari sesi\n");
     printf("SAVE -> Untuk menyimpan state ke dalam file\n");
     printf("EXIT -> Untuk keluar dari program\n\n");
+}
+
+// Menampilkan main menu
+void mainMenuList() {
+    printf("\nPILIH MENU: \n");
+    printf("1. WORK\n");
+    printf("2. WORK CHALLENGE\n");
+    printf("3. STORE LIST\n");
+    printf("4. STORE REQUEST\n");
+    printf("5. STORE SUPPLY\n");
+    printf("6. STORE REMOVE\n");
+    printf("7. LOGOUT\n");
+    printf("8. SAVE\n");
+    printf("9. EXIT\n");
+    printf("10. HELP\n");
 }
 
 // Fungsi untuk menangani menu START
@@ -655,10 +693,6 @@ void performWork(ListofUsers *userlist, int *currentUserIndex) {
     // Tunggu sesuai durasi pekerjaan
     time_t startTime = time(NULL); // Catat waktu mulai
     time_t endTime = startTime + selectedJob.duration;
-
-    while (time(NULL) < endTime) {
-        // Bisa menambahkan animasi atau progress bar di sini jika diperlukan
-    }
 
     // Update uang pengguna
     User *currentUser = &userlist->TI[*currentUserIndex];
