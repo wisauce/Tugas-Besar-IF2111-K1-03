@@ -1,5 +1,6 @@
 #include <stdlib.h>
-# include "arrayitems.h"
+#include "arrayitems.h"
+#include "../mesinkata/mesinkata.h"
 
 /**
  * Konstruktor
