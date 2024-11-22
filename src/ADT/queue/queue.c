@@ -112,3 +112,18 @@ void displayQueue(Queue q)
         printf("%d. %s\n", i + 1, q.buffer[i]);
     }
 }
+
+boolean isIn(Queue q, ElType val)
+{
+    boolean found = false;
+    int i = 0;
+    while (!found && i < length(q))
+    {
+        if (q.buffer[(q.idxHead + i) % QUEUE_MAX_CAPACITY] == val)
+        {
+            found = true;
+        }
+        i++;
+    }
+    return found;
+}

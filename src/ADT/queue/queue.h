@@ -66,4 +66,5 @@ void displayQueue(Queue q);
 /* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
 /* Jika Queue kosong : menulis [] */
 
+boolean isIn(Queue q, ElType val);
 #endif
