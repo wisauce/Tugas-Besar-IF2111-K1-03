@@ -93,7 +93,16 @@ void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUs
     STARTWORD();
     WordToString(currentWord, filename);
 
-    mainloadmenu(filename, itemlist, userlist);
+    // Memeriksa apakah file berhasil diload
+    boolean success = mainloadmenu(filename, itemlist, userlist);
+
+    if (!success) 
+    {
+        // Kembali ke main menu.. file tidak ditemukan
+        printf("\nKembali ke Welcome Menu.\n");
+        welcomeMenuList();
+        return;
+    }
 
     boolean loginActive = true;
     char loginMenuCommand[50];
@@ -273,6 +282,18 @@ void handleSaveOnExit(ListofItems itemlist, ListofUsers userlist) {
     printf("Program telah berhasil disimpan ke dalam file '%s'.\n", saveFileName);
 }
 
+void welcomeMenuList()
+{
+    printf("\n=========================================\n");
+    printf("               WELCOME MENU                \n");
+    printf("=========================================\n");
+    printf(" 1. START\n");
+    printf(" 2. LOAD\n");
+    printf(" 3. EXIT\n");
+    printf(" 4. HELP\n");
+    printf("=========================================\n");
+}
+
 // Menampilkan welcome help menu
 void welcomeHelpMenu() 
 {
@@ -345,7 +366,7 @@ void mainstartmenu(ListofItems *itemlist, ListofUsers *userlist) {
 }
 
 // Fungsi untuk menangani menu LOAD
-void mainloadmenu(char *filename, ListofItems *itemlist, ListofUsers *userlist) {
+boolean mainloadmenu(char *filename, ListofItems *itemlist, ListofUsers *userlist) {
     printf("\n\n");
     printf("=== LOAD MENU ===\n");
     boolean success;
@@ -356,6 +377,7 @@ void mainloadmenu(char *filename, ListofItems *itemlist, ListofUsers *userlist) 
     } else {
         printf("File %s tidak ditemukan.\n", filename);
     }
+    return success;
 }
 
 // Konversi Word menjadi integer
@@ -419,12 +441,12 @@ void InputLogin(char *username, char *password) {
     printf("Masukkan username: ");
     STARTWORD();
     WordToString(currentWord, username);
-    printf("DEBUG: Username yang dimasukkan: %s\n", username);
+    // printf("DEBUG: Username yang dimasukkan: %s\n", username);
 
     printf("Masukkan password: ");
     STARTWORD();
     WordToString(currentWord, password);
-    printf("DEBUG: Password yang dimasukkan: %s\n", password);
+    // printf("DEBUG: Password yang dimasukkan: %s\n", password);
 }
 
 
@@ -432,12 +454,12 @@ boolean LoginUser(ListofUsers userlist, int *currentUserIndex) {
     char username[100], password[100];
     InputLogin(username, password);
 
-    printf("DEBUG: Username yang diinputkan: '%s', Password yang diinputkan: '%s'\n", username, password);
+    // printf("DEBUG: Username yang diinputkan: '%s', Password yang diinputkan: '%s'\n", username, password);
 
     for (int i = 0; i < NbElmt(userlist); i++) {
         User user = GetElmt(userlist, i);
 
-        printf("DEBUG: Username dari file: '%s', Password dari file: '%s'\n", user.name, user.password);
+        // printf("DEBUG: Username dari file: '%s', Password dari file: '%s'\n", user.name, user.password);
 
         if (StringCompare(username, user.name) == 0 && StringCompare(password, user.password) == 0) {
             *currentUserIndex = i;
@@ -694,11 +716,19 @@ void performWork(ListofUsers *userlist, int *currentUserIndex) {
     }
 
     Job selectedJob = jobList[choice - 1];
-    printf("Anda sedang bekerja sebagai %s... harap tunggu.\n", selectedJob.name);
 
-    // Tunggu sesuai durasi pekerjaan
-    time_t startTime = time(NULL); // Catat waktu mulai
+    // Tunggu sesuai durasi pekerjaan menggunakan time.h
+    time_t startTime = time(NULL);
     time_t endTime = startTime + selectedJob.duration;
+
+    while (time(NULL) < endTime) {
+        printf(".");
+        fflush(stdout); // Memastikan titik langsung ditampilkan
+        // Tunggu sebentar agar tidak mencetak titik terlalu cepat
+        struct timespec ts = {0, 500000000L}; // 0.5 detik
+        nanosleep(&ts, NULL);
+    }
+    printf("\n");
 
     // Update uang pengguna
     User *currentUser = &userlist->TI[*currentUserIndex];
