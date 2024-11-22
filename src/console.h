@@ -6,19 +6,31 @@
 #include "ADT/mesinkata/mesinkata.h"
 #include "ADT/arrayuser/arrayuser.h"
 #include "ADT/arrayitems/arrayitems.h"
+#include "games/work.h"
 
-void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist);
+void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex);
 
-void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist);
+void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex);
 
-void mainMenu(ListofItems *itemlist, ListofUsers *userlist);
+void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex);
+
+void handleSaveOnExit(ListofItems itemlist, ListofUsers userlist);
+
+void welcomeMenuList();
 
 void welcomeHelpMenu();
+
 void loginHelpMenu();
+
+void loginMenuList();
+
 void mainHelpMenu();
 
+void mainMenuList();
+
 void mainstartmenu(ListofItems *itemlist, ListofUsers *userlist);
-void mainloadmenu(char *filename, ListofItems *itemlist, ListofUsers *userlist);
+
+boolean mainloadmenu(char *filename, ListofItems *itemlist, ListofUsers *userlist);
 
 /* Konversi Word ke Integer
  * Mengubah isi Word (kata) menjadi bilangan integer.
@@ -96,5 +108,11 @@ void RegisterUser(ListofUsers *userlist);
  * F.S. : currentUserIndex diatur ke -1, menandakan tidak ada pengguna yang login
  */
 void LogoutUser(int *currentUserIndex);
+
+void performWork(ListofUsers *userlist, int *currentUserIndex);
+
+void StoreList(ListofItems itemlist);
+
+void StoreRemove(ListofItems *itemlist);
 
 #endif // CONSOLE_H

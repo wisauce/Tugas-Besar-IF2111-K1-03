@@ -122,4 +122,9 @@ ListofItems CopyListOfItems(ListofItems array);
  */
 // int SearchArrayDin(ListofItems array, Item el);
 
+boolean isItemIn(ListofItems items, char *name);
+// buat cari apakah nama barang ada di toko
+
+int idxOfItem(ListofItems items, char *name);
+
 #endif
