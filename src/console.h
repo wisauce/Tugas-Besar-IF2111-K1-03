@@ -16,6 +16,8 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
 
 void handleSaveOnExit(ListofItems itemlist, ListofUsers userlist);
 
+void welcomeMenuList();
+
 void welcomeHelpMenu();
 
 void loginHelpMenu();
@@ -28,7 +30,7 @@ void mainMenuList();
 
 void mainstartmenu(ListofItems *itemlist, ListofUsers *userlist);
 
-void mainloadmenu(char *filename, ListofItems *itemlist, ListofUsers *userlist);
+boolean mainloadmenu(char *filename, ListofItems *itemlist, ListofUsers *userlist);
 
 /* Konversi Word ke Integer
  * Mengubah isi Word (kata) menjadi bilangan integer.
