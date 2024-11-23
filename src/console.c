@@ -9,8 +9,6 @@
 #include "ADT/arrayitems/arrayitems.h"
 #include "games/work.h"
 #include "ADT/queue/queue.h"
-#include "store.h"
-
 
 void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q) 
 {

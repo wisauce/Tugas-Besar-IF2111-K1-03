@@ -6,7 +6,7 @@
 450 Stormbreaker
 500 Infinity Gauntlet
 300 Vibranium Shield
-100 Kacamata
+350 Mjolnir
 5
 100000 AgentF tes123
 5000 User2 tes123
