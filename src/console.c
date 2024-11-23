@@ -782,15 +782,15 @@ void Load(char *filename, ListofItems *itemlist, ListofUsers *userlist) {
 
     // Baca jumlah items
     CopyWord();
-    printf("DEBUG: Word read for items = ");
-    printw(currentWord, true);
+    // printf("DEBUG: Word read for items = ");
+    // printw(currentWord, true);
 
     int itemCount = WordtoInteger(currentWord);
     if (itemCount < 0) {
         // printf("ERROR: Invalid item count\n");
         return;
     }
-    printf("DEBUG: Total items = %d\n", itemCount);
+    // printf("DEBUG: Total items = %d\n", itemCount);
 
     // Parsing items
     for (int i = 0; i < itemCount; i++) {
@@ -821,7 +821,7 @@ void Load(char *filename, ListofItems *itemlist, ListofUsers *userlist) {
         }
         itemName[nameLength] = '\0'; // Tambahkan null terminator
 
-        printf("DEBUG: Loaded item %d: name = %s, price = %d\n", i + 1, itemName, price);
+        // printf("DEBUG: Loaded item %d: name = %s, price = %d\n", i + 1, itemName, price);
 
         // Tambahkan item ke list
         Item newItem;
@@ -1030,7 +1030,7 @@ void StoreRequest(ListofItems *itemlist, Queue *q)
     STARTLINE(); 
     WordToString(currentWord, itemName); 
 
-    printf("DEBUG: Input barang adalah '%s'\n", itemName);
+    // printf("DEBUG: Input barang adalah '%s'\n", itemName);
 
     if (isItemIn(*itemlist, itemName)) 
     {
