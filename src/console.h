@@ -16,6 +16,8 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
 
 void handleSaveOnExit(ListofItems itemlist, ListofUsers userlist);
 
+void thankYouLetter();
+
 void welcomeMenuList();
 
 void welcomeHelpMenu();
