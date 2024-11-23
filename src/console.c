@@ -61,14 +61,14 @@ void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentU
                     if (StringCompare(saveCurrentChange, "Y") == 0) 
                     {
                         handleSaveOnExit(*itemlist, *userlist);
-                        printf("Terima kasih telah menggunakan PURRMART.\n");
-                        break;
+                        thankYouLetter();
+                        exit(0);
                     } 
                     
                     else if (StringCompare(saveCurrentChange, "N") == 0) 
                     {
-                        printf("Terima kasih telah menggunakan PURRMART.\n");
-                        break;
+                        thankYouLetter();
+                        exit(0);
                     } 
                     
                     else 
@@ -114,7 +114,7 @@ void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentU
                     if (LoginUser(*userlist, currentUserIndex)) 
                     {
                         printf("Selamat datang di PURRMART!\n");
-                        loginActive = false; // Pindah ke Main Menu
+                        loginActive = false; // pindah ke mainmenu
                         mainMenu(itemlist, userlist, currentUserIndex);
                     }
                 }
@@ -130,13 +130,13 @@ void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentU
                 if (StringCompare(saveCurrentChange, "Y") == 0)
                 {
                     handleSaveOnExit(*itemlist, *userlist);
-                    printf("Terima kasih telah menggunakan PURRMART.\n");
+                    thankYouLetter();
                     exit(0);
                 }
 
                 else if (StringCompare(saveCurrentChange, "N") == 0)
                 {
-                    printf("Terima kasih telah menggunakan PURRMART.\n");
+                    thankYouLetter();
                     exit(0);
                 }
 
@@ -161,12 +161,12 @@ void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUs
     STARTWORD();
     WordToString(currentWord, filename);
 
-    // Memeriksa apakah file berhasil diload
+    // memeriksa apakah file berhasil diload
     boolean success = mainloadmenu(filename, itemlist, userlist);
 
     if (!success) 
     {
-        // Kembali ke main menu.. file tidak ditemukan
+        // kembali ke main menu.. file tidak ditemukan
         printf("\nKembali ke Welcome Menu.\n");
         welcomeMenuList();
         return;
@@ -218,14 +218,14 @@ void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUs
                     if (StringCompare(saveCurrentChange, "Y") == 0) 
                     {
                         handleSaveOnExit(*itemlist, *userlist);
-                        printf("Terima kasih telah menggunakan PURRMART.\n");
-                        break;
+                        
+                        exit(0);
                     } 
                     
                     else if (StringCompare(saveCurrentChange, "N") == 0) 
                     {
-                        printf("Terima kasih telah menggunakan PURRMART.\n");
-                        break;
+                        thankYouLetter();
+                        exit(0);
                     } 
                     
                     else 
@@ -271,7 +271,7 @@ void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUs
                     if (LoginUser(*userlist, currentUserIndex)) 
                     {
                         printf("Selamat datang di PURRMART!\n");
-                        loginActive = false; // Pindah ke Main Menu
+                        loginActive = false; // pindah ke mainmenu
                         mainMenu(itemlist, userlist, currentUserIndex);
                     }
                 }
@@ -287,13 +287,13 @@ void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUs
                 if (StringCompare(saveCurrentChange, "Y") == 0)
                 {
                     handleSaveOnExit(*itemlist, *userlist);
-                    printf("Terima kasih telah menggunakan PURRMART.\n");
+                    thankYouLetter();
                     exit(0);
                 }
 
                 else if (StringCompare(saveCurrentChange, "N") == 0)
                 {
-                    printf("Terima kasih telah menggunakan PURRMART.\n");
+                    thankYouLetter();
                     exit(0);
                 }
 
@@ -374,13 +374,13 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
                     if (StringCompare(saveCurrentChange, "Y") == 0)
                     {
                         handleSaveOnExit(*itemlist, *userlist);
-                        printf("Terima kasih telah menggunakan PURRMART.\n");
+                        thankYouLetter();
                         exit(0);
                     }
 
                     else if (StringCompare(saveCurrentChange, "N") == 0)
                     {
-                        printf("Terima kasih telah menggunakan PURRMART.\n");
+                        thankYouLetter();
                         exit(0);
                     }
 
@@ -466,13 +466,13 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
                 if (StringCompare(saveCurrentChange, "Y") == 0)
                 {
                     handleSaveOnExit(*itemlist, *userlist);
-                    printf("Terima kasih telah menggunakan PURRMART.\n");
+                    thankYouLetter();
                     exit(0);
                 }
 
                 else if (StringCompare(saveCurrentChange, "N") == 0)
                 {
-                    printf("Terima kasih telah menggunakan PURRMART.\n");
+                    thankYouLetter();
                     exit(0);
                 }
 
@@ -504,6 +504,33 @@ void handleSaveOnExit(ListofItems itemlist, ListofUsers userlist)
     printf("Program telah berhasil disimpan ke dalam file '%s'.\n", saveFileName);
 }
 
+void thankYouLetter()
+{
+    printf("  _______  _    _            _   _  _  __ __     __ ____   _    _                       \n");
+    printf(" |__   __|| |  | |    /\\    | \\ | || |/ / \\ \\   / // __ \\ | |  | |                      \n");
+    printf("    | |   | |__| |   /  \\   |  \\| || ' /   \\ \\_/ /| |  | || |  | |                      \n");
+    printf("    | |   |  __  |  / /\\ \\  | . ` ||  <     \\   / | |  | || |  | |                      \n");
+    printf("    | |   | |  | | / ____ \\ | |\\  || . \\     | |  | |__| || |__| |                      \n");
+    printf("    |_|   |_|  |_|/_/    \\_\\|_| \\_||_|\\_\\    |_|   \\____/  \\____/                       \n");
+    printf("                                                                                        \n");
+    printf("                                                                                        \n");
+    printf("  ______  ____   _____      _____  _    _   ____    ____    _____  _____  _   _   _____ \n");
+    printf(" |  ____|/ __ \\ |  __ \\    / ____|| |  | | / __ \\  / __ \\  / ____||_   _|| \\ | | / ____|\n");
+    printf(" | |__  | |  | || |__) |  | |     | |__| || |  | || |  | || (___    | |  |  \\| || |  __ \n");
+    printf(" |  __| | |  | ||  _  /   | |     |  __  || |  | || |  | | \\___ \\   | |  | . ` || | |_ |\n");
+    printf(" | |    | |__| || | \\ \\   | |____ | |  | || |__| || |__| | ____) | _| |_ | |\\  || |__| |\n");
+    printf(" |_|     \\____/ |_|  \\_\\   \\_____||_|  |_| \\____/  \\____/ |_____/ |_____||_| \\_| \\_____|\n");
+    printf("                                                                                        \n");
+    printf("                                                                                        \n");
+    printf("  _____   _    _  _____   _____   __  __            _____  _______                      \n");
+    printf(" |  __ \\ | |  | ||  __ \\ |  __ \\ |  \\/  |    /\\    |  __ \\|__   __|                     \n");
+    printf(" | |__) || |  | || |__) || |__) || \\  / |   /  \\   | |__) |  | |                        \n");
+    printf(" |  ___/ | |  | ||  _  / |  _  / | |\\/| |  / /\\ \\  |  _  /   | |                        \n");
+    printf(" | |     | |__| || | \\ \\ | | \\ \\ | |  | | / ____ \\ | | \\ \\   | |                        \n");
+    printf(" |_|      \\____/ |_|  \\_\\|_|  \\_\\|_|  |_|/_/    \\_\\|_|  \\_\\  |_|                        \n");
+    printf("                                                                                        \n");
+    printf("                                                                                        \n");
+}
 void welcomeMenuList()
 {
     printf("\n=========================================\n");
@@ -612,7 +639,7 @@ int WordtoInteger(Word word)
         // Validasi jika karakter bukan angka
         if (word.TabWord[i] < '0' || word.TabWord[i] > '9') 
         {
-            printf("ERROR: Invalid number format in Word at character '%c'\n", word.TabWord[i]);
+            // printf("ERROR: Invalid number format in Word at character '%c'\n", word.TabWord[i]);
             return -1; // Kembalikan -1 jika ada karakter bukan angka
         }
         sum = sum * 10 + (word.TabWord[i] - '0');
