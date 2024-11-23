@@ -23,65 +23,133 @@ void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentU
         loginMenuList();
         printf("\nMASUKKAN COMMAND: ");
         STARTWORD();
-        WordToString(currentWord, loginMenuCommand);
-        Upperstring(loginMenuCommand);
-
-        if (StringCompare(loginMenuCommand, "HELP") == 0) 
-        {
-            loginHelpMenu();
-        }
-
-        else if (StringCompare(loginMenuCommand, "REGISTER") == 0) 
-        {
-            RegisterUser(userlist);
-        } 
         
-        else if (StringCompare(loginMenuCommand, "LOGIN") == 0) 
+        int loginMenuIntCommand = WordtoInteger(currentWord);
+
+        if (loginMenuIntCommand >= 1 && loginMenuIntCommand <= 4) 
         {
-            if (*currentUserIndex != -1) 
+            switch (loginMenuIntCommand) 
             {
-                printf("Anda masih tercatat sebagai %s. Silakan LOGOUT terlebih dahulu.\n", GetElmt(*userlist, *currentUserIndex).name);
-            } 
-            else 
-            {
-                if (LoginUser(*userlist, currentUserIndex)) 
+                case 1:
+                    RegisterUser(userlist);
+                    break;
+
+                case 2:
+                    if (*currentUserIndex != -1) 
+                    {
+                        printf("Anda masih tercatat sebagai %s. Silakan LOGOUT terlebih dahulu.\n", GetElmt(*userlist, *currentUserIndex).name);
+                    } 
+
+                    else 
+                    {
+                        if (LoginUser(*userlist, currentUserIndex)) 
+                        {
+                            printf("Selamat datang di PURRMART!\n");
+                            loginActive = false;
+                            mainMenu(itemlist, userlist, currentUserIndex);
+                        }
+                    }
+                    break;
+
+                case 3: 
                 {
-                    printf("Selamat datang di PURRMART!\n");
-                    loginActive = false; // Pindah ke Main Menu
-                    mainMenu(itemlist, userlist, currentUserIndex);
+                    char saveCurrentChange[10];
+                    printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
+                    STARTWORD();
+                    WordToString(currentWord, saveCurrentChange);
+                    Upperstring(saveCurrentChange);
+                    if (StringCompare(saveCurrentChange, "Y") == 0) 
+                    {
+                        handleSaveOnExit(*itemlist, *userlist);
+                        printf("Terima kasih telah menggunakan PURRMART.\n");
+                        break;
+                    } 
+                    
+                    else if (StringCompare(saveCurrentChange, "N") == 0) 
+                    {
+                        printf("Terima kasih telah menggunakan PURRMART.\n");
+                        break;
+                    } 
+                    
+                    else 
+                    {
+                        printf("Masukkan input yang benar!\n");
+                    }
+                    break;
                 }
+
+                case 4:
+                    welcomeHelpMenu();
+                    break;
+
+                default:
+                    printf("Command tidak dikenali. Silakan coba lagi.\n");
+                    break;
             }
         }
-        
-        else if (StringCompare(loginMenuCommand, "EXIT") == 0)
-        {
-            char saveCurrentChange[1];
-            printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
-            STARTWORD();
-            WordToString(currentWord, saveCurrentChange);
-            Upperstring(saveCurrentChange);
-            if (StringCompare(saveCurrentChange, "Y") == 0)
-            {
-                handleSaveOnExit(*itemlist, *userlist);
-                printf("Terima kasih telah menggunakan PURRMART.\n");
-                exit(0);
-            }
 
-            else if (StringCompare(saveCurrentChange, "N") == 0)
-            {
-                printf("Terima kasih telah menggunakan PURRMART.\n");
-                exit(0);
-            }
-
-            else
-            {
-                printf("Masukkan input yang benar!");
-            }
-        } 
-        
         else 
         {
-            printf("Command tidak dikenali.\n");
+            WordToString(currentWord, loginMenuCommand);
+            Upperstring(loginMenuCommand);
+
+            if (StringCompare(loginMenuCommand, "HELP") == 0) 
+            {
+                loginHelpMenu();
+            }
+
+            else if (StringCompare(loginMenuCommand, "REGISTER") == 0) 
+            {
+                RegisterUser(userlist);
+            } 
+            
+            else if (StringCompare(loginMenuCommand, "LOGIN") == 0) 
+            {
+                if (*currentUserIndex != -1) 
+                {
+                    printf("Anda masih tercatat sebagai %s. Silakan LOGOUT terlebih dahulu.\n", GetElmt(*userlist, *currentUserIndex).name);
+                } 
+                else 
+                {
+                    if (LoginUser(*userlist, currentUserIndex)) 
+                    {
+                        printf("Selamat datang di PURRMART!\n");
+                        loginActive = false; // Pindah ke Main Menu
+                        mainMenu(itemlist, userlist, currentUserIndex);
+                    }
+                }
+            }
+            
+            else if (StringCompare(loginMenuCommand, "EXIT") == 0)
+            {
+                char saveCurrentChange[1];
+                printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
+                STARTWORD();
+                WordToString(currentWord, saveCurrentChange);
+                Upperstring(saveCurrentChange);
+                if (StringCompare(saveCurrentChange, "Y") == 0)
+                {
+                    handleSaveOnExit(*itemlist, *userlist);
+                    printf("Terima kasih telah menggunakan PURRMART.\n");
+                    exit(0);
+                }
+
+                else if (StringCompare(saveCurrentChange, "N") == 0)
+                {
+                    printf("Terima kasih telah menggunakan PURRMART.\n");
+                    exit(0);
+                }
+
+                else
+                {
+                    printf("Masukkan input yang benar!");
+                }
+            } 
+            
+            else 
+            {
+                printf("Command tidak dikenali.\n");
+            }
         }
     }
 }
@@ -112,164 +180,318 @@ void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUs
         loginMenuList();
         printf("\nMASUKKAN COMMAND: ");
         STARTWORD();
-        WordToString(currentWord, loginMenuCommand);
-        Upperstring(loginMenuCommand);
-
-        if (StringCompare(loginMenuCommand, "HELP") == 0) 
-        {
-            loginHelpMenu();
-        }
-
-        else if (StringCompare(loginMenuCommand, "REGISTER") == 0) 
-        {
-            RegisterUser(userlist);
-        } 
         
-        else if (StringCompare(loginMenuCommand, "LOGIN") == 0) 
+        int loginMenuIntCommand = WordtoInteger(currentWord);
+
+        if (loginMenuIntCommand >= 1 && loginMenuIntCommand <= 4) 
         {
-            if (*currentUserIndex != -1) 
+            switch (loginMenuIntCommand) 
             {
-                printf("Anda masih tercatat sebagai %s. Silakan LOGOUT terlebih dahulu.\n", GetElmt(*userlist, *currentUserIndex).name);
-            } 
-            else 
-            {
-                if (LoginUser(*userlist, currentUserIndex)) 
+                case 1:
+                    RegisterUser(userlist);
+                    break;
+
+                case 2:
+                    if (*currentUserIndex != -1) 
+                    {
+                        printf("Anda masih tercatat sebagai %s. Silakan LOGOUT terlebih dahulu.\n", GetElmt(*userlist, *currentUserIndex).name);
+                    } 
+
+                    else 
+                    {
+                        if (LoginUser(*userlist, currentUserIndex)) 
+                        {
+                            printf("Selamat datang di PURRMART!\n");
+                            loginActive = false;
+                            mainMenu(itemlist, userlist, currentUserIndex);
+                        }
+                    }
+                    break;
+
+                case 3: 
                 {
-                    printf("Selamat datang di PURRMART!\n");
-                    loginActive = false; // Pindah ke Main Menu
-                    mainMenu(itemlist, userlist, currentUserIndex);
+                    char saveCurrentChange[10];
+                    printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
+                    STARTWORD();
+                    WordToString(currentWord, saveCurrentChange);
+                    Upperstring(saveCurrentChange);
+                    if (StringCompare(saveCurrentChange, "Y") == 0) 
+                    {
+                        handleSaveOnExit(*itemlist, *userlist);
+                        printf("Terima kasih telah menggunakan PURRMART.\n");
+                        break;
+                    } 
+                    
+                    else if (StringCompare(saveCurrentChange, "N") == 0) 
+                    {
+                        printf("Terima kasih telah menggunakan PURRMART.\n");
+                        break;
+                    } 
+                    
+                    else 
+                    {
+                        printf("Masukkan input yang benar!\n");
+                    }
+                    break;
                 }
+
+                case 4:
+                    welcomeHelpMenu();
+                    break;
+
+                default:
+                    printf("Command tidak dikenali. Silakan coba lagi.\n");
+                    break;
             }
         }
-        
-        else if (StringCompare(loginMenuCommand, "EXIT") == 0)
-        {
-            char saveCurrentChange[1];
-            printf("\nApakah Anda ingin menyimpan perubahan pada file ini ( Y / N ) : ");
-            STARTWORD();
-            WordToString(currentWord, saveCurrentChange);
-            Upperstring(saveCurrentChange);
-            if (StringCompare(saveCurrentChange, "Y") == 0)
-            {
-                handleSaveOnExit(*itemlist, *userlist);
-                printf("Terima kasih telah menggunakan PURRMART.\n");
-                exit(0);
-            }
 
-            else if (StringCompare(saveCurrentChange, "N") == 0)
-            {
-                printf("Terima kasih telah menggunakan PURRMART.\n");
-                exit(0);
-            }
-
-            else
-            {
-                printf("Masukkan input yang benar!");
-            }
-        }  
-        
         else 
         {
-            printf("Command tidak dikenali.\n");
+            WordToString(currentWord, loginMenuCommand);
+            Upperstring(loginMenuCommand);
+
+            if (StringCompare(loginMenuCommand, "HELP") == 0) 
+            {
+                loginHelpMenu();
+            }
+
+            else if (StringCompare(loginMenuCommand, "REGISTER") == 0) 
+            {
+                RegisterUser(userlist);
+            } 
+            
+            else if (StringCompare(loginMenuCommand, "LOGIN") == 0) 
+            {
+                if (*currentUserIndex != -1) 
+                {
+                    printf("Anda masih tercatat sebagai %s. Silakan LOGOUT terlebih dahulu.\n", GetElmt(*userlist, *currentUserIndex).name);
+                } 
+                else 
+                {
+                    if (LoginUser(*userlist, currentUserIndex)) 
+                    {
+                        printf("Selamat datang di PURRMART!\n");
+                        loginActive = false; // Pindah ke Main Menu
+                        mainMenu(itemlist, userlist, currentUserIndex);
+                    }
+                }
+            }
+            
+            else if (StringCompare(loginMenuCommand, "EXIT") == 0)
+            {
+                char saveCurrentChange[1];
+                printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
+                STARTWORD();
+                WordToString(currentWord, saveCurrentChange);
+                Upperstring(saveCurrentChange);
+                if (StringCompare(saveCurrentChange, "Y") == 0)
+                {
+                    handleSaveOnExit(*itemlist, *userlist);
+                    printf("Terima kasih telah menggunakan PURRMART.\n");
+                    exit(0);
+                }
+
+                else if (StringCompare(saveCurrentChange, "N") == 0)
+                {
+                    printf("Terima kasih telah menggunakan PURRMART.\n");
+                    exit(0);
+                }
+
+                else
+                {
+                    printf("Masukkan input yang benar!");
+                }
+            } 
+            
+            else 
+            {
+                printf("Command tidak dikenali.\n");
+            }
         }
     }
 }
 
-void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex) {
+void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex) 
+{
     boolean mainMenuActive = true;
     char mainMenuCommand[50];
 
-    while (mainMenuActive) {
+    while (mainMenuActive) 
+    {
         mainMenuList();
         printf("\nMASUKKAN COMMAND:  ");
         STARTLINE();
-        WordToString(currentWord, mainMenuCommand);
-        Upperstring(mainMenuCommand);
 
-        if (StringCompare(mainMenuCommand, "HELP") == 0) 
-        {
-            mainHelpMenu();
-        } 
+        int mainMenuIntCommand = WordtoInteger(currentWord);
 
-        else if (StringCompare(mainMenuCommand, "WORK") == 0) 
+        if (mainMenuIntCommand >= 1 && mainMenuIntCommand <= 10)
         {
-            performWork(userlist, currentUserIndex);
-        } 
+            switch (mainMenuIntCommand)
+            {
+                case 1:
+                    performWork(userlist, currentUserIndex);
+                    break;
 
-        else if (StringCompare(mainMenuCommand, "WORK CHALLENGE") == 0) 
-        {
-            printf("Anda telah memilih WORK CHALLENGE. Lakukan pekerjaan...\n");
-            // WORK CHALLENGE
-        } 
-        
-        else if (StringCompare(mainMenuCommand, "STORE LIST") == 0) 
-        {
-            StoreList(*itemlist);
-        } 
-        
-        else if (StringCompare(mainMenuCommand, "STORE REQUEST") == 0) 
-        {
-            printf("Menampilkan daftar barang di toko...\n");
-            // STORE LIST
-        } 
-        
-        else if (StringCompare(mainMenuCommand, "STORE SUPPLY") == 0) 
-        {
-            printf("Menampilkan daftar barang di toko...\n");
-            // STORE LIST
-        } 
+                case 2:
+                    printf("WORK CHALLENGE...\n");
+                    break;
 
-        else if (StringCompare(mainMenuCommand, "STORE REMOVE") == 0) 
-        {
-            StoreRemove(itemlist);
+                case 3:
+                    StoreList(*itemlist);
+                    break;
+
+                case 4:
+                    printf("STORE REQUEST...\n");
+                    break;
+
+                case 5:
+                    printf("STORE SUPPLY...\n");
+                    break;
+
+                case 6:
+                    StoreRemove(itemlist);
+                    break;
+
+                case 7:
+                {
+                    printf("Anda telah logout.\n");
+                    *currentUserIndex = -1; // Set status menjadi tidak ada pengguna yang login
+                    mainMenuActive = false; // Kembali ke Login Menu
+                    break;
+                } 
+
+                case 8:
+                    handleSaveOnExit(*itemlist, *userlist);
+                    break;
+
+                case 9:
+                {
+                    char saveCurrentChange[1];
+                    printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
+                    STARTWORD();
+                    WordToString(currentWord, saveCurrentChange);
+                    Upperstring(saveCurrentChange);
+                    if (StringCompare(saveCurrentChange, "Y") == 0)
+                    {
+                        handleSaveOnExit(*itemlist, *userlist);
+                        printf("Terima kasih telah menggunakan PURRMART.\n");
+                        exit(0);
+                    }
+
+                    else if (StringCompare(saveCurrentChange, "N") == 0)
+                    {
+                        printf("Terima kasih telah menggunakan PURRMART.\n");
+                        exit(0);
+                    }
+
+                    else
+                    {
+                        printf("Masukkan input yang benar!");
+                    }
+                    break;
+                }
+
+                case 10:
+                    mainHelpMenu();
+                    break;
+                
+                default:
+                    printf("Command tidak dikenali. Silakan coba lagi.\n");
+                    break;
+            }
         }
-        
-        else if (StringCompare(mainMenuCommand, "LOGOUT") == 0) 
-        {
-            printf("Anda telah logout.\n");
-            *currentUserIndex = -1; // Set status menjadi tidak ada pengguna yang login
-            mainMenuActive = false; // Kembali ke Login Menu
-        } 
 
-        else if (StringCompare(mainMenuCommand, "SAVE") == 0) 
+        else
         {
-            handleSaveOnExit(*itemlist, *userlist);
-        }
-        
-        else if (StringCompare(mainMenuCommand, "EXIT") == 0)
-        {
-            char saveCurrentChange[1];
-            printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
-            STARTWORD();
-            WordToString(currentWord, saveCurrentChange);
-            Upperstring(saveCurrentChange);
-            if (StringCompare(saveCurrentChange, "Y") == 0)
+            WordToString(currentWord, mainMenuCommand);
+            Upperstring(mainMenuCommand);
+
+            if (StringCompare(mainMenuCommand, "HELP") == 0) 
+            {
+                mainHelpMenu();
+            } 
+
+            else if (StringCompare(mainMenuCommand, "WORK") == 0) 
+            {
+                performWork(userlist, currentUserIndex);
+            } 
+
+            else if (StringCompare(mainMenuCommand, "WORK CHALLENGE") == 0) 
+            {
+                printf("Anda telah memilih WORK CHALLENGE. Lakukan pekerjaan...\n");
+                // WORK CHALLENGE
+            } 
+            
+            else if (StringCompare(mainMenuCommand, "STORE LIST") == 0) 
+            {
+                StoreList(*itemlist);
+            } 
+            
+            else if (StringCompare(mainMenuCommand, "STORE REQUEST") == 0) 
+            {
+                printf("Menampilkan daftar barang di toko...\n");
+                // STORE LIST
+            } 
+            
+            else if (StringCompare(mainMenuCommand, "STORE SUPPLY") == 0) 
+            {
+                printf("Menampilkan daftar barang di toko...\n");
+                // STORE LIST
+            } 
+
+            else if (StringCompare(mainMenuCommand, "STORE REMOVE") == 0) 
+            {
+                StoreRemove(itemlist);
+            }
+            
+            else if (StringCompare(mainMenuCommand, "LOGOUT") == 0) 
+            {
+                printf("Anda telah logout.\n");
+                *currentUserIndex = -1; // Set status menjadi tidak ada pengguna yang login
+                mainMenuActive = false; // Kembali ke Login Menu
+            } 
+
+            else if (StringCompare(mainMenuCommand, "SAVE") == 0) 
             {
                 handleSaveOnExit(*itemlist, *userlist);
-                printf("Terima kasih telah menggunakan PURRMART.\n");
-                exit(0);
             }
-
-            else if (StringCompare(saveCurrentChange, "N") == 0)
+            
+            else if (StringCompare(mainMenuCommand, "EXIT") == 0)
             {
-                printf("Terima kasih telah menggunakan PURRMART.\n");
-                exit(0);
-            }
+                char saveCurrentChange[1];
+                printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
+                STARTWORD();
+                WordToString(currentWord, saveCurrentChange);
+                Upperstring(saveCurrentChange);
+                if (StringCompare(saveCurrentChange, "Y") == 0)
+                {
+                    handleSaveOnExit(*itemlist, *userlist);
+                    printf("Terima kasih telah menggunakan PURRMART.\n");
+                    exit(0);
+                }
 
-            else
+                else if (StringCompare(saveCurrentChange, "N") == 0)
+                {
+                    printf("Terima kasih telah menggunakan PURRMART.\n");
+                    exit(0);
+                }
+
+                else
+                {
+                    printf("Masukkan input yang benar!");
+                }
+            }  
+            
+            else 
             {
-                printf("Masukkan input yang benar!");
+                printf("Command tidak dikenali. Silakan coba lagi.\n");
             }
-        }  
-        
-        else 
-        {
-            printf("Command tidak dikenali. Silakan coba lagi.\n");
         }
     }
 }
 
-void handleSaveOnExit(ListofItems itemlist, ListofUsers userlist) {
+void handleSaveOnExit(ListofItems itemlist, ListofUsers userlist) 
+{
     char saveFileName[50];
 
     // Meminta input nama file save
@@ -358,9 +580,10 @@ void mainMenuList() {
 }
 
 // Fungsi untuk menangani menu START
-void mainstartmenu(ListofItems *itemlist, ListofUsers *userlist) {
+void mainstartmenu(ListofItems *itemlist, ListofUsers *userlist) 
+{
     printf("\n\n");
-    printf("=== START MENU ===\n");
+    printf("===== START MENU =====\n");
     Load("default_config.txt", itemlist, userlist); // Membaca file konfigurasi default
     printf("File konfigurasi default berhasil dimuat.\n");
 }
@@ -368,7 +591,7 @@ void mainstartmenu(ListofItems *itemlist, ListofUsers *userlist) {
 // Fungsi untuk menangani menu LOAD
 boolean mainloadmenu(char *filename, ListofItems *itemlist, ListofUsers *userlist) {
     printf("\n\n");
-    printf("=== LOAD MENU ===\n");
+    printf("===== LOAD MENU =====\n");
     boolean success;
     STARTFILE(filename, &success);
     if (success) {
@@ -381,11 +604,14 @@ boolean mainloadmenu(char *filename, ListofItems *itemlist, ListofUsers *userlis
 }
 
 // Konversi Word menjadi integer
-int WordtoInteger(Word word) {
+int WordtoInteger(Word word) 
+{
     int sum = 0;
-    for (int i = 0; i < word.Length; i++) {
+    for (int i = 0; i < word.Length; i++) 
+    {
         // Validasi jika karakter bukan angka
-        if (word.TabWord[i] < '0' || word.TabWord[i] > '9') {
+        if (word.TabWord[i] < '0' || word.TabWord[i] > '9') 
+        {
             printf("ERROR: Invalid number format in Word at character '%c'\n", word.TabWord[i]);
             return -1; // Kembalikan -1 jika ada karakter bukan angka
         }
@@ -394,10 +620,13 @@ int WordtoInteger(Word word) {
     return sum;
 }
 
-int StringCompare(const char *str1, const char *str2) {
+int StringCompare(const char *str1, const char *str2) 
+{
     // Iterasi melalui kedua string
-    while (*str1 && *str2) {
-        if (*str1 != *str2) {
+    while (*str1 && *str2) 
+    {
+        if (*str1 != *str2) 
+        {
             // Jika karakter tidak cocok, kembalikan perbedaan nilai ASCII
             return (unsigned char)*str1 - (unsigned char)*str2;
         }
@@ -448,7 +677,6 @@ void InputLogin(char *username, char *password) {
     WordToString(currentWord, password);
     // printf("DEBUG: Password yang dimasukkan: %s\n", password);
 }
-
 
 boolean LoginUser(ListofUsers userlist, int *currentUserIndex) {
     char username[100], password[100];
@@ -530,15 +758,15 @@ void Load(char *filename, ListofItems *itemlist, ListofUsers *userlist) {
 
     // Baca jumlah items
     CopyWord();
-    printf("DEBUG: Word read for items = ");
-    printw(currentWord, true);
+    // printf("DEBUG: Word read for items = ");
+    // printw(currentWord, true);
 
     int itemCount = WordtoInteger(currentWord);
     if (itemCount < 0) {
-        printf("ERROR: Invalid item count\n");
+        // printf("ERROR: Invalid item count\n");
         return;
     }
-    printf("DEBUG: Total items = %d\n", itemCount);
+    // printf("DEBUG: Total items = %d\n", itemCount);
 
     // Parsing items
     for (int i = 0; i < itemCount; i++) {
@@ -569,7 +797,7 @@ void Load(char *filename, ListofItems *itemlist, ListofUsers *userlist) {
         }
         itemName[nameLength] = '\0'; // Tambahkan null terminator
 
-        printf("DEBUG: Loaded item %d: name = %s, price = %d\n", i + 1, itemName, price);
+        // printf("DEBUG: Loaded item %d: name = %s, price = %d\n", i + 1, itemName, price);
 
         // Tambahkan item ke list
         Item newItem;
@@ -581,29 +809,29 @@ void Load(char *filename, ListofItems *itemlist, ListofUsers *userlist) {
     // Baca jumlah users
     ADV();
     CopyWord();
-    printf("DEBUG: Word read for users = ");
-    printw(currentWord, true);
+    // printf("DEBUG: Word read for users = ");
+    // printw(currentWord, true);
 
     int userCount = WordtoInteger(currentWord);
     if (userCount < 0) {
-        printf("ERROR: Invalid user count\n");
+        // printf("ERROR: Invalid user count\n");
         return;
     }
-    printf("DEBUG: Total users = %d\n", userCount);
+    // printf("DEBUG: Total users = %d\n", userCount);
 
     // Parsing users
     for (int i = 0; i < userCount; i++) {
         ADV(); // Pindah ke baris berikutnya
 
         if (EOP) {
-            printf("DEBUG: EOF reached while parsing user %d\n", i + 1);
+            // printf("DEBUG: EOF reached while parsing user %d\n", i + 1);
             break;
         }
         // Baca uang user
         ADVWORD();
         int money = WordtoInteger(currentWord);
         if (money < 0) {
-            printf("ERROR: Invalid money format for user %d\n", i + 1);
+            // printf("ERROR: Invalid money format for user %d\n", i + 1);
             continue;
         }
 
@@ -617,8 +845,8 @@ void Load(char *filename, ListofItems *itemlist, ListofUsers *userlist) {
         char password[100];
         WordToString(currentWord, password);
 
-        printf("DEBUG: Loaded user %d: name = %s, password = %s, money = %d\n",
-            i + 1, userName, password, money);
+        // printf("DEBUG: Loaded user %d: name = %s, password = %s, money = %d\n",
+            // i + 1, userName, password, money);
 
         // Tambahkan user ke list
         User newUser;
@@ -627,8 +855,8 @@ void Load(char *filename, ListofItems *itemlist, ListofUsers *userlist) {
         StringCopy(newUser.password, password);
 
 
-        printf("DEBUG: Adding user to list: name = %s, password = %s, money = %d\n",
-        newUser.name, newUser.password, newUser.money);
+        // printf("DEBUG: Adding user to list: name = %s, password = %s, money = %d\n",
+        // newUser.name, newUser.password, newUser.money);
 
         // Tambahkan ke list
         InsertLastUser(userlist, newUser);
@@ -717,24 +945,21 @@ void performWork(ListofUsers *userlist, int *currentUserIndex) {
 
     Job selectedJob = jobList[choice - 1];
 
-    // Tunggu sesuai durasi pekerjaan menggunakan time.h
-    time_t startTime = time(NULL);
-    time_t endTime = startTime + selectedJob.duration;
-
-    while (time(NULL) < endTime) {
+    time_t startTime = time(NULL); 
+    for (int i = 0; i < selectedJob.duration; i++) 
+    {
         printf(".");
-        fflush(stdout); // Memastikan titik langsung ditampilkan
-        // Tunggu sebentar agar tidak mencetak titik terlalu cepat
-        struct timespec ts = {0, 500000000L}; // 0.5 detik
-        nanosleep(&ts, NULL);
+        fflush(stdout); 
+        while (time(NULL) == startTime + i) {
+            // Tunggu hingga waktu detik berikutnya
+        }
     }
-    printf("\n");
 
     // Update uang pengguna
     User *currentUser = &userlist->TI[*currentUserIndex];
     currentUser->money += selectedJob.income;
 
-    printf("Pekerjaan selesai, +%d rupiah telah ditambahkan ke akun Anda.\n", selectedJob.income);
+    printf("\n\nPekerjaan selesai, +%d rupiah telah ditambahkan ke akun Anda.\n", selectedJob.income);
 }
 
 void StoreList(ListofItems itemlist) {
@@ -773,3 +998,4 @@ void StoreRemove(ListofItems *itemlist)
         printf("Toko tidak menjual %s\n", wordToString(W1));
     }
 }
+
