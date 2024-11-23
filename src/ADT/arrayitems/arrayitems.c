@@ -199,7 +199,7 @@ boolean isItemIn(ListofItems items, char *name)
     {
         if (StringCompare(name, items.A[i].name) == 0)
         {
-            printf("!!!!DEBUG: Membandingkan '%s' dengan '%s'\n", name, items.A[i].name);
+            // printf("!!!!DEBUG: Membandingkan '%s' dengan '%s'\n", name, items.A[i].name);
             found = true;
         }
         i++;
