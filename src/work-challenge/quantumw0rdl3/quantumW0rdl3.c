@@ -249,9 +249,3 @@ int quantum() {
         return 0;
     }
 }
-
-int main() {
-    int result = quantum();
-    printf("Final score: %d\n", result);
-    return 0;
-}
