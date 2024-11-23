@@ -1,9 +1,5 @@
 #include "w0rdl3.h"
 
-#define MAX_TRIES 5
-#define WORD_LENGTH 5
-#define MAX_WORDS 10
-
 const char wordBank[MAX_WORDS][WORD_LENGTH + 1] = {
     "TRULY", "LEAKY", "LUCKY", "SLICK", "BUILD",
     "HEART", "DANCE", "PAUSE", "CROWN", "BEACH"
