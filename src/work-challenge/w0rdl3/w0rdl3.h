@@ -1,7 +1,7 @@
 #ifndef W0RDL3_H
 #define W0RDL3_H
 
-#define MAX_TRIES 5
+#define MAX_TRIES 6
 #define WORD_LENGTH 5
 #define MAX_WORDS 10
 
