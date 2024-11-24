@@ -494,11 +494,20 @@ void handleSaveOnExit(ListofItems itemlist, ListofUsers userlist)
     // Meminta input nama file save
     printf("Masukkan nama file untuk menyimpan state (contoh: savefile.txt): ");
     STARTWORD();
-    WordToString(currentWord, saveFileName);
-
-    // Menyimpan data ke file
-    Save(saveFileName, itemlist, userlist);
-    printf("Program telah berhasil disimpan ke dalam file '%s'.\n", saveFileName);
+    int idx = currentWord.Length-1;
+    boolean valid = true;
+    if (currentWord.TabWord[idx] != 't') valid = false;
+    else if (currentWord.TabWord[idx-1] != 'x') valid = false;
+    else if (currentWord.TabWord[idx-2] != 't') valid = false;
+    else if (currentWord.TabWord[idx-3] != '.') valid = false;
+    if (valid) {
+        WordToString(currentWord, saveFileName);
+        // Menyimpan data ke file
+        Save(saveFileName, itemlist, userlist);
+        printf("Program telah berhasil disimpan ke dalam file '%s'.\n", saveFileName);
+    } else {
+        printf("Mohon masukkan nama file yang berakhiran dengan .txt");
+    }
 }
 
 void thankYouLetter()
