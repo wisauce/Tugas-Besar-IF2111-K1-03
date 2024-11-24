@@ -119,28 +119,48 @@ void bioweapon() {
     char weapon_name[100];
     char dna_seq[100];
     char secret_code[20];
-
+    
     printf("Masukan nama senjata biologis: ");
-    scanf("%s", weapon_name);
+    STARTWORD();
+    int i = 0;
+    while (i < currentWord.Length) {
+        weapon_name[i] = currentWord.TabWord[i];
+        i++;
+    }
+    weapon_name[i] = '\0';
     printf("Masukan sekuens DNA: ");
-    scanf("%s", dna_seq);
+    STARTWORD();
+    i = 0;
+    while (i < currentWord.Length) {
+        dna_seq[i] = currentWord.TabWord[i];
+        i++;
+    }
+    dna_seq[i] = '\0';
     printf("Masukan kode rahasia: ");
-    scanf("%s", secret_code);
+    STARTWORD();
+    i = 0;
+    while (i < currentWord.Length) {
+        secret_code[i] = currentWord.TabWord[i];
+        i++;
+    }
+    secret_code[i] = '\0';
 
     char* rna = DNAtoRNA(dna_seq);
 
     printf("DEBUG DNA : ");
-    for (int i = 0; i < strLength(dna_seq); i += 3) {
+    for (i = 0; i < strLength(dna_seq); i += 3) {
         if (i + 1 < strLength(dna_seq)) {
             if (i + 2 < strLength(dna_seq)) {
                 printf("%c%c%c ", dna_seq[i], dna_seq[i + 1], dna_seq[i + 2]);
-            } else {
+            } 
+            else {
                 printf("%c%c%c ", dna_seq[i], dna_seq[i + 1], ' ');
             }
         } else {
             if (i + 2 < strLength(dna_seq)) {
                 printf("%c%c%c ", dna_seq[i], ' ', dna_seq[i + 2]);
-            } else {
+            } 
+            else {
                 printf("%c%c%c ", dna_seq[i], ' ', ' ');
             }
         }
@@ -148,17 +168,20 @@ void bioweapon() {
     printf("\n");
 
     printf("DEBUG RNA : ");
-    for (int i = 0; i < strLength(rna); i += 3) {
+    for (i = 0; i < strLength(rna); i += 3) {
         if (i + 1 < strLength(rna)) {
             if (i + 2 < strLength(rna)) {
                 printf("%c%c%c ", rna[i], rna[i + 1], rna[i + 2]);
-            } else {
+            } 
+            else {
                 printf("%c%c%c ", rna[i], rna[i + 1], ' ');
             }
-        } else {
+        } 
+        else {
             if (i + 2 < strLength(rna)) {
                 printf("%c%c%c ", rna[i], ' ', rna[i + 2]);
-            } else {
+            } 
+            else {
                 printf("%c%c%c ", rna[i], ' ', ' ');
             }
         }
@@ -171,7 +194,7 @@ void bioweapon() {
         int protein_idx = 0;
 
         printf("DEBUG Protein Sequence (Frame %d): ", frame);
-        for (int i = frame; i < strLength(rna) - 2; i += 3) {
+        for (i = frame; i < strLength(rna) - 2; i += 3) {
             char codon[4] = {rna[i], rna[i + 1], rna[i + 2], '\0'};
             char aa = RNAtoProtein(codon);
             if (aa != '*') {
@@ -190,7 +213,8 @@ void bioweapon() {
 
     if (valid) {
         printf("Senjata biologis mengandung kode, barang akan ditambahkan ke dalam queue!\n");
-    } else {
+    } 
+    else {
         printf("Kode rahasia tidak ditemukan, maka senjata biologis sudah disabotase, barang ditolak!\n");
     }
 
