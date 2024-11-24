@@ -113,13 +113,31 @@ void displayQueue(Queue q)
     }
 }
 
+int scmp(const char *str1, const char *str2) 
+{
+    // Iterasi melalui kedua string
+    while (*str1 && *str2) 
+    {
+        if (*str1 != *str2) 
+        {
+            // Jika karakter tidak cocok, kembalikan perbedaan nilai ASCII
+            return (unsigned char)*str1 - (unsigned char)*str2;
+        }
+        str1++;
+        str2++;
+    }
+
+    // Jika salah satu string berakhir, kembalikan perbedaan panjang
+    return *str1 - *str2;
+} 
+
 boolean isIn(Queue q, ElType val)
 {
     boolean found = false;
     int i = 0;
     while (!found && i < length(q))
     {
-        if (q.buffer[(q.idxHead + i) % QUEUE_MAX_CAPACITY] == val)
+        if (scmp(q.buffer[(q.idxHead + i) % QUEUE_MAX_CAPACITY], val) == 0)
         {
             found = true;
         }
