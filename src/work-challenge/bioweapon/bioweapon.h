@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include "mesinkarakter.h"
 #include "mesinkata.h"
-#include "queue.h"
 
 int strLength(const char* str);
 void copy(char* dest, const char* src);
