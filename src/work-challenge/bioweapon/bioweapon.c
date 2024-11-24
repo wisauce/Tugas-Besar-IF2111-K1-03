@@ -22,12 +22,16 @@ char* DNAtoRNA(const char* dna) {
     char* rna = (char*)malloc((len + 1) * sizeof(char));
     
     for (int i = 0; i < len; i++) {
-        switch (dna[i]) {
-            case 'A': rna[i] = 'U'; break;
-            case 'T': rna[i] = 'A'; break;
-            case 'G': rna[i] = 'C'; break;
-            case 'C': rna[i] = 'G'; break;
-            default: rna[i] = dna[i];
+        if (dna[i] == 'A') {
+            rna[i] = 'U';
+        } else if (dna[i] == 'T') {
+            rna[i] = 'A';
+        } else if (dna[i] == 'G') {
+            rna[i] = 'C';
+        } else if (dna[i] == 'C') {
+            rna[i] = 'G';
+        } else {
+            rna[i] = dna[i];
         }
     }
     rna[len] = '\0';
