@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "mesinkarakter.h"
-#include "mesinkata.h"
+#include "../../ADT/mesinkata/mesinkata.h"
+#include "../../ADT/mesinkarakter/mesinkarakter.h"
 
 int strLength(const char* str);
 void copy(char* dest, const char* src);
