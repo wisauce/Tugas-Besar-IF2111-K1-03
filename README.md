@@ -35,12 +35,12 @@ https://www.youtube.com/watch?v=a3ejgWLqeIQ
   
 - Jalankan Makefile
   ```bash
-make # %config_name%
+  make # %config_name%
 
-# Tersedia beberapa konfigurasi Makefile:
-# 1. Program utama: main
-# 2. Program tests: work, arraydinamis, arrayitems, arrayuser, mesinkarakter,
-#    mesinkata, queue, stack
+  # Tersedia beberapa konfigurasi Makefile:
+  # 1. Program utama: main
+  # 2. Program tests: work, arraydinamis, arrayitems, arrayuser, mesinkarakter,
+  #    mesinkata, queue, stack
 
 - Jalankan program yang telah tercompile
 ```bash
