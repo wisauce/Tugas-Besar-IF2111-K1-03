@@ -34,7 +34,7 @@ https://www.youtube.com/watch?v=a3ejgWLqeIQ
   cd bin
   
 - Jalankan Makefile
-```bash
+  ```bash
 make # %config_name%
 
 # Tersedia beberapa konfigurasi Makefile:
