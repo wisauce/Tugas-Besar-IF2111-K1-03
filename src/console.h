@@ -6,14 +6,15 @@
 #include "ADT/mesinkata/mesinkata.h"
 #include "ADT/arrayuser/arrayuser.h"
 #include "ADT/arrayitems/arrayitems.h"
-#include "games/work.h"
+#include "games/work/work.h"
 #include "ADT/queue/queue.h"
+#include "games/w0rdl3/w0rdl3.h"
 
-void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q);
+void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin);
 
-void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q);
+void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin);
 
-void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q);
+void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin);
 
 void handleSaveOnExit(ListofItems itemlist, ListofUsers userlist);
 
@@ -30,6 +31,8 @@ void loginMenuList();
 void mainHelpMenu();
 
 void mainMenuList();
+
+void workChallengeList();
 
 void mainstartmenu(ListofItems *itemlist, ListofUsers *userlist);
 

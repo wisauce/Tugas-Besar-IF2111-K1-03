@@ -10,7 +10,7 @@
 #include "ADT/arrayuser/arrayuser.h"
 #include "ADT/arrayitems/arrayitems.h"
 #include "ADT/queue/queue.h"
-#include "games/work.h"
+#include "games/work/work.h"
 
 int main() {
     ListofUsers userlist;
@@ -21,6 +21,7 @@ int main() {
     CreateQueue(&q);
     int currentUserIndex = -1; // Inisialisasi user index -1 menandakan belum login
     boolean endProgram = false;
+    boolean returnToLogin = false;
     char mainMenuCommand[50];
 
     // Welcome message
@@ -40,7 +41,7 @@ int main() {
     printf("(                                                                                 )\n");
     printf(" )                                                                               ( \n");
     printf("(                                                                                 )\n");
-    printf(" \"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+. \"  \n");
+    printf(" \"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+. \"  \n\n");
 
     printf("--------Kelompok 3 K1---------                                                 \n");                      
     printf("       Welcome to Purrmart                                                      \n");                           
@@ -54,53 +55,41 @@ int main() {
 
         if (mainMenuIntCommand >= 1 && mainMenuIntCommand <= 4) 
         {
-            switch (mainMenuIntCommand) 
+            if (mainMenuIntCommand == 1) handleStartMenu(&itemlist, &userlist, &currentUserIndex, &q, &returnToLogin);
+            
+            else if (mainMenuIntCommand == 2) handleLoadMenu(&itemlist, &userlist, &currentUserIndex, &q, &returnToLogin);
+
+            else if (mainMenuIntCommand == 3)
             {
-                case 1:
-                    handleStartMenu(&itemlist, &userlist, &currentUserIndex, &q);
-                    break;
-
-                case 2:
-                    handleLoadMenu(&itemlist, &userlist, &currentUserIndex, &q);
-                    break;
-
-                case 3: 
+                char saveCurrentChange[10];
+                printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
+                STARTWORD();
+                WordToString(currentWord, saveCurrentChange);
+                Upperstring(saveCurrentChange);
+                if (StringCompare(saveCurrentChange, "Y") == 0) 
                 {
-                    char saveCurrentChange[10];
-                    printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
-                    STARTWORD();
-                    WordToString(currentWord, saveCurrentChange);
-                    Upperstring(saveCurrentChange);
-                    if (StringCompare(saveCurrentChange, "Y") == 0) 
-                    {
-                        handleSaveOnExit(itemlist, userlist);
-                        thankYouLetter();
-                        endProgram = true;
-                        break;
-                    } 
-                    
-                    else if (StringCompare(saveCurrentChange, "N") == 0) 
-                    {
-                        thankYouLetter();
-                        endProgram = true;
-                        break;
-                    } 
-                    
-                    else 
-                    {
-                        printf("Masukkan input yang benar!\n");
-                    }
+                    handleSaveOnExit(itemlist, userlist);
+                    thankYouLetter();
+                    endProgram = true;
                     break;
+                } 
+                
+                else if (StringCompare(saveCurrentChange, "N") == 0) 
+                {
+                    thankYouLetter();
+                    endProgram = true;
+                    break;
+                } 
+                
+                else 
+                {
+                    printf("Masukkan input yang benar!\n");
                 }
-
-                case 4:
-                    welcomeHelpMenu();
-                    break;
-
-                default:
-                    printf("Command tidak dikenali. Silakan coba lagi.\n");
-                    break;
             }
+
+            else if (mainMenuIntCommand == 4) welcomeHelpMenu();
+
+            else printf("Command tidak dikenali. Silakan coba lagi.\n");
         } 
         
         else 
@@ -110,12 +99,12 @@ int main() {
 
             if (StringCompare(mainMenuCommand, "START") == 0) 
             {
-                handleStartMenu(&itemlist, &userlist, &currentUserIndex, &q);
+                handleStartMenu(&itemlist, &userlist, &currentUserIndex, &q, &returnToLogin);
             } 
             
             else if (StringCompare(mainMenuCommand, "LOAD") == 0) 
             {
-                handleLoadMenu(&itemlist, &userlist, &currentUserIndex, &q);
+                handleLoadMenu(&itemlist, &userlist, &currentUserIndex, &q, &returnToLogin);
             } 
             
             else if (StringCompare(mainMenuCommand, "HELP") == 0) 
@@ -130,14 +119,21 @@ int main() {
                 STARTWORD();
                 WordToString(currentWord, saveCurrentChange);
                 Upperstring(saveCurrentChange);
-                if (StringCompare(saveCurrentChange, "Y") == 0) {
+                if (StringCompare(saveCurrentChange, "Y") == 0) 
+                {
                     handleSaveOnExit(itemlist, userlist);
                     thankYouLetter();
                     endProgram = true;
-                } else if (StringCompare(saveCurrentChange, "N") == 0) {
+                } 
+                
+                else if (StringCompare(saveCurrentChange, "N") == 0) 
+                {
                     thankYouLetter();
                     endProgram = true;
-                } else {
+                } 
+                
+                else 
+                {
                     printf("Masukkan input yang benar!\n");
                 }
             } 

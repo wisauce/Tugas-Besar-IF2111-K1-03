@@ -32,4 +32,4 @@ main:
 	$(CC) $(CFLAGS) -o main.exe $(SRC_DIR)/main.c $(SRC_DIR)/console.c \
 	$(ADT_DIR)/arraydinamis/arraydin.c $(ADT_DIR)/arrayitems/arrayitems.c \
 	$(ADT_DIR)/arrayuser/arrayuser.c $(ADT_DIR)/mesinkarakter/mesinkarakter.c \
-	$(ADT_DIR)/mesinkata/mesinkata.c $(ADT_DIR)/queue/queue.c
+	$(ADT_DIR)/mesinkata/mesinkata.c $(ADT_DIR)/queue/queue.c $(SRC_DIR)/games/work/work.c \
