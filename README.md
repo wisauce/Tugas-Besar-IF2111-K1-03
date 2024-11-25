@@ -7,7 +7,7 @@ Toko Borma adalah komponen penting yang dapat membawakan kemenangan untuk OWCA p
 Untuk menyelesaikan permasalahan ini, OWCA mengontak tim programmer paling andalnya untuk merancang suatu sistem jual beli ke Borma dengan nama **PURRMART**!
 
 ## Anggota Kelompok
-Kelompok 7 Kelas K01 :
+Kelompok 3 Kelas K01 :
 
 | NIM       | Nama                             |
 |-----------|----------------------------------|
