@@ -28,7 +28,7 @@ void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentU
         
         int loginMenuIntCommand = WordtoInteger(currentWord);
 
-        if (loginMenuIntCommand >= 1 && loginMenuIntCommand <= 4) 
+        if (loginMenuIntCommand >= 1 && loginMenuIntCommand <= 5) 
         {
             if (loginMenuIntCommand == 1) RegisterUser(userlist);
             
@@ -49,7 +49,20 @@ void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentU
                 }
             }
 
-            else if (loginMenuIntCommand == 3) 
+            else if (loginMenuIntCommand == 3)
+            {
+                if (*currentUserIndex == -1) printf("Anda belum login! Silakan LOGIN terlebih dahulu.\n");
+                
+                else 
+                {
+                    printf("Anda telah logout.\n");
+                    *currentUserIndex = -1; 
+                    loginActive = false;
+                    welcomeMenuList();
+                }
+            }
+
+            else if (loginMenuIntCommand == 4) 
             {
                 char saveCurrentChange[10];
                 printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
@@ -75,7 +88,7 @@ void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentU
                 }
             }
 
-            else if (loginMenuIntCommand == 4) welcomeHelpMenu();
+            else if (loginMenuIntCommand == 5) welcomeHelpMenu();
 
             else printf("Command tidak dikenali. Silakan coba lagi.\n");
         }
@@ -113,6 +126,19 @@ void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentU
                     }
                 }
             }
+
+            else if (StringCompare(loginMenuCommand, "LOGOUT") == 0) 
+            {
+                if (*currentUserIndex == -1) printf("Anda belum login! Silakan LOGIN terlebih dahulu.\n");
+                
+                else 
+                {
+                    printf("Anda telah logout.\n");
+                    *currentUserIndex = -1; 
+                    loginActive = false;
+                    welcomeMenuList();
+                }
+            } 
             
             else if (StringCompare(loginMenuCommand, "EXIT") == 0)
             {
@@ -178,7 +204,7 @@ void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUs
         
         int loginMenuIntCommand = WordtoInteger(currentWord);
 
-        if (loginMenuIntCommand >= 1 && loginMenuIntCommand <= 4) 
+        if (loginMenuIntCommand >= 1 && loginMenuIntCommand <= 5) 
         {
             if (loginMenuIntCommand == 1) RegisterUser(userlist);
             
@@ -199,7 +225,20 @@ void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUs
                 }
             }
 
-            else if (loginMenuIntCommand == 3) 
+            else if (loginMenuIntCommand == 3)
+            {
+                if (*currentUserIndex == -1) printf("Anda belum login! Silakan LOGIN terlebih dahulu.\n");
+                
+                else 
+                {
+                    printf("Anda telah logout.\n");
+                    *currentUserIndex = -1; 
+                    loginActive = false;
+                    welcomeMenuList();
+                }
+            }
+
+            else if (loginMenuIntCommand == 4) 
             {
                 char saveCurrentChange[10];
                 printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
@@ -225,7 +264,7 @@ void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUs
                 }
             }
 
-            else if (loginMenuIntCommand == 4) welcomeHelpMenu();
+            else if (loginMenuIntCommand == 5) welcomeHelpMenu();
 
             else printf("Command tidak dikenali. Silakan coba lagi.\n");
         }
@@ -263,6 +302,19 @@ void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUs
                     }
                 }
             }
+
+            else if (StringCompare(loginMenuCommand, "LOGOUT") == 0) 
+            {
+                if (*currentUserIndex == -1) printf("Anda belum login! Silakan LOGIN terlebih dahulu.\n");
+                
+                else 
+                {
+                    printf("Anda telah logout.\n");
+                    *currentUserIndex = -1; 
+                    loginActive = false;
+                    welcomeMenuList();
+                }
+            } 
             
             else if (StringCompare(loginMenuCommand, "EXIT") == 0)
             {
@@ -656,6 +708,7 @@ void loginHelpMenu() {
     printf("=====[ Login Help Menu PURRMART ]=====\n");
     printf("REGISTER -> Untuk melakukan pendaftaran akun baru\n");
     printf("LOGIN -> Untuk masuk ke dalam akun dan memulai sesi\n");
+    printf("LOGOUT -> Untuk keluar dari sesi\n");
     printf("EXIT -> Untuk keluar dari program\n\n");
 }
 
@@ -666,8 +719,9 @@ void loginMenuList() {
     printf("=========================================\n");
     printf(" 1. REGISTER\n");
     printf(" 2. LOGIN\n");
-    printf(" 3. EXIT\n");
-    printf(" 4. HELP\n");
+    printf(" 3. LOGOUT\n");
+    printf(" 4. EXIT\n");
+    printf(" 5. HELP\n");
     printf("=========================================\n");
 }
 
@@ -876,16 +930,6 @@ void RegisterUser(ListofUsers *userlist) {
     InsertLastUser(userlist, newUser);
 
     printf("Pendaftaran berhasil untuk username: %s\n", username);
-}
-
-// Fungsi untuk logout
-void LogoutUser(int *currentUserIndex) {
-    if (*currentUserIndex == -1) {
-        printf("Tidak ada pengguna yang sedang login.\n");
-    } else {
-        printf("Logout berhasil.\n");
-        *currentUserIndex = -1;
-    }
 }
 
 void Load(char *filename, ListofItems *itemlist, ListofUsers *userlist) {

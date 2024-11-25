@@ -108,13 +108,6 @@ boolean LoginUser(ListofUsers userlist, int *currentUserIndex);
  */
 void RegisterUser(ListofUsers *userlist);
 
-/* Logout User
- * Melakukan logout pengguna yang sedang login.
- * I.S. : currentUserIndex menunjuk ke user yang login (>= 0)
- * F.S. : currentUserIndex diatur ke -1, menandakan tidak ada pengguna yang login
- */
-void LogoutUser(int *currentUserIndex);
-
 void performWork(ListofUsers *userlist, int *currentUserIndex);
 
 void StoreList(ListofItems itemlist);
