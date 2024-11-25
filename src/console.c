@@ -1572,7 +1572,7 @@ void bioweapon() {
 
     char* rna = DNAtoRNA(dna_seq);
 
-    printf("DEBUG DNA : ");
+    // printf("DEBUG DNA : ");
     for (i = 0; i < strLength(dna_seq); i += 3) {
         if (i + 1 < strLength(dna_seq)) {
             if (i + 2 < strLength(dna_seq)) {
@@ -1592,7 +1592,7 @@ void bioweapon() {
     }
     printf("\n");
 
-    printf("DEBUG RNA : ");
+    // printf("DEBUG RNA : ");
     for (i = 0; i < strLength(rna); i += 3) {
         if (i + 1 < strLength(rna)) {
             if (i + 2 < strLength(rna)) {
@@ -1618,7 +1618,7 @@ void bioweapon() {
         char protein_sequence[100] = "";
         int protein_idx = 0;
 
-        printf("DEBUG Protein Sequence (Frame %d): ", frame);
+        // printf("DEBUG Protein Sequence (Frame %d): ", frame);
         for (i = frame; i < strLength(rna) - 2; i += 3) {
             char codon[4] = {rna[i], rna[i + 1], rna[i + 2], '\0'};
             char aa = RNAtoProtein(codon);
@@ -1631,7 +1631,7 @@ void bioweapon() {
         printf("%s\n", protein_sequence);
 
         if (checkCode(protein_sequence, secret_code)) {
-            printf("DEBUG: Secret code found in protein sequence: %s\n", protein_sequence);
+            // printf("DEBUG: Secret code found in protein sequence: %s\n", protein_sequence);
             valid = 1;
         }
     }
