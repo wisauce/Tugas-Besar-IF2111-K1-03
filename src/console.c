@@ -1328,7 +1328,7 @@ int w0rdl3(ListofUsers *userlist, int *currentUserIndex) {
         return 0;
     }
 
-    printf("WELCOME TO WORDL3! 500 COINS HAVE BEEN SPENT TO JOIN THIS CHALLENGE. GO FOR THE WIN!");
+    printf("WELCOME TO WORDL3!\n\n500 COINS HAVE BEEN SPENT TO JOIN THIS CHALLENGE. GO FOR THE WIN!\n\n");
     currentUser->money -= 500;
     printf("YOU HAVE 5 CHANCES TO ANSWER BEFORE YOU LOSE!\n\n");
     for (int i = 0; i < W0RDL3_MAX_TRIES; i++) {
@@ -1383,7 +1383,7 @@ int tebakAngka(ListofUsers *userlist, int *currentUserIndex) {
         return 0;
     }
 
-    printf("SELAMAT DATANG DI TEBAK ANGKA! BIAYA BERMAIN SEBESAR 200 TELAH DIKURANGI DARI SALDO ANDA! SEMOGA ANDA MENANG!\n");
+    printf("SELAMAT DATANG DI TEBAK ANGKA!\n\nBIAYA BERMAIN SEBESAR 200 TELAH DIKURANGI DARI SALDO ANDA! SEMOGA ANDA MENANG!\n\n");
     currentUser->money -= 200;
     printf("Uji keberuntungan Anda dengan menebak angka!\n");
     printf("Cheat: %d\n", r);
@@ -1806,7 +1806,7 @@ int QUANTUMW0RDL3(ListofUsers *userlist, int *currentUserIndex)
     printf("             '._         .'  |_|                      -....--'  /                \n");
     printf("                '-....-'`                             `.. __..-'   \n");
 
-    printf("750 COINS HAVE BEEN SPENT TO JOIN THIS CHALLENGE. GO FOR THE WIN!");
+    printf("\n750 COINS HAVE BEEN SPENT TO JOIN THIS CHALLENGE. GO FOR THE WIN!\n\n");
     currentUser->money -= 750;
     
     printf("You need to guess 4 different target words using a single word each try.\n");

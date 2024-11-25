@@ -1,0 +1,14 @@
+7
+250 Invisibility Cloak
+300 Arc Reactor
+450 Eye of Agamotto
+400 Elder Wand
+450 Stormbreaker
+500 Infinity Gauntlet
+300 Vibranium Shield
+5
+100300 AgentF tes123
+5000 User2 tes123
+1000 User3 tes123
+1500 user4 tes123
+2000 Aqmar tes123
