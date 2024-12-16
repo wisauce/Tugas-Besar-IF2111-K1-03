@@ -282,7 +282,7 @@ int stringLength(char *kata)
 {
     int length = 0;
 
-    while (kata[length] == '\0')
+    while (kata[length] != '\0')
     {
         length++;
     }
