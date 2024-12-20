@@ -140,27 +140,36 @@ void loginMenuList() {
 }
 
 // Menampilkan main menu
-void mainHelpMenu() {
+void mainHelpMenu() 
+{
     artHelp();
     printf("\n");
     printf("=====[ Main Help Menu PURRMART ]=====\n");
-    printf("PROFILE -> Untuk melihat profil pengguna yang sedang login");
-    printf("WORK -> Untuk bekerja\n");
-    printf("WORK CHALLENGE -> Untuk mengerjakan challenge\n");
-    printf("STORE LIST -> Untuk melihat barang-barang di toko\n");
-    printf("STORE REQUEST -> Untuk meminta penambahan barang\n");
-    printf("STORE SUPPLY -> Untuk menambahkan barang dari permintaan\n");
-    printf("STORE REMOVE -> Untuk menghapus barang\n");
-    printf("CART ADD <nama barang> <jumlah> -> Untuk menambahkan barang ke cart\n");
-    printf("CART REMOVE <nama barang> <jumlah> -> Untuk menghapus barang dari cart\n");
-    printf("LOGOUT -> Untuk keluar dari sesi\n");
-    printf("SAVE -> Untuk menyimpan state ke dalam file\n");
-    printf("EXIT -> Untuk keluar dari program\n");
-    printf("BACK -> Untuk kembali ke login menu tanpa logout\n");
-    printf("BIOWEAPON -> Untuk membuat senjata biologis dengan kode rahasia\n\n");
+    printf("PROFILE -> Untuk melihat profil pengguna yang sedang login\n");
+    printf("WORK -> Untuk bekerja dan mendapatkan penghasilan\n");
+    printf("WORK CHALLENGE -> Untuk mengerjakan challenge khusus\n");
+    printf("STORE LIST -> Untuk melihat daftar barang di toko\n");
+    printf("STORE REQUEST -> Untuk meminta penambahan barang di toko\n");
+    printf("STORE SUPPLY -> Untuk menambahkan barang dari permintaan ke toko\n");
+    printf("STORE REMOVE -> Untuk menghapus barang dari toko\n");
+    printf("CART ADD <nama> <jumlah> -> Untuk menambahkan barang ke keranjang belanja\n");
+    printf("CART REMOVE <nama> <jumlah> -> Untuk menghapus barang dari keranjang belanja\n");
+    printf("CART SHOW -> Untuk melihat isi keranjang belanja\n");
+    printf("CART PAY -> Untuk membayar isi keranjang belanja\n");
+    printf("HISTORY <jumlah> -> Untuk melihat riwayat pembelian pengguna\n");
+    printf("WISHLIST ADD -> Untuk menambahkan barang ke wishlist\n");
+    printf("WISHLIST SWAP <i> <j> -> Untuk menukar posisi wishlist ke-i dan ke-j\n");
+    printf("WISHLIST REMOVE <i> -> Untuk menghapus wishlist posisi ke-i\n");
+    printf("WISHLIST REMOVE -> Untuk menghapus wishlist berdasarkan nama\n");
+    printf("WISHLIST CLEAR -> Untuk menghapus seluruh wishlist\n");
+    printf("WISHLIST SHOW -> Untuk melihat wishlist saat ini\n");
+    printf("LOGOUT -> Untuk keluar dari sesi pengguna saat ini\n");
+    printf("SAVE <filename> -> Untuk menyimpan data program ke file\n");
+    printf("EXIT -> Untuk keluar dari aplikasi\n");
+    printf("HELP -> Untuk menampilkan panduan menu ini\n");
+    printf("BIOWEAPON -> Untuk membuat senjata biologis rahasia\n");
 }
 
-// Menampilkan main menu
 void mainMenuList() 
 {
     printf("\n=========================================\n");
