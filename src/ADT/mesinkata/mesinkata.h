@@ -51,6 +51,8 @@ int wordtoint(Word word);
 void printw(Word word, boolean newline);
 /** Mencetak word ke layar, diberikan newline jika newline = true */
 
+int IsContain(const char *str1, const char *str2);
+
 void RESETCURRENTWORD();
 /** Mengembalikan panjang currentWord menjadi 0 */
 

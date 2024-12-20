@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include <stdlib.h>
 #include"stack.h"
 /* ************ Prototype ************ */
 /* *** Konstruktor/Kreator *** */
@@ -39,6 +40,7 @@ void Pop(Stack * S, infostack* X)
 {
     *X = InfoTop(*S);
     Top(*S)--;
+    free(*X);
 }
 
 int LengthStack(Stack S)

@@ -190,6 +190,29 @@ void CopyWord()
     currentWord.Length = len;
 }
 
+int IsContain(const char *str1, const char *str2){
+    if (*str2 == '\0') {
+        return 1;
+    }
+    while (*str1) {
+        const char *p1 = str1;
+        const char *p2 = str2;
+
+        while (*p1 && *p2 && (*p1 == *p2)) {
+            p1++;
+            p2++;
+        }
+
+        if (*p2 == '\0') {
+            return 1; //
+        }
+
+        str1++;
+    }
+
+    return 0;
+}
+
 void scan(char *str, Word *w1, Word *w2, int *x, int *y)
 {
     boolean first = false;

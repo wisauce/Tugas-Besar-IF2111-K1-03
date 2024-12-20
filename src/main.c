@@ -11,138 +11,87 @@
 #include "ADT/arrayitems/arrayitems.h"
 #include "ADT/queue/queue.h"
 #include "games/work/work.h"
+#include "ADT/stack/stack.h"
+#include "ADT/setkeranjang/set.h"
+#include "art/art.h"
+#include "ADT/linkedlist/linkedlist.h"
 
 int main() {
     ListofUsers userlist;
     ListofItems itemlist;
+    Stack historystack; // Stack untuk menyimpan riwayat
     MakeEmpty(&userlist);  // Inisialisasi list pengguna
     MakeListOfItems(&itemlist); // Inisialisasi list item
+    CreateEmptyStack(&historystack); // Inisialisasi stack riwayat
+    Set keranjang;
+    CreateEmptySet (&keranjang);
     Queue q;
     CreateQueue(&q);
+    List wishlist; // Linked list untuk menyimpan wishlist
+    CreateEmptyLL(&wishlist); // Inisialisasi wishlist
     int currentUserIndex = -1; // Inisialisasi user index -1 menandakan belum login
     boolean endProgram = false;
     boolean returnToLogin = false;
+    char fullInput[100];
     char mainMenuCommand[50];
+    char parameter1[50];
+    char remaining[50];
 
-    // Welcome message
-    printf(" .+\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+. \n");
-    printf("(                                                                                 )\n");
-    printf(" )      __    __       _                                    _                    ( \n");
-    printf("(      / / /\\ \\ \\ ___ | |  ___  ___   _ __ ___    ___      | |_  ___              )\n");
-    printf(" )     \\ \\/  \\/ // _ \\| | / __|/ _ \\ | '_ ` _ \\  / _ \\     | __|/ _ \\            ( \n");
-    printf("(       \\  /\\  /|  __/| || (__| (_) || | | | | ||  __/     | |_| (_) |            )\n");
-    printf(" )       \\/  \\/  \\___||_| \\___|\\___/ |_| |_| |_| \\___|      \\__|\\___/            ( \n");
-    printf("(                                                                                 )\n");
-    printf(" )        ___                                             _                      ( \n");
-    printf("(        / _ \\ _   _  _ __  _ __  _ __ ___    __ _  _ __ | |_                     )\n");
-    printf(" )      / /_)/| | | || '__|| '__|| '_ ` _ \\  / _` || '__|| __|                   ( \n");
-    printf("(      / ___/ | |_| || |   | |   | | | | | || (_| || |   | |_                     )\n");
-    printf(" )     \\/      \\__,_||_|   |_|   |_| |_| |_| \\__,_||_|    \\__|                   ( \n");
-    printf("(                                                                                 )\n");
-    printf(" )                                                                               ( \n");
-    printf("(                                                                                 )\n");
-    printf(" \"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+.\"+. \"  \n\n");
-
-    printf("--------Kelompok 3 K1---------                                                 \n");                      
-    printf("       Welcome to Purrmart                                                      \n");                           
+    welcomeMessage();
     welcomeMenuList();
 
-    while (!endProgram) {
+    while (!endProgram) 
+    {
         printf("\nMASUKKAN COMMAND: ");
-        STARTWORD();
+        STARTLINE();
+        WordToString(currentWord, fullInput);
 
-        int mainMenuIntCommand = WordtoInteger(currentWord);
+        parseInput(fullInput, mainMenuCommand, parameter1, remaining);
 
-        if (mainMenuIntCommand >= 1 && mainMenuIntCommand <= 4) 
+        if (StringCompare(mainMenuCommand, "START") == 0 || StringCompare(mainMenuCommand, "1") == 0)
         {
-            if (mainMenuIntCommand == 1) handleStartMenu(&itemlist, &userlist, &currentUserIndex, &q, &returnToLogin);
-            
-            else if (mainMenuIntCommand == 2) handleLoadMenu(&itemlist, &userlist, &currentUserIndex, &q, &returnToLogin);
+            handleStartMenu(&itemlist, &userlist, &currentUserIndex, &q, &returnToLogin, &historystack, &keranjang, &wishlist);
+        } 
 
-            else if (mainMenuIntCommand == 3)
+        else if (StringCompare(mainMenuCommand, "LOAD") == 0 || StringCompare(mainMenuCommand, "2") == 0) 
+        {
+            if (parameter1[0] == '\0')
             {
-                char saveCurrentChange[10];
-                printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
-                STARTWORD();
-                WordToString(currentWord, saveCurrentChange);
-                Upperstring(saveCurrentChange);
-                if (StringCompare(saveCurrentChange, "Y") == 0) 
-                {
-                    handleSaveOnExit(itemlist, userlist);
-                    thankYouLetter();
-                    endProgram = true;
-                    break;
-                } 
-                
-                else if (StringCompare(saveCurrentChange, "N") == 0) 
-                {
-                    thankYouLetter();
-                    endProgram = true;
-                    break;
-                } 
-                
-                else 
-                {
-                    printf("Masukkan input yang benar!\n");
-                }
+                printf("Input yang Anda masukkan salah!\nGunakan Format: LOAD <filename>\n");
             }
-
-            else if (mainMenuIntCommand == 4) welcomeHelpMenu();
-
-            else printf("Command tidak dikenali. Silakan coba lagi.\n");
+            
+            else handleLoadMenu(&itemlist, &userlist, &currentUserIndex, &q, &returnToLogin, &historystack, &keranjang, &wishlist, parameter1);
         } 
         
-        else 
+        else if (StringCompare(mainMenuCommand, "EXIT") == 0 || StringCompare(mainMenuCommand, "3") == 0) 
         {
-            WordToString(currentWord, mainMenuCommand);
-            Upperstring(mainMenuCommand);
-
-            if (StringCompare(mainMenuCommand, "START") == 0) 
+            char saveCurrentChange[10];
+            printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
+            STARTWORD();
+            WordToString(currentWord, saveCurrentChange);
+            Upperstring(saveCurrentChange);
+            if (StringCompare(saveCurrentChange, "Y") == 0) 
             {
-                handleStartMenu(&itemlist, &userlist, &currentUserIndex, &q, &returnToLogin);
-            } 
-            
-            else if (StringCompare(mainMenuCommand, "LOAD") == 0) 
-            {
-                handleLoadMenu(&itemlist, &userlist, &currentUserIndex, &q, &returnToLogin);
-            } 
-            
-            else if (StringCompare(mainMenuCommand, "HELP") == 0) 
-            {
-                welcomeHelpMenu();
-            } 
-            
-            else if (StringCompare(mainMenuCommand, "EXIT") == 0) 
-            {
-                char saveCurrentChange[10];
-                printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
+                Word filenameWord;
+                printf("Masukkan nama file untuk menyimpan: ");
                 STARTWORD();
-                WordToString(currentWord, saveCurrentChange);
-                Upperstring(saveCurrentChange);
-                if (StringCompare(saveCurrentChange, "Y") == 0) 
-                {
-                    handleSaveOnExit(itemlist, userlist);
-                    thankYouLetter();
-                    endProgram = true;
-                } 
-                
-                else if (StringCompare(saveCurrentChange, "N") == 0) 
-                {
-                    thankYouLetter();
-                    endProgram = true;
-                } 
-                
-                else 
-                {
-                    printf("Masukkan input yang benar!\n");
-                }
+                handleSaveOnExit(itemlist, userlist, filenameWord);
+                thankYouLetter();
+                endProgram = true;
             } 
             
-            else 
+            else if (StringCompare(saveCurrentChange, "N") == 0) 
             {
-                printf("Command tidak dikenali. Silakan coba lagi.\n");
-            }
+                thankYouLetter();
+                endProgram = true;
+            } 
+            
+            else printf("Masukkan input yang benar!\n");
         }
+
+        else if (StringCompare(mainMenuCommand, "HELP") == 0 || StringCompare(mainMenuCommand, "4") == 0) welcomeHelpMenu();
+        
+        else printf("Command tidak dikenali. Silakan coba lagi.\n");
     }
 
     return 0;

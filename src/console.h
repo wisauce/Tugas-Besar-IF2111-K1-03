@@ -6,33 +6,35 @@
 #include "ADT/mesinkata/mesinkata.h"
 #include "ADT/arrayuser/arrayuser.h"
 #include "ADT/arrayitems/arrayitems.h"
+#include "games/w0rdl3/w0rdl3.h"
 #include "games/work/work.h"
 #include "ADT/queue/queue.h"
-#include "games/w0rdl3/w0rdl3.h"
+#include "games/tebakangka/tebakangka.h"
+#include "games/bioweapon/bioweapon.h"
+#include "cart/cart.h"
+#include "games/quantum_w0rdl3/quantum_w0rdl3.h"
+#include "ADT/setkeranjang/set.h"
+#include "ADT/stack/stack.h"
+#include "art/art.h"
+#include "wishlist/wishlist.h"
+#include "ADT/linkedlist/linkedlist.h"
+#include "profile/profile.h"
 
-void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin);
+void clearterminal();
 
-void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin);
+boolean isAllDigit(char *str);
 
-void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin);
+void parseInput(char *input, char *command, char *parameter1, char *remaining);
 
-void handleSaveOnExit(ListofItems itemlist, ListofUsers userlist);
+void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist);
 
-void thankYouLetter();
+void game_load(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist);
 
-void welcomeMenuList();
+void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist);
 
-void welcomeHelpMenu();
+void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist, char *filename);
 
-void loginHelpMenu();
-
-void loginMenuList();
-
-void mainHelpMenu();
-
-void mainMenuList();
-
-void workChallengeList();
+void handleSaveOnExit(ListofItems itemlist, ListofUsers userlist, Word filenameWord);
 
 void mainstartmenu(ListofItems *itemlist, ListofUsers *userlist);
 
@@ -117,5 +119,11 @@ void StoreRemove(ListofItems *itemlist);
 void StoreRequest(ListofItems *itemlist, Queue *q);
 
 void StoreSupply(ListofItems *itemlist, Queue *q);
+
+void splitNameQuantity(char *input, char *name, int *quantity); 
+
+void History(Stack S, int N);
+
+void CartPay(Set *keranjang, ListofUsers *userlist, int *currentUserIndex, Stack *historyStack, ListofItems *itemlist);
 
 #endif // CONSOLE_H
