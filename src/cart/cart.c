@@ -146,18 +146,30 @@ void RemoveCart(Set *S, infotypeSet Elmt, int quantity) {
     if (IsMemberSet(*S, Elmt)) {
         for (int i = 0; i < S->Count; i++) {
             if (isStringSame(S->Elements[i].TabWord, Elmt.TabWord)) {
-                if (S->Elements[i].Length > quantity) {
+                if (S->Elements[i].Length >= quantity) {
+                    // Jika jumlah barang mencukupi, kurangi
                     S->Elements[i].Length -= quantity;
+
+                    // Jika jumlah barang menjadi 0, hapus elemen dari set
+                    if (S->Elements[i].Length == 0) {
+                        DeleteSetElmt(S, Elmt);
+                    }
+                    printf("Berhasil mengurangi %d %s dari keranjang belanja!\n", quantity, Elmt.TabWord);
+                    mainMenuList();
                 } else {
-                    DeleteSetElmt(S, Elmt);
+                    // Jika jumlah barang di keranjang kurang dari jumlah yang ingin dihapus
+                    printf("Tidak berhasil mengurangi, hanya terdapat %d %s pada keranjang!\n", S->Elements[i].Length, Elmt.TabWord);
+                    mainMenuList();
                 }
                 return;
             }
         }
     } else {
         printf("Barang tidak ditemukan di keranjang!\n");
+        mainMenuList();
     }
 }
+
 
 // Fungsi custom strcspn untuk mencari panjang segmen awal yang tidak mengandung karakter tertentu
 size_t strcspn(const char *str1, const char *str2) {

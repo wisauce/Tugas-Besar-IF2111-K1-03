@@ -280,6 +280,7 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
                 if (remaining[0] == '\0') 
                 {
                     printf("Input yang Anda berikan salah!\nGunakan Format: CART ADD <nama barang> <jumlah>\n");
+                    mainMenuList() ;
                     return;
                 }
 
@@ -292,23 +293,29 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
                 if (quantity <= 0) 
                 {
                     printf("Jumlah barang harus lebih dari 0!\n");
+                    mainMenuList();
                     return;
                 }
 
-                if (!isItemInStore(*itemlist, itemName)) printf("Barang tidak ada di store!\n");
+                if (!isItemInStore(*itemlist, itemName)) {
+                    printf("Barang tidak ada di store!\n");
+                    mainMenuList();
+                }
                 else 
                 {
                     infotypeSet item = CreateWord(itemName);
                     AddCart(keranjang, item, quantity);
                     printf("Berhasil menambahkan %d %s ke keranjang belanja!\n", quantity, itemName);
+                    mainMenuList() ;
                 }
             } 
-            
+                        
             else if (StringCompare(parameter1, "REMOVE") == 0) 
             {
                 if (remaining[0] == '\0') 
                 {
                     printf("Input yang Anda berikan salah!\nGunakan Format: CART REMOVE <nama barang> <jumlah>\n");
+                    mainMenuList();
                     return;
                 }
 
@@ -321,6 +328,7 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
                 if (quantity <= 0) 
                 {
                     printf("Jumlah barang harus lebih dari 0!\n");
+                    mainMenuList();
                     return;
                 }
 
@@ -328,11 +336,15 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
                 if (IsMemberSet(*keranjang, item)) 
                 {
                     RemoveCart(keranjang, item, quantity);
-                    printf("Berhasil mengurangi %d %s dari keranjang belanja!\n", quantity, itemName);
                 } 
-                
-                else printf("Barang tidak ditemukan di keranjang!\n");
-            } 
+                else 
+                {
+                    printf("Barang tidak ditemukan di keranjang!\n");
+                    mainMenuList();
+                }
+            }
+
+
             
             else if (StringCompare(parameter1, "PAY") == 0) 
             {
@@ -890,13 +902,15 @@ void StoreList(ListofItems itemlist) {
         printf("           DAFTAR BARANG DI TOKO         \n");
         printf("=========================================\n");
         for (int i = 0; i < itemlist.Neff; i++) {
-            printf(" %2d. %-30s\n", i + 1, itemlist.A[i].name);
+            printf(" %2d. %-30s $%d\n", i + 1, itemlist.A[i].name, itemlist.A[i].price);
         }
         printf("=========================================\n");
+        mainMenuList() ;
     } else {
         printf("\n=========================================\n");
         printf("          TOKO SAAT INI KOSONG           \n");
         printf("=========================================\n");
+        mainMenuList() ;
     }
 }
 
@@ -914,10 +928,12 @@ void StoreRemove(ListofItems *itemlist)
         int idx = idxOfItem(*itemlist, wordToString(W1));
         DeleteItemAt(itemlist, idx);
         printf("%s telah berhasil dihapus.\n", wordToString(W1));
+        mainMenuList() ;
     }
     else
     {
         printf("Toko tidak menjual %s\n", wordToString(W1));
+        mainMenuList() ;
     }
 }
 
@@ -935,17 +951,20 @@ void StoreRequest(ListofItems *itemlist, Queue *q)
     if (isItemIn(*itemlist, itemName)) 
     {
         printf("Barang dengan nama yang sama sudah ada di toko!\n");
+        mainMenuList() ;
     }
 
     else if (isIn(*q, itemName)) 
     {
         printf("Barang dengan nama yang sama sudah ada di antrian!\n");
+        mainMenuList() ;
     }
     // Jika tidak ada, tambahkan ke antrean
     else 
     {
         enqueue(q, itemName);
         printf("Barang %s dah dimasukin di antrian coyy!\n", itemName);
+        mainMenuList() ;
     }
 }
 
@@ -956,6 +975,7 @@ void StoreSupply(ListofItems *itemlist, Queue *q)
     if (isEmpty(*q)) 
     {
         printf("Tidak ada barang di antrian untuk diproses.\n");
+        mainMenuList() ;
         return;
     }
 
@@ -986,6 +1006,8 @@ void StoreSupply(ListofItems *itemlist, Queue *q)
         } 
         
         else printf("Harga barang harus positif!\n");
+
+    mainMenuList() ;
     } 
     
     else if (StringCompare(supplyResponse, "TUNDA") == 0) 
@@ -994,6 +1016,8 @@ void StoreSupply(ListofItems *itemlist, Queue *q)
         enqueue(q, barangName); 
         printf("%s dikembalikan ke antrian.\n", barangName);
         free(barangName); 
+    
+    mainMenuList() ;
     } 
     
     else if (StringCompare(supplyResponse, "TOLAK") == 0) 
@@ -1001,9 +1025,12 @@ void StoreSupply(ListofItems *itemlist, Queue *q)
         dequeue(q, &barangName); 
         printf("%s dihapuskan dari antrian.\n", barangName);
         free(barangName); 
+    
+    mainMenuList() ;
     } 
     
     else printf("Masukan tidak valid!\n");
+    mainMenuList() ;
 }
 
 void splitNameQuantity(char *input, char *name, int *quantity) 
