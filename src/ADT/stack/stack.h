@@ -28,7 +28,7 @@ typedef struct {
 
 typedef struct {
     int harga;         // Total harga barang
-    char *namaBarang;  // Nama barang
+    char * namaBarang;  // Nama barang
 } elemenStack;
 
 /* Definisi akses dengan Selektor : Set dan Get */

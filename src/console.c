@@ -731,6 +731,7 @@ void Load(char *filename, ListofItems *itemlist, ListofUsers *userlist) {
         Item newItem;
         newItem.price = price;
         StringCopy(newItem.name, itemName);
+
         InsertItemAt(itemlist, newItem, i);
     }
 
@@ -778,11 +779,67 @@ void Load(char *filename, ListofItems *itemlist, ListofUsers *userlist) {
 
         // Tambahkan user ke list
         User newUser;
+        CreateUser(&newUser);
         newUser.money = money;
         StringCopy(newUser.name, userName);
         StringCopy(newUser.password, password);
 
+        ADV(); //pindah ke baris riwayat
+        CopyWord(); //membaca jumlah riwayat pembelian
+        int historyCount = WordtoInteger(currentWord);
 
+        for (int i = 0; i < historyCount; i++) {
+            ADV(); //pindah ke baris berikutnya
+            if (EOP) break;
+            elemenStack * ElStack = malloc(sizeof(elemenStack));
+            ADVWORD(); // membaca total biaya cart
+            ElStack->harga = WordtoInteger(currentWord);
+
+            // Baca nama item (bisa memiliki spasi)
+            ADVWORD();
+            char itemName[50];
+            int nameLength = 0; // Panjang nama item yang akan ditulis
+            for (int j = 0; j < currentWord.Length; j++) {
+                itemName[nameLength++] = currentWord.TabWord[j];
+            }
+
+            while (!EOP && currentChar != '\n') { // Proses nama hingga akhir baris
+                itemName[nameLength++] = ' '; // Tambahkan spasi
+                ADVWORD();
+                for (int j = 0; j < currentWord.Length; j++) {
+                    itemName[nameLength++] = currentWord.TabWord[j];
+                }
+            }
+            itemName[nameLength] = '\0'; // Tambahkan null terminato
+            ElStack->namaBarang = malloc(stringLength(itemName)+1);
+            StringCopy(ElStack->namaBarang,itemName);
+            PushElemenStack(&(newUser.riwayat_pembelian),ElStack);
+        }
+
+        ADV(); // pindah ke baris wishlist
+        CopyWord(); // membaca jumlah wishlist
+        int wishlistCount = WordtoInteger(currentWord);
+
+        for (int i = 0; i < wishlistCount; i++) {
+            ADV();
+
+            ADVWORD();
+            char itemName[100];
+            int nameLength = 0; // Panjang nama item yang akan ditulis
+            for (int j = 0; j < currentWord.Length; j++) {
+                itemName[nameLength++] = currentWord.TabWord[j];
+            }
+
+            while (!EOP && currentChar != '\n') { // Proses nama hingga akhir baris
+                itemName[nameLength++] = ' '; // Tambahkan spasi
+                ADVWORD();
+                for (int j = 0; j < currentWord.Length; j++) {
+                    itemName[nameLength++] = currentWord.TabWord[j];
+                }
+            }
+            itemName[nameLength] = '\0'; // Tambahkan null terminator
+            InsVLast(&newUser.wishlist,itemName);
+        }
         // printf("DEBUG: Adding user to list: name = %s, password = %s, money = %d\n",
         // newUser.name, newUser.password, newUser.money);
 
