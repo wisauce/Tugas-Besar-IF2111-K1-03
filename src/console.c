@@ -687,6 +687,7 @@ void RegisterUser(ListofUsers *userlist) {
     newUser.money = 1000; // Uang awal
     StringCopy(newUser.name, username);
     StringCopy(newUser.password, password);
+    CreateUser(&newUser);
     InsertLastUser(userlist, newUser);
 
     printf("Pendaftaran berhasil untuk username: %s\n", username);
