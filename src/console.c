@@ -1066,37 +1066,41 @@ void History(Stack S, int N) {
     for (int i = Top(S); i >= 0 && count < N; i--) {
         elemenStack *entry = (elemenStack *)S.T[i];
 
-        if (entry != NULL) printf("%d. %s %d\n", count + 1, entry->namaBarang, entry->harga);
-        count++;
+        if (entry != NULL) {
+            printf("%d. %s %d\n", count + 1, entry->namaBarang, entry->harga);
+            count++;
+        }
     }
 
     printf("\n<<< Command mati. Kembali ke main menu\n");
 }
 
-
 void CartPay(Set *keranjang, ListofUsers *userlist, int *currentUserIndex, Stack *historyStack, ListofItems *itemlist) 
 {
-    if (IsEmptySet(*keranjang)) 
-    {
+    if (IsEmptySet(*keranjang)) {
         printf("Keranjang kamu kosong!\n");
         return;
     }
 
     int totalBiaya = 0;
 
-    for (int i = 0; i < keranjang->Count; i++) {
+    // Kalkulasi total biaya
+    for (int i = 0; i < keranjang->Count; i++) 
+    {
         char *namaBarang = keranjang->Elements[i].TabWord;
-        int kuantitas = keranjang->Elements[i].Length;
 
         int harga = 0;
-        for (int j = 0; j < itemlist->Neff; j++) {
-            if (isStringSameIgnoreCase(namaBarang, itemlist->A[j].name)) {
+        for (int j = 0; j < itemlist->Neff; j++) 
+        {
+            if (isStringSameIgnoreCase(namaBarang, itemlist->A[j].name)) 
+            {
                 harga = itemlist->A[j].price;
                 break;
             }
         }
 
-        if (harga > 0) totalBiaya += harga * kuantitas;
+        if (harga > 0) totalBiaya += harga * keranjang->Elements[i].Length;
+        else printf("Barang %s tidak ditemukan dalam daftar item.\n", namaBarang);
     }
 
     ShowCart(keranjang, itemlist);
@@ -1115,24 +1119,47 @@ void CartPay(Set *keranjang, ListofUsers *userlist, int *currentUserIndex, Stack
         {
             currentUser->money -= totalBiaya;
 
-            for (int i = 0; i < keranjang->Count; i++)
+            // Tambahkan pembelian ke stack
+            for (int i = 0; i < keranjang->Count; i++) 
             {
                 char *namaBarang = keranjang->Elements[i].TabWord;
+                int kuantitas = keranjang->Elements[i].Length;
+                int hargaPerUnit = 0;
 
-                elemenStack *entry = malloc(sizeof(elemenStack));
-                entry -> harga = totalBiaya;
-                entry -> namaBarang = malloc(stringLength(namaBarang) + 1);
-                StringCopy(entry->namaBarang, namaBarang);
+                for (int j = 0; j < itemlist->Neff; j++) {
+                    if (isStringSameIgnoreCase(namaBarang, itemlist->A[j].name)) {
+                        hargaPerUnit = itemlist->A[j].price;
+                        break;
+                    }
+                }
 
-                PushElemenStack(historyStack, entry);
+                if (hargaPerUnit > 0) {
+                    elemenStack *entry = malloc(sizeof(elemenStack));
+                    if (entry != NULL) {
+                        entry->harga = hargaPerUnit * kuantitas;  // Total harga barang (harga per unit * kuantitas)
+                        entry->namaBarang = malloc(stringLength(namaBarang) + 1);
+                        if (entry->namaBarang != NULL) {
+                            StringCopy(entry->namaBarang, namaBarang);
+                            PushElemenStack(historyStack, entry);
+                        }
+                    }
+                }
             }
-                printf("Pembelian berhasil! Total %d telah dibayar.\n", totalBiaya);
-                CreateEmptySet(keranjang);
+
+            printf("Pembelian berhasil! Total %d telah dibayar.\n", totalBiaya);
+            CreateEmptySet(keranjang);
         } 
-        else printf("Uang kamu hanya %d, tidak cukup untuk membayar %d.\n", currentUser->money, totalBiaya);
+        else 
+        {
+            printf("Uang kamu hanya %d, tidak cukup untuk membayar %d.\n", currentUser->money, totalBiaya);
+        }
     } 
-    
-    else if (StringCompare(konfirmasi, "TIDAK") == 0) printf("Pembayaran dibatalkan. Kembali ke menu utama.\n");
-    
-    else printf("Input tidak valid! Pembayaran dibatalkan.\n");
+    else if (StringCompare(konfirmasi, "TIDAK") == 0) 
+    {
+        printf("Pembayaran dibatalkan. Kembali ke menu utama.\n");
+    } 
+    else 
+    {
+        printf("Input tidak valid! Pembayaran dibatalkan.\n");
+    }
 }
