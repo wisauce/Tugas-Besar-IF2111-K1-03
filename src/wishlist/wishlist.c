@@ -6,22 +6,41 @@
 
 void WishlistAdd(infotype newitem,List * wishlist, ListofItems itemlist) {
     address p = Search(*wishlist,newitem);
-    if (p != NilLL) {
+    if (p == NilLL) {
         if (isItemIn(itemlist,newitem)) {
             InsVLast(wishlist, newitem);\
             printf("%s berhasil dimasukkan ke dalam wishlist!", newitem);
         } else {
-            printf("maaf, %s tidak ada di dalam toko...\n", newitem);
+            printf("maaf, %s tidak ada di dalam toko...\n\n", newitem);
         }
     } else {
-        printf("maaf, %s sudah berada di dalam wishlist...\n",newitem);
+        printf("maaf, %s sudah berada di dalam wishlist...\n\n",newitem);
     }
 }
 
 void WishlistShow(List Wishlist) {
-    printf("berikut ini adalah barang-barang dalam wishlist-mu:\n");
-    PrintInfoLL(Wishlist);
+    if (IsEmptyLL(Wishlist)) {
+        printf("\nWishlist kamu kosong!\n");
+        return;
+    }
+
+    printf("\nIsi wishlist kamu :\n\n");
+    printf("=============================================\n");
+    printf("%-10s %-20s\n", "No", "Nama Barang");
+    printf("=============================================\n");
+
+    address P = First(Wishlist);
+    int idx = 1;
+
+    while (P != NilLL) {
+        printf("%-10d %-20s\n", idx, Info(P));
+        P = Next(P);
+        idx++;
+    }
+
+    printf("=============================================\n\n");
 }
+
 
 void WishlistRemoveByIndex(List *wishlist, int index) {
     // Terimanya 1st indexing jadi kita convert dulu ke 0th indexing

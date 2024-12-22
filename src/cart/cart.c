@@ -40,7 +40,6 @@ void trimString(char *str) {
     str[end] = '\0';
 }
 
-
 boolean isStringSameIgnoreCase(const char *str1, const char *str2) {
     while (*str1 && *str2) {
         char c1 = (*str1 >= 'A' && *str1 <= 'Z') ? *str1 + 32 : *str1;
@@ -54,6 +53,7 @@ boolean isStringSameIgnoreCase(const char *str1, const char *str2) {
     }
     return *str1 == '\0' && *str2 == '\0';
 }
+
 boolean isItemInStore(ListofItems itemlist, const char *itemName) {
     for (int i = 0; i < itemlist.Neff; i++) {
         if (isStringSameIgnoreCase(itemlist.A[i].name, itemName)) {

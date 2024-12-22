@@ -46,14 +46,14 @@ int main() {
         STARTLINE();
         WordToString(currentWord, fullInput);
 
-        parseInput(fullInput, mainMenuCommand, parameter1, remaining);
+        parseInput(fullInput, mainMenuCommand, parameter1, remaining, "welcome_menu");
 
-        if (StringCompare(mainMenuCommand, "START") == 0 || StringCompare(mainMenuCommand, "1") == 0)
+        if (StringCompare(mainMenuCommand, "START") == 0)
         {
             handleStartMenu(&itemlist, &userlist, &currentUserIndex, &q, &returnToLogin, &historystack, &keranjang, &wishlist);
         } 
 
-        else if (StringCompare(mainMenuCommand, "LOAD") == 0 || StringCompare(mainMenuCommand, "2") == 0) 
+        else if (StringCompare(mainMenuCommand, "LOAD") == 0) 
         {
             if (parameter1[0] == '\0')
             {
@@ -63,7 +63,7 @@ int main() {
             else handleLoadMenu(&itemlist, &userlist, &currentUserIndex, &q, &returnToLogin, &historystack, &keranjang, &wishlist, parameter1);
         } 
         
-        else if (StringCompare(mainMenuCommand, "EXIT") == 0 || StringCompare(mainMenuCommand, "3") == 0) 
+        else if (StringCompare(mainMenuCommand, "EXIT") == 0) 
         {
             char saveCurrentChange[10];
             printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
@@ -89,7 +89,7 @@ int main() {
             else printf("Masukkan input yang benar!\n");
         }
 
-        else if (StringCompare(mainMenuCommand, "HELP") == 0 || StringCompare(mainMenuCommand, "4") == 0) welcomeHelpMenu();
+        else if (StringCompare(mainMenuCommand, "HELP") == 0) welcomeHelpMenu();
         
         else printf("Command tidak dikenali. Silakan coba lagi.\n");
     }

@@ -38,4 +38,4 @@ main:
 	$(SRC_DIR)/wishlist/wishlist.c $(SRC_DIR)/cart/cart.c $(SRC_DIR)/art/art.c \
 	$(SRC_DIR)/games/bioweapon/bioweapon.c $(SRC_DIR)/games/quantum_w0rdl3/quantum_w0rdl3.c \
 	$(SRC_DIR)/games/tebakangka/tebakangka.c $(SRC_DIR)/games/w0rdl3/w0rdl3.c \
-	$(SRC_DIR)/profile/profile.c
+	$(SRC_DIR)/profile/profile.c $(SRC_DIR)/menu/menu_commands.c
