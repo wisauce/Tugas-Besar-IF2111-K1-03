@@ -124,7 +124,6 @@ void game_load(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInd
             printf("Anda telah logout.\n");
             *currentUserIndex = -1; 
             loginActive = false;
-            welcomeMenuList();
         }
     } 
     
