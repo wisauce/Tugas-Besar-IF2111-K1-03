@@ -184,10 +184,10 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
 {
     boolean mainMenuActive = true;
     clearterminal();
+    mainMenuList();  
 
     while (mainMenuActive) 
     {
-        mainMenuList();  
         char fullInput[100];      
         char mainMenuCommand[50];         
         char parameter1[50];
@@ -196,6 +196,13 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
         printf("\nMASUKKAN COMMAND: ");
         STARTLINE();
         WordToString(currentWord, fullInput);
+
+        if (StringCompare(fullInput, "") == 0) 
+        {
+            clearterminal();
+            mainMenuList(); 
+            continue;
+        }
 
         parseInput(fullInput, mainMenuCommand, parameter1, remaining, "main_menu");
 
@@ -291,7 +298,6 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
                 {
                     printf("Input yang Anda berikan salah!\nGunakan Format: CART ADD <nama barang> <jumlah>\n");
                 }
-
                 char itemName[50];
                 int quantity = 0;
 
@@ -332,10 +338,19 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
                 infotypeSet item = CreateWord(itemName);
                 if (IsMemberSet(*keranjang, item)) 
                 {
+                    for (int i = 0; i < keranjang->Count; i++) 
+                    {
+                        if (isStringSame(keranjang->Elements[i].TabWord, item.TabWord)) 
+                        {
+                            if (keranjang->Elements[i].Length < quantity) 
+                            printf("Tidak berhasil mengurangi, hanya terdapat %d %s pada keranjang!\n", 
+                            keranjang->Elements[i].Length, itemName);
+                        }
+                    }
                     RemoveCart(keranjang, item, quantity);
+                    continue;
                     printf("Berhasil mengurangi %d %s dari keranjang belanja!\n", quantity, itemName);
                 } 
-                
                 else printf("Barang tidak ditemukan di keranjang!\n");
             } 
             
