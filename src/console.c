@@ -63,7 +63,6 @@ void parseInput(char *input, char *command, char *parameter1, char *remaining, c
     remaining[j] = '\0';
 
     Upperstring(command);
-    Upperstring(parameter1);
 
     if (isAllDigit(command))
     {
@@ -276,17 +275,27 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
         else if (StringCompare(mainMenuCommand, "SAVE") == 0) 
         {
             int cmd_length = stringLength(parameter1);
-            if (parameter1[0] == '\0')
+
+            if (parameter1[0] == '\0')  // Jika parameter kosong
             {
                 printf("Input yang Anda masukkan salah!\n");
                 printf("Format: SAVE <filename>\n");
             }
-
-            else if (parameter1[cmd_length-4] != '.' || parameter1[cmd_length-3] != 't' || parameter1[cmd_length-2] != 'x' ||
-                    parameter1[cmd_length-1] != 't') printf("Masukkan format yang benar! Gunakan .txt\n");
-
-            else Save(parameter1, *itemlist, *userlist);
+            else if (cmd_length < 4 || 
+                    parameter1[cmd_length-4] != '.' || 
+                    parameter1[cmd_length-3] != 't' || 
+                    parameter1[cmd_length-2] != 'x' || 
+                    parameter1[cmd_length-1] != 't') 
+            {
+                // printf("debug : %s", parameter1);
+                printf("Masukkan format yang benar! Gunakan .txt\n");
+            }
+            else 
+            {
+                Save(parameter1, *itemlist, *userlist);
+            }
         }
+
         
         else if (StringCompare(mainMenuCommand, "CART") == 0) 
         {
