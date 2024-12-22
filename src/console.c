@@ -276,7 +276,7 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
         {
             int cmd_length = stringLength(parameter1);
 
-            if (parameter1[0] == '\0')  // Jika parameter kosong
+            if (parameter1[0] == '\0')  
             {
                 printf("Input yang Anda masukkan salah!\n");
                 printf("Format: SAVE <filename>\n");
@@ -917,7 +917,7 @@ void StoreList(ListofItems itemlist) {
         printf("           DAFTAR BARANG DI TOKO         \n");
         printf("=========================================\n");
         for (int i = 0; i < itemlist.Neff; i++) {
-            printf(" %2d. %-30s\n", i + 1, itemlist.A[i].name);
+            printf(" %2d. %-30s $%d\n", i + 1, itemlist.A[i].name, itemlist.A[i].price);
         }
         printf("=========================================\n");
     } else {
