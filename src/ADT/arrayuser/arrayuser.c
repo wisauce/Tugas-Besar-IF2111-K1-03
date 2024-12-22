@@ -10,6 +10,11 @@ void MakeEmpty(ListofUsers *T)
     T->Neff = 0; // Set banyak elemen efektif menjadi 0
 }	
 
+void CreateUser(User * U) {
+	CreateEmptyStack(&(U->riwayat_pembelian));
+	CreateEmptyLL(&(U->wishlist));
+}
+
 /* ********** SELEKTOR ********** */
 /* *** Banyaknya elemen *** */
 int NbElmt (ListofUsers T)

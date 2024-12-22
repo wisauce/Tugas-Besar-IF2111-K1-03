@@ -1,4 +1,7 @@
 #include "../boolean.h"
+#include "../stack/stack.h"
+#include "../linkedlist/linkedlist.h"
+
 
 #ifndef ARRAY_USER_H
 #define ARRAY_USER_H
@@ -16,6 +19,8 @@ typedef struct {
   char name[MAX_USER_LEN];
   char password[MAX_USER_LEN];
   int money;
+	Stack riwayat_pembelian;
+	List wishlist;
 } User;
 
 typedef struct
@@ -41,6 +46,8 @@ typedef struct
 void MakeEmpty (ListofUsers *T);
 /* I.S. sembarang */
 /* F.S. Terbentuk tabel T kosong dengan kapasitas IdxMax-IdxMin+1 */
+
+void CreateUser (User *U);
 
 /* ********** SELEKTOR ********** */
 /* *** Banyaknya elemen *** */

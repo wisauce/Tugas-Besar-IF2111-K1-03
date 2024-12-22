@@ -4,14 +4,16 @@
 20 Ayam Goreng Crisbar
 500 Meong
 2
-100000 a a
-6
+97440 a a
+8
 40 AK47
 100 AK47
 35 Lalabu
 10 AK47
 500 Meong
 20 Ayam Goreng Crisbar
+2500 Meong
+60 Lalabu
 2
 Ayam Goreng Crisbar
 AK47

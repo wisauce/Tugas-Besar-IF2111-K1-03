@@ -50,7 +50,7 @@ int main() {
 
         if (StringCompare(mainMenuCommand, "START") == 0)
         {
-            handleStartMenu(&itemlist, &userlist, &currentUserIndex, &q, &returnToLogin, &historystack, &keranjang, &wishlist);
+            handleStartMenu(&itemlist, &userlist, &currentUserIndex, &q, &returnToLogin, &keranjang);
         } 
 
         else if (StringCompare(mainMenuCommand, "LOAD") == 0) 

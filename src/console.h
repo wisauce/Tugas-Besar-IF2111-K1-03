@@ -26,11 +26,11 @@ boolean isAllDigit(char *str);
 
 void parseInput(char *input, char *command, char *parameter1, char *remaining, const char *menuContext);
 
-void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist);
+void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Set *keranjang);
 
-void game_load(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist);
+void game_load(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Set *keranjang);
 
-void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist);
+void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLoginh, Set *keranjang);
 
 void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist, char *filename);
 
@@ -74,6 +74,8 @@ void StringCopy(char *destination, const char *source);
  * F.S. : Semua karakter huruf kecil dalam str diubah menjadi huruf besar
  */
 void Upperstring(char *str);
+
+void Lowerstring(char *str);
 
 /* Fungsi Load
  * Membaca data item dan pengguna dari file ke dalam list item dan list pengguna.
@@ -126,6 +128,6 @@ void splitNameQuantity(char *input, char *name, int *quantity);
 
 void History(Stack S, int N);
 
-void CartPay(Set *keranjang, ListofUsers *userlist, int *currentUserIndex, Stack *historyStack, ListofItems *itemlist);
+void CartPay(Set *keranjang, ListofUsers *userlist, int *currentUserIndex, ListofItems *itemlist);
 
 #endif // CONSOLE_H

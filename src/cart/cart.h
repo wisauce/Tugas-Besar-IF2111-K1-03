@@ -39,6 +39,6 @@ void RemoveCart(Set *S, infotypeSet Elmt, int quantity);
 /* Menangani pembayaran keranjang */
 /* I.S. Keranjang tidak kosong, uang pengguna diperiksa */
 /* F.S. Jika berhasil, uang berkurang, barang dicatat di riwayat pembelian */
-void CartPay(Set *keranjang, ListofUsers *userlist, int *currentUserIndex, Stack *historyStack, ListofItems *itemlist);
+void CartPay(Set *keranjang, ListofUsers *userlist, int *currentUserIndex, ListofItems *itemlist);
 
 #endif /* CART_H */
