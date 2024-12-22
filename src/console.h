@@ -26,7 +26,7 @@ boolean isAllDigit(char *str);
 
 void parseInput(char *input, char *command, char *parameter1, char *remaining, const char *menuContext);
 
-void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist);
+void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Set *keranjang);
 
 void game_load(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Set *keranjang);
 
@@ -128,6 +128,6 @@ void splitNameQuantity(char *input, char *name, int *quantity);
 
 void History(Stack S, int N);
 
-void CartPay(Set *keranjang, ListofUsers *userlist, int *currentUserIndex, Stack *historyStack, ListofItems *itemlist);
+void CartPay(Set *keranjang, ListofUsers *userlist, int *currentUserIndex, ListofItems *itemlist);
 
 #endif // CONSOLE_H

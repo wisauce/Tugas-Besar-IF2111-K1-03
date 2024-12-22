@@ -108,8 +108,8 @@ void game_load(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInd
             {
                 printf("Selamat datang di PURRMART!\n");
                 loginActive = false;
-                User currentUser = userlist->TI[*currentUserIndex];
-                mainMenu(itemlist, userlist, currentUserIndex, q, returnToLogin, &(currentUser.riwayat_pembelian), keranjang, &(currentUser.wishlist));
+                mainMenu(itemlist, userlist, currentUserIndex, q, returnToLogin, keranjang);
+
 
                 if (*returnToLogin) loginActive = true;
             }
@@ -181,7 +181,7 @@ void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUs
     while (loginActive) game_load(itemlist, userlist, currentUserIndex, q, returnToLogin, keranjang);
 }
 
-void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist) 
+void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Set *keranjang) 
 {
     boolean mainMenuActive = true;
     clearterminal();
@@ -347,7 +347,7 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
             
             else if (StringCompare(parameter1, "PAY") == 0) 
             {
-                CartPay(keranjang, userlist, currentUserIndex, historystack, itemlist);
+                CartPay(keranjang, userlist, currentUserIndex, itemlist);
             }
             
             else if (StringCompare(parameter1, "SHOW") == 0) 
@@ -368,7 +368,7 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
                 printf("Masukkan nama barang yang ingin ditambahkan ke wishlist: ");
                 STARTLINE();
                 WordToString(currentWord, itemName);
-                WishlistAdd(itemName, wishlist, *itemlist);
+                WishlistAdd(itemName, &(userlist->TI[*currentUserIndex].wishlist), *itemlist);
             } 
             
             else if (StringCompare(parameter1, "SWAP") == 0)
@@ -402,7 +402,7 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
                         printf("Masukkan posisi dengan angka positif!\n");
                     }
 
-                    WishlistSwap(wishlist, pos1, pos2);
+                    WishlistSwap(&(userlist->TI[*currentUserIndex].wishlist), pos1, pos2);
                 } 
 
                 else printf("Posisi harus berupa angka positif! Format: WISHLIST SWAP <posisi1> <posisi2>\n");
@@ -410,7 +410,7 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
             
             else if (StringCompare(parameter1, "REMOVE") == 0)
             {
-                if (remaining[0] == '\0') WishlistRemoveByName(wishlist);
+                if (remaining[0] == '\0') WishlistRemoveByName(&(userlist->TI[*currentUserIndex].wishlist));
 
                 else if (isAllDigit(remaining)) 
                 {
@@ -420,15 +420,15 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
                         printf("Index harus berupa angka positif!\n");
                     }
 
-                    WishlistRemoveByIndex(wishlist, index);
+                    WishlistRemoveByIndex(&(userlist->TI[*currentUserIndex].wishlist), index);
                 } 
 
                 else printf("Index harus berupa angka! Format: WISHLIST REMOVE <index>\n");
             }
 
-            else if (StringCompare(parameter1, "CLEAR") == 0) WishlistClear(wishlist);
+            else if (StringCompare(parameter1, "CLEAR") == 0) WishlistClear(&(userlist->TI[*currentUserIndex].wishlist));
 
-            else if (StringCompare(parameter1, "SHOW") == 0) WishlistShow(*wishlist);
+            else if (StringCompare(parameter1, "SHOW") == 0) WishlistShow(userlist->TI[*currentUserIndex].wishlist);
             
             else printf("Masukkan command yang benar!\n");
         }
@@ -439,8 +439,7 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
             else if (isAllDigit(parameter1)) 
             {
                 int N = atoi(parameter1);
-                User currentUser = userlist->TI[*currentUserIndex];
-                if (N > 0) History(currentUser.riwayat_pembelian, N);
+                if (N > 0) History(userlist->TI[*currentUserIndex].riwayat_pembelian, N);
                 else printf("Masukkan angka positif setelah HISTORY.\n");
             }
 
@@ -1168,7 +1167,7 @@ void History(Stack S, int N) {
 }
 
 
-void CartPay(Set *keranjang, ListofUsers *userlist, int *currentUserIndex, Stack *historyStack, ListofItems *itemlist) 
+void CartPay(Set *keranjang, ListofUsers *userlist, int *currentUserIndex, ListofItems *itemlist) 
 {
     if (IsEmptySet(*keranjang)) 
     {
@@ -1218,7 +1217,7 @@ void CartPay(Set *keranjang, ListofUsers *userlist, int *currentUserIndex, Stack
                 entry -> namaBarang = malloc(stringLength(namaBarang) + 1);
                 StringCopy(entry->namaBarang, namaBarang);
 
-                PushElemenStack(historyStack, entry);
+                PushElemenStack(&(userlist->TI[*currentUserIndex].riwayat_pembelian), entry);
             }
                 printf("Pembelian berhasil! Total %d telah dibayar.\n", totalBiaya);
                 CreateEmptySet(keranjang);
