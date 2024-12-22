@@ -75,6 +75,8 @@ void StringCopy(char *destination, const char *source);
  */
 void Upperstring(char *str);
 
+void Lowerstring(char *str);
+
 /* Fungsi Load
  * Membaca data item dan pengguna dari file ke dalam list item dan list pengguna.
  * I.S. : filename adalah nama file yang berisi data

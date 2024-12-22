@@ -270,16 +270,21 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
         else if (StringCompare(mainMenuCommand, "SAVE") == 0) 
         {
             int cmd_length = stringLength(parameter1);
+            boolean valid = true;
+            Lowerstring(parameter1);
             if (parameter1[0] == '\0')
             {
                 printf("Input yang Anda masukkan salah!\n");
                 printf("Format: SAVE <filename>\n");
+                valid = false;
             }
-
             else if (parameter1[cmd_length-4] != '.' || parameter1[cmd_length-3] != 't' || parameter1[cmd_length-2] != 'x' ||
-                    parameter1[cmd_length-1] != 't') printf("Masukkan format yang benar! Gunakan .txt\n");
-
-            else Save(parameter1, *itemlist, *userlist);
+                    parameter1[cmd_length-1] != 't')  {
+                        valid = false;
+                        printf("%c",parameter1[cmd_length-1]);
+                        printf("Masukkan format yang benar! Gunakan .txt\n");
+                    }
+            if (valid) Save(parameter1, *itemlist, *userlist);
         }
         
         else if (StringCompare(mainMenuCommand, "CART") == 0) 
@@ -582,6 +587,15 @@ void Upperstring(char *str) {
         }
     }
 }
+
+void Lowerstring(char *str) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] >= 'A' && str[i] <= 'Z') {
+            str[i] += 32; // Ubah huruf kecil menjadi huruf besar
+        }
+    }
+}
+
 
 void WordToString(Word word, char *str) 
 {
@@ -902,6 +916,41 @@ void Save(char *filename, ListofItems itemlist, ListofUsers userlist)
             idx++;
         }
         printNewLine(); // Akhiri dengan baris baru
+
+        printInt(LengthStack(user.riwayat_pembelian));
+        Stack tempStack;
+        CreateEmptyStack(&tempStack);
+        elemenStack * temp = malloc(sizeof(elemenStack));
+        while (!IsEmptyStack(user.riwayat_pembelian)) {
+            temp = PopElemenStack(&(user.riwayat_pembelian));
+            PushElemenStack(&tempStack, temp);
+        }
+        while(!IsEmptyStack(tempStack)) {
+            printNewLine();
+            temp = PopElemenStack(&tempStack);
+            printInt(temp->harga);
+            printBlank();
+            idx = 0;
+            while (temp->namaBarang[idx] != '\0') { 
+                printChar(temp->namaBarang[idx]);
+                idx++;
+            }
+            PushElemenStack(&(user.riwayat_pembelian),temp);
+        }
+
+        printNewLine();
+        printInt(NbElmtLL(user.wishlist));
+        printNewLine();
+        address p = user.wishlist.First;
+        while (p != NilLL) {
+            idx = 0;
+            while (p->info[idx] != '\0') { 
+                printChar(p->info[idx]);
+                idx++;
+            }   
+            p = p->next;
+            printNewLine();
+        }
     }
     
     printf("Data berhasil disimpan ke file saves/%s\n", filename);
