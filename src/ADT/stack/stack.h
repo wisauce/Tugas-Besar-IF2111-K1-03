@@ -26,6 +26,11 @@ typedef struct {
    /* S.T[(S.TOP)] untuk mengakses elemen TOP */
    /* S.TOP adalah alamat elemen TOP */
 
+typedef struct {
+    int harga;         // Total harga barang
+    char *namaBarang;  // Nama barang
+} elemenStack;
+
 /* Definisi akses dengan Selektor : Set dan Get */
 #define Top(S) (S).TOP
 #define InfoTop(S) (S).T[(S).TOP]
@@ -73,5 +78,9 @@ int LengthStack(Stack S);
 Stack ReverseStack(Stack *S);
 /* I.S. S terdefinisi */
 /* F.S. Elemen stack S dibalik : */
+
+void PushElemenStack(Stack *S, elemenStack *entry);
+
+elemenStack *PopElemenStack(Stack *S);
 
 #endif

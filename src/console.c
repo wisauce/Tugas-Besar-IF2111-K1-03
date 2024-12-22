@@ -20,6 +20,7 @@
 #include "wishlist/wishlist.h"
 #include "ADT/linkedlist/linkedlist.h"
 #include "profile/profile.h"
+#include "menu/menu_commands.h"
 
 boolean loginActive = true;
 
@@ -40,51 +41,62 @@ boolean isAllDigit(char *str)
     return true;
 }
 
-void parseInput(char *input, char *command, char *parameter1, char *remaining) 
+void parseInput(char *input, char *command, char *parameter1, char *remaining, const char *menuContext) 
 {
     int i = 0, j = 0;
-
     while (input[i] == ' ') i++;
 
-    while (input[i] != '\0' && input[i] != ' ') {
-        command[j++] = input[i++];
-    }
+    while (input[i] != '\0' && input[i] != ' ') command[j++] = input[i++];
     command[j] = '\0';
 
     while (input[i] == ' ') i++;
 
     j = 0;
-    while (input[i] != '\0' && input[i] != ' ') {
-        parameter1[j++] = input[i++];
-    }
+    while (input[i] != '\0' && input[i] != ' ') parameter1[j++] = input[i++];
     parameter1[j] = '\0';
 
     while (input[i] == ' ') i++;
 
     j = 0;
-    while (input[i] != '\0') {
-        remaining[j++] = input[i++];
-    }
+    while (input[i] != '\0') remaining[j++] = input[i++];
+
     remaining[j] = '\0';
 
     Upperstring(command);
     Upperstring(parameter1);
+
+    if (isAllDigit(command))
+    {
+        int menuNumber = atoi(command) - 1;
+        if (menuNumber >= 0) 
+        {
+            if (StringCompare(menuContext, "welcome_menu") == 0 && menuNumber < 4) StringCopy(command, welcomeMenuCommands[menuNumber]);
+            else if (StringCompare(menuContext, "login_menu") == 0 && menuNumber < 5)StringCopy(command, loginMenuCommands[menuNumber]);
+            else if (StringCompare(menuContext, "main_menu") == 0 && menuNumber < 22) StringCopy(command, mainMenuCommands[menuNumber]);
+            else printf("Command tidak dikenali. Silakan coba lagi.\n");
+        }
+    }
 }
 
 void game_load(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist)
 {
-    char loginMenuCommand[50];
     loginMenuList();
+    char fullInput[100];      
+    char loginMenuCommand[50];         
+    char parameter1[50];
+    char remaining[100];
+
     printf("\nMASUKKAN COMMAND: ");
-    STARTWORD();
-    WordToString(currentWord, loginMenuCommand);
-    Upperstring(loginMenuCommand);
+    STARTLINE();
+    WordToString(currentWord, fullInput);
 
-    if (StringCompare(loginMenuCommand, "HELP") == 0 || StringCompare(loginMenuCommand, "5") == 0) loginHelpMenu();
+    parseInput(fullInput, loginMenuCommand, parameter1, remaining, "login_menu");
 
-    else if (StringCompare(loginMenuCommand, "REGISTER") == 0 || StringCompare(loginMenuCommand, "1") == 0) RegisterUser(userlist);
+    if (StringCompare(loginMenuCommand, "HELP") == 0) loginHelpMenu();
+
+    else if (StringCompare(loginMenuCommand, "REGISTER") == 0) RegisterUser(userlist);
     
-    else if (StringCompare(loginMenuCommand, "LOGIN") == 0 || StringCompare(loginMenuCommand, "2") == 0) 
+    else if (StringCompare(loginMenuCommand, "LOGIN") == 0) 
     {
         if (*currentUserIndex != -1) 
         {
@@ -103,7 +115,7 @@ void game_load(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInd
         }
     }
 
-    else if (StringCompare(loginMenuCommand, "LOGOUT") == 0 || StringCompare(loginMenuCommand, "3") == 0) 
+    else if (StringCompare(loginMenuCommand, "LOGOUT") == 0) 
     {
         if (*currentUserIndex == -1) printf("Anda belum login! Silakan LOGIN terlebih dahulu.\n");
         
@@ -112,11 +124,10 @@ void game_load(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInd
             printf("Anda telah logout.\n");
             *currentUserIndex = -1; 
             loginActive = false;
-            welcomeMenuList();
         }
     } 
     
-    else if (StringCompare(loginMenuCommand, "EXIT") == 0 || StringCompare(loginMenuCommand, "4") == 0)
+    else if (StringCompare(loginMenuCommand, "EXIT") == 0)
     {
         char saveCurrentChange[1];
         printf("\nApakah Anda ingin menyimpan perubahan pada file ini? (Y/N) : ");
@@ -173,11 +184,10 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
 {
     boolean mainMenuActive = true;
     clearterminal();
-    mainMenuList();
 
     while (mainMenuActive) 
     {
-
+        mainMenuList();  
         char fullInput[100];      
         char mainMenuCommand[50];         
         char parameter1[50];
@@ -187,7 +197,7 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
         STARTLINE();
         WordToString(currentWord, fullInput);
 
-        parseInput(fullInput, mainMenuCommand, parameter1, remaining);
+        parseInput(fullInput, mainMenuCommand, parameter1, remaining, "main_menu");
 
         if (StringCompare(mainMenuCommand, "HELP") == 0) mainHelpMenu();
 
@@ -280,71 +290,54 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
                 if (remaining[0] == '\0') 
                 {
                     printf("Input yang Anda berikan salah!\nGunakan Format: CART ADD <nama barang> <jumlah>\n");
-                    mainMenuList() ;
-                    return;
                 }
 
                 char itemName[50];
                 int quantity = 0;
 
-                // Split remaining menjadi nama barang dan jumlah
                 splitNameQuantity(remaining, itemName, &quantity);
+                // printf("DEBUG: Item Name: %s, Quantity: %d\n", itemName, quantity);
 
                 if (quantity <= 0) 
                 {
                     printf("Jumlah barang harus lebih dari 0!\n");
-                    mainMenuList();
-                    return;
                 }
 
-                if (!isItemInStore(*itemlist, itemName)) {
-                    printf("Barang tidak ada di store!\n");
-                    mainMenuList();
-                }
+                if (!isItemInStore(*itemlist, itemName)) printf("Barang tidak ada di store!\n");
                 else 
                 {
                     infotypeSet item = CreateWord(itemName);
                     AddCart(keranjang, item, quantity);
                     printf("Berhasil menambahkan %d %s ke keranjang belanja!\n", quantity, itemName);
-                    mainMenuList() ;
                 }
             } 
-                        
+            
             else if (StringCompare(parameter1, "REMOVE") == 0) 
             {
                 if (remaining[0] == '\0') 
                 {
                     printf("Input yang Anda berikan salah!\nGunakan Format: CART REMOVE <nama barang> <jumlah>\n");
-                    mainMenuList();
-                    return;
                 }
 
                 char itemName[50];
                 int quantity = 0;
 
-                // Split remaining menjadi nama barang dan jumlah
                 splitNameQuantity(remaining, itemName, &quantity);
 
                 if (quantity <= 0) 
                 {
                     printf("Jumlah barang harus lebih dari 0!\n");
-                    mainMenuList();
-                    return;
                 }
 
                 infotypeSet item = CreateWord(itemName);
                 if (IsMemberSet(*keranjang, item)) 
                 {
                     RemoveCart(keranjang, item, quantity);
+                    printf("Berhasil mengurangi %d %s dari keranjang belanja!\n", quantity, itemName);
                 } 
-                else 
-                {
-                    printf("Barang tidak ditemukan di keranjang!\n");
-                    mainMenuList();
-                }
-            }
-
-
+                
+                else printf("Barang tidak ditemukan di keranjang!\n");
+            } 
             
             else if (StringCompare(parameter1, "PAY") == 0) 
             {
@@ -401,7 +394,6 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
                     if (pos1 <= 0 || pos2 <= 0) 
                     {
                         printf("Masukkan posisi dengan angka positif!\n");
-                        return;
                     }
 
                     WishlistSwap(wishlist, pos1, pos2);
@@ -420,7 +412,6 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
                     if (index <= 0) 
                     {
                         printf("Index harus berupa angka positif!\n");
-                        return;
                     }
 
                     WishlistRemoveByIndex(wishlist, index);
@@ -902,15 +893,13 @@ void StoreList(ListofItems itemlist) {
         printf("           DAFTAR BARANG DI TOKO         \n");
         printf("=========================================\n");
         for (int i = 0; i < itemlist.Neff; i++) {
-            printf(" %2d. %-30s $%d\n", i + 1, itemlist.A[i].name, itemlist.A[i].price);
+            printf(" %2d. %-30s\n", i + 1, itemlist.A[i].name);
         }
         printf("=========================================\n");
-        mainMenuList() ;
     } else {
         printf("\n=========================================\n");
         printf("          TOKO SAAT INI KOSONG           \n");
         printf("=========================================\n");
-        mainMenuList() ;
     }
 }
 
@@ -928,12 +917,10 @@ void StoreRemove(ListofItems *itemlist)
         int idx = idxOfItem(*itemlist, wordToString(W1));
         DeleteItemAt(itemlist, idx);
         printf("%s telah berhasil dihapus.\n", wordToString(W1));
-        mainMenuList() ;
     }
     else
     {
         printf("Toko tidak menjual %s\n", wordToString(W1));
-        mainMenuList() ;
     }
 }
 
@@ -951,20 +938,17 @@ void StoreRequest(ListofItems *itemlist, Queue *q)
     if (isItemIn(*itemlist, itemName)) 
     {
         printf("Barang dengan nama yang sama sudah ada di toko!\n");
-        mainMenuList() ;
     }
 
     else if (isIn(*q, itemName)) 
     {
         printf("Barang dengan nama yang sama sudah ada di antrian!\n");
-        mainMenuList() ;
     }
     // Jika tidak ada, tambahkan ke antrean
     else 
     {
         enqueue(q, itemName);
         printf("Barang %s dah dimasukin di antrian coyy!\n", itemName);
-        mainMenuList() ;
     }
 }
 
@@ -975,7 +959,6 @@ void StoreSupply(ListofItems *itemlist, Queue *q)
     if (isEmpty(*q)) 
     {
         printf("Tidak ada barang di antrian untuk diproses.\n");
-        mainMenuList() ;
         return;
     }
 
@@ -1006,8 +989,6 @@ void StoreSupply(ListofItems *itemlist, Queue *q)
         } 
         
         else printf("Harga barang harus positif!\n");
-
-    mainMenuList() ;
     } 
     
     else if (StringCompare(supplyResponse, "TUNDA") == 0) 
@@ -1016,8 +997,6 @@ void StoreSupply(ListofItems *itemlist, Queue *q)
         enqueue(q, barangName); 
         printf("%s dikembalikan ke antrian.\n", barangName);
         free(barangName); 
-    
-    mainMenuList() ;
     } 
     
     else if (StringCompare(supplyResponse, "TOLAK") == 0) 
@@ -1025,29 +1004,43 @@ void StoreSupply(ListofItems *itemlist, Queue *q)
         dequeue(q, &barangName); 
         printf("%s dihapuskan dari antrian.\n", barangName);
         free(barangName); 
-    
-    mainMenuList() ;
     } 
     
     else printf("Masukan tidak valid!\n");
-    mainMenuList() ;
+}
+
+void trimWhitespace(char *str) {
+    int len = stringLength(str);
+    while (len > 0 && str[len - 1] == ' ') {
+        str[len - 1] = '\0';
+        len--;
+    }
 }
 
 void splitNameQuantity(char *input, char *name, int *quantity) 
 {
-    int i = 0, j = 0;
+    int i = 0, j = 0, len = 0;
 
-    while (input[i] != '\0' && (input[i] < '0' || input[i] > '9')) {
-        name[j++] = input[i++];
+    while (input[len] != '\0') len++;
+
+    for (i = len - 1; i >= 0; i--) 
+    {
+        if (input[i] >= '0' && input[i] <= '9') continue;
+        else break;
     }
-    name[j - 1] = '\0';
 
-    *quantity = atoi(&input[i]);
+    for (j = 0; j <= i; j++) name[j] = input[j];
+    name[j] = '\0'; 
+
+    trimWhitespace(name);
+
+    *quantity = atoi(&input[i + 1]);
 }
 
 /* Fungsi untuk menampilkan riwayat pembelian */
 void History(Stack S, int N) {
-    if (IsEmptyStack(S)) {
+    if (IsEmptyStack(S)) 
+    {
         printf("Kamu belum membeli barang apapun!\n");
         return;
     }
@@ -1055,15 +1048,16 @@ void History(Stack S, int N) {
     printf("Riwayat pembelian barang:\n");
 
     int count = 0;
-    for (int i = Top(S); i >= 0 && count < N; i--) 
-    {
-        // printf("DEBUG: Stack[%d] = %s\n", i, S.T[i]);
-        printf("%d. %s\n", count + 1, S.T[i]);
+    for (int i = Top(S); i >= 0 && count < N; i--) {
+        elemenStack *entry = (elemenStack *)S.T[i];
+
+        if (entry != NULL) printf("%d. %s %d\n", count + 1, entry->namaBarang, entry->harga);
         count++;
     }
 
     printf("\n<<< Command mati. Kembali ke main menu\n");
 }
+
 
 void CartPay(Set *keranjang, ListofUsers *userlist, int *currentUserIndex, Stack *historyStack, ListofItems *itemlist) 
 {
@@ -1098,36 +1092,32 @@ void CartPay(Set *keranjang, ListofUsers *userlist, int *currentUserIndex, Stack
     WordToString(currentWord, konfirmasi);
     Upperstring(konfirmasi);
 
-    if (StringCompare(konfirmasi, "YA") == 0) {
+    if (StringCompare(konfirmasi, "YA") == 0) 
+    {
         User *currentUser = &userlist->TI[*currentUserIndex];
 
         if (currentUser->money >= totalBiaya) 
         {
             currentUser->money -= totalBiaya;
 
-            for (int i = 0; i < keranjang->Count; i++) {
-                char historyEntry[100] = "";
-                char buffer[20];
+            for (int i = 0; i < keranjang->Count; i++)
+            {
                 char *namaBarang = keranjang->Elements[i].TabWord;
 
-                StringCopy(historyEntry, namaBarang);
-                StringCopy(historyEntry + stringLength(historyEntry), "  -  ");
-                itoa(totalBiaya, buffer, 10);
-                StringCopy(historyEntry + stringLength(historyEntry), buffer);
+                elemenStack *entry = malloc(sizeof(elemenStack));
+                entry -> harga = totalBiaya;
+                entry -> namaBarang = malloc(stringLength(namaBarang) + 1);
+                StringCopy(entry->namaBarang, namaBarang);
 
-                char *entry = malloc(stringLength(historyEntry) + 1);
-                StringCopy(entry, historyEntry);
-                Push(historyStack, entry);
+                PushElemenStack(historyStack, entry);
             }
-
-            printf("Pembelian berhasil! Total %d telah dibayar.\n", totalBiaya);
-            CreateEmptySet(keranjang);
-        }
-        
+                printf("Pembelian berhasil! Total %d telah dibayar.\n", totalBiaya);
+                CreateEmptySet(keranjang);
+        } 
         else printf("Uang kamu hanya %d, tidak cukup untuk membayar %d.\n", currentUser->money, totalBiaya);
-
     } 
+    
     else if (StringCompare(konfirmasi, "TIDAK") == 0) printf("Pembayaran dibatalkan. Kembali ke menu utama.\n");
-
+    
     else printf("Input tidak valid! Pembayaran dibatalkan.\n");
 }

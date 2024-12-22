@@ -65,3 +65,19 @@ Stack ReverseStack(Stack *S)
     
     return S1;
 }
+
+void PushElemenStack(Stack *S, elemenStack *entry) {
+    if (!IsFull(*S)) {
+        Top(*S)++;
+        InfoTop(*S) = (char *)entry;
+    }
+}
+
+elemenStack *PopElemenStack(Stack *S) {
+    elemenStack *entry = NULL;
+    if (!IsEmptyStack(*S)) {
+        entry = (elemenStack *)InfoTop(*S); // Ambil pointer dengan casting ke elemenStack*
+        Top(*S)--;
+    }
+    return entry;
+}

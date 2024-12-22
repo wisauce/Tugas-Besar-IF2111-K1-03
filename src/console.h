@@ -24,7 +24,7 @@ void clearterminal();
 
 boolean isAllDigit(char *str);
 
-void parseInput(char *input, char *command, char *parameter1, char *remaining);
+void parseInput(char *input, char *command, char *parameter1, char *remaining, const char *menuContext);
 
 void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist);
 
@@ -119,6 +119,8 @@ void StoreRemove(ListofItems *itemlist);
 void StoreRequest(ListofItems *itemlist, Queue *q);
 
 void StoreSupply(ListofItems *itemlist, Queue *q);
+
+void trimWhitespace(char *str);
 
 void splitNameQuantity(char *input, char *name, int *quantity); 
 
