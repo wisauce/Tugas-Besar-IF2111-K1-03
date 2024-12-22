@@ -8,7 +8,7 @@ void WishlistAdd(infotype newitem,List * wishlist, ListofItems itemlist) {
     address p = Search(*wishlist,newitem);
     if (p != NilLL) {
         if (isItemIn(itemlist,newitem)) {
-            InsVLast(wishlist, newitem);\
+            InsVLast(wishlist, newitem);
             printf("%s berhasil dimasukkan ke dalam wishlist!", newitem);
         } else {
             printf("maaf, %s tidak ada di dalam toko...\n", newitem);

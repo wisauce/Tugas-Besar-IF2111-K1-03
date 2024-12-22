@@ -782,14 +782,75 @@ void Load(char *filename, ListofItems *itemlist, ListofUsers *userlist) {
         char password[100];
         WordToString(currentWord, password);
 
+        User newUser;
+        CreateUser(&newUser);
+        newUser.money = money;
+        StringCopy(newUser.name, userName);
+        StringCopy(newUser.password, password);
+
+        ADV(); //pindah ke baris riwayat
+        CopyWord(); //membaca jumlah riwayat pembelian
+        int historyCount = WordtoInteger(currentWord);
+
+        for (int i = 0; i < historyCount; i++) {
+            ADV(); //pindah ke baris berikutnya
+            if (EOP) break;
+            infostack ElStack;
+            ADVWORD(); // membaca total biaya cart
+            ElStack.total_biaya_cart = WordtoInteger(currentWord);
+
+            // Baca nama item (bisa memiliki spasi)
+            ADVWORD();
+            char itemName[100];
+            int nameLength = 0; // Panjang nama item yang akan ditulis
+            for (int j = 0; j < currentWord.Length; j++) {
+                itemName[nameLength++] = currentWord.TabWord[j];
+            }
+
+            while (!EOP && currentChar != '\n') { // Proses nama hingga akhir baris
+                itemName[nameLength++] = ' '; // Tambahkan spasi
+                ADVWORD();
+                for (int j = 0; j < currentWord.Length; j++) {
+                    itemName[nameLength++] = currentWord.TabWord[j];
+                }
+            }
+            itemName[nameLength] = '\0'; // Tambahkan null terminator
+            
+            StringCopy(ElStack.nama_barang, itemName);
+
+            Push(&newUser.riwayat_pembelian,ElStack);
+        }
+
+        ADV(); // pindah ke baris wishlist
+        CopyWord(); // membaca jumlah wishlist
+        int wishlistCount = WordtoInteger(currentWord);
+
+        for (int i = 0; i < wishlistCount; i++) {
+            ADV();
+
+            ADVWORD();
+            char itemName[100];
+            int nameLength = 0; // Panjang nama item yang akan ditulis
+            for (int j = 0; j < currentWord.Length; j++) {
+                itemName[nameLength++] = currentWord.TabWord[j];
+            }
+
+            while (!EOP && currentChar != '\n') { // Proses nama hingga akhir baris
+                itemName[nameLength++] = ' '; // Tambahkan spasi
+                ADVWORD();
+                for (int j = 0; j < currentWord.Length; j++) {
+                    itemName[nameLength++] = currentWord.TabWord[j];
+                }
+            }
+            itemName[nameLength] = '\0'; // Tambahkan null terminator
+            InsVLast(&newUser.wishlist,itemName);
+        }
+
+
         // printf("DEBUG: Loaded user %d: name = %s, password = %s, money = %d\n",
             // i + 1, userName, password, money);
 
         // Tambahkan user ke list
-        User newUser;
-        newUser.money = money;
-        StringCopy(newUser.name, userName);
-        StringCopy(newUser.password, password);
 
 
         // printf("DEBUG: Adding user to list: name = %s, password = %s, money = %d\n",
@@ -1058,7 +1119,7 @@ void History(Stack S, int N) {
     for (int i = Top(S); i >= 0 && count < N; i--) 
     {
         // printf("DEBUG: Stack[%d] = %s\n", i, S.T[i]);
-        printf("%d. %s\n", count + 1, S.T[i]);
+        printf("%d. %s\n", count + 1, S.T[i].nama_barang);
         count++;
     }
 
@@ -1098,36 +1159,38 @@ void CartPay(Set *keranjang, ListofUsers *userlist, int *currentUserIndex, Stack
     WordToString(currentWord, konfirmasi);
     Upperstring(konfirmasi);
 
-    if (StringCompare(konfirmasi, "YA") == 0) {
-        User *currentUser = &userlist->TI[*currentUserIndex];
+    // INI FORMAT STACKNYA SALAH YAK KUDU DIBENERIN
 
-        if (currentUser->money >= totalBiaya) 
-        {
-            currentUser->money -= totalBiaya;
+    // if (StringCompare(konfirmasi, "YA") == 0) {
+    //     User *currentUser = &userlist->TI[*currentUserIndex];
 
-            for (int i = 0; i < keranjang->Count; i++) {
-                char historyEntry[100] = "";
-                char buffer[20];
-                char *namaBarang = keranjang->Elements[i].TabWord;
+    //     if (currentUser->money >= totalBiaya) 
+    //     {
+    //         currentUser->money -= totalBiaya;
 
-                StringCopy(historyEntry, namaBarang);
-                StringCopy(historyEntry + stringLength(historyEntry), "  -  ");
-                itoa(totalBiaya, buffer, 10);
-                StringCopy(historyEntry + stringLength(historyEntry), buffer);
+    //         for (int i = 0; i < keranjang->Count; i++) {
+    //             char historyEntry[100] = "";
+    //             char buffer[20];
+    //             char *namaBarang = keranjang->Elements[i].TabWord;
 
-                char *entry = malloc(stringLength(historyEntry) + 1);
-                StringCopy(entry, historyEntry);
-                Push(historyStack, entry);
-            }
+    //             StringCopy(historyEntry, namaBarang);
+    //             StringCopy(historyEntry + stringLength(historyEntry), "  -  ");
+    //             itoa(totalBiaya, buffer, 10);
+    //             StringCopy(historyEntry + stringLength(historyEntry), buffer);
 
-            printf("Pembelian berhasil! Total %d telah dibayar.\n", totalBiaya);
-            CreateEmptySet(keranjang);
-        }
+    //             char *entry = malloc(stringLength(historyEntry) + 1);
+    //             StringCopy(entry, historyEntry);
+    //             Push(historyStack, entry);
+    //         }
+
+    //         printf("Pembelian berhasil! Total %d telah dibayar.\n", totalBiaya);
+    //         CreateEmptySet(keranjang);
+    //     }
         
-        else printf("Uang kamu hanya %d, tidak cukup untuk membayar %d.\n", currentUser->money, totalBiaya);
+    //     else printf("Uang kamu hanya %d, tidak cukup untuk membayar %d.\n", currentUser->money, totalBiaya);
 
-    } 
-    else if (StringCompare(konfirmasi, "TIDAK") == 0) printf("Pembayaran dibatalkan. Kembali ke menu utama.\n");
+    // } 
+    // else if (StringCompare(konfirmasi, "TIDAK") == 0) printf("Pembayaran dibatalkan. Kembali ke menu utama.\n");
 
-    else printf("Input tidak valid! Pembayaran dibatalkan.\n");
+    // else printf("Input tidak valid! Pembayaran dibatalkan.\n");
 }

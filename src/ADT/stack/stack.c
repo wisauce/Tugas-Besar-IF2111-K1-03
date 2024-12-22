@@ -40,7 +40,6 @@ void Pop(Stack * S, infostack* X)
 {
     *X = InfoTop(*S);
     Top(*S)--;
-    free(*X);
 }
 
 int LengthStack(Stack S)

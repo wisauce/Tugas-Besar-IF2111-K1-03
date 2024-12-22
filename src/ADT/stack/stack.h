@@ -9,9 +9,13 @@
 
 #define NilStack -1
 #define MaxStackEl 100
+#define MaxElLen 100
 /* Nil adalah stack dengan elemen kosong . */
 
-typedef char* infostack;
+typedef struct {
+  char nama_barang[MaxElLen];
+  int total_biaya_cart;
+} infostack;
 typedef int addressstack;   /* indeks tabel */
 
 /* Contoh deklarasi variabel bertype stack dengan ciri TOP : */
