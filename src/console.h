@@ -28,9 +28,9 @@ void parseInput(char *input, char *command, char *parameter1, char *remaining, c
 
 void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist);
 
-void game_load(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist);
+void game_load(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Set *keranjang);
 
-void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist);
+void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLoginh, Set *keranjang);
 
 void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist, char *filename);
 

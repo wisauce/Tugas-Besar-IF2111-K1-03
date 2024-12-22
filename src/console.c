@@ -78,7 +78,7 @@ void parseInput(char *input, char *command, char *parameter1, char *remaining, c
     }
 }
 
-void game_load(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist)
+void game_load(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Set *keranjang)
 {
     loginMenuList();
     char fullInput[100];      
@@ -108,7 +108,8 @@ void game_load(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInd
             {
                 printf("Selamat datang di PURRMART!\n");
                 loginActive = false;
-                mainMenu(itemlist, userlist, currentUserIndex, q, returnToLogin, historystack, keranjang, wishlist);
+                User currentUser = userlist->TI[*currentUserIndex];
+                mainMenu(itemlist, userlist, currentUserIndex, q, returnToLogin, &(currentUser.riwayat_pembelian), keranjang, &(currentUser.wishlist));
 
                 if (*returnToLogin) loginActive = true;
             }
@@ -156,12 +157,12 @@ void game_load(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInd
     else printf("Command tidak dikenali.\n");
 }
 
-void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist) 
+void handleStartMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Set *keranjang) 
 {
     mainstartmenu(itemlist, userlist);
     boolean loginActive = true;
 
-    while (loginActive) game_load(itemlist, userlist, currentUserIndex, q, returnToLogin, historystack, keranjang, wishlist);
+    while (loginActive) game_load(itemlist, userlist, currentUserIndex, q, returnToLogin, keranjang);
 }
 
 void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist, char *filename) 
@@ -177,7 +178,7 @@ void handleLoadMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUs
 
     boolean loginActive = true;
 
-    while (loginActive) game_load(itemlist, userlist, currentUserIndex, q, returnToLogin, historystack, keranjang, wishlist);
+    while (loginActive) game_load(itemlist, userlist, currentUserIndex, q, returnToLogin, keranjang);
 }
 
 void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserIndex, Queue *q, boolean *returnToLogin, Stack *historystack, Set *keranjang, List *wishlist) 
@@ -433,7 +434,8 @@ void mainMenu(ListofItems *itemlist, ListofUsers *userlist, int *currentUserInde
             else if (isAllDigit(parameter1)) 
             {
                 int N = atoi(parameter1);
-                if (N > 0) History(*historystack, N);
+                User currentUser = userlist->TI[*currentUserIndex];
+                if (N > 0) History(currentUser.riwayat_pembelian, N);
                 else printf("Masukkan angka positif setelah HISTORY.\n");
             }
 
